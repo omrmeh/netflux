@@ -27,19 +27,15 @@ CONFIG += c++11
 SOURCES += \
         main.cpp \
         widget.cpp \
-    moviecard.cpp \
     moviecard.cpp
 
 HEADERS += \
         widget.h \
-    moviecard.h \
     moviecard.h
 
 FORMS += \
         widget.ui \
-    moviecard.ui \
-    moviecard.ui \
-    widget.ui
+    moviecard.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

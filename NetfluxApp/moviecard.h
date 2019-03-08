@@ -4,7 +4,7 @@
 #include <QWidget>
 
 namespace Ui {
-class MovieCard;
+class Form;
 }
 
 class MovieCard : public QWidget
@@ -16,7 +16,7 @@ public:
     ~MovieCard();
 
 private:
-    Ui::MovieCard *ui;
+    Ui::Form *ui;
 };
 
 #endif // MOVIECARD_H

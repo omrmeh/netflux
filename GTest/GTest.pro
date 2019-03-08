@@ -6,6 +6,8 @@ CONFIG -= app_bundle
 CONFIG += thread
 CONFIG -= qt
 
+QT       += core gui sql
+
 HEADERS += \
         tst_test1.h
 
