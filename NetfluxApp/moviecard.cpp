@@ -3,7 +3,7 @@
 
 MovieCard::MovieCard(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::MovieCard)
+    ui(new Ui::Form)
 {
     ui->setupUi(this);
 }
