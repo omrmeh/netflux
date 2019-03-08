@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>Widget</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(0, 0, 127);
+background-color: rgb(0, 0, 0);</string>
+  </property>
   <widget class="QGroupBox" name="groupBox">
    <property name="geometry">
     <rect>
@@ -33,6 +37,9 @@
      <family>Harrington</family>
      <pointsize>18</pointsize>
     </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(85, 85, 255);</string>
    </property>
    <property name="title">
     <string>NETFLUX</string>
@@ -58,6 +65,9 @@
           <pointsize>8</pointsize>
          </font>
         </property>
+        <property name="styleSheet">
+         <string notr="true">color: rgb(255, 255, 255);</string>
+        </property>
         <property name="text">
          <string>text label</string>
         </property>
@@ -70,6 +80,9 @@
           <family>Arial</family>
          </font>
         </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(255, 255, 255);</string>
+        </property>
        </widget>
       </item>
       <item row="0" column="1">
@@ -78,6 +91,10 @@
          <font>
           <family>Arial</family>
          </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">border-color: rgb(255, 255, 255);
+background-color: rgb(255, 255, 255);</string>
         </property>
        </widget>
       </item>
@@ -89,6 +106,9 @@
           <pointsize>8</pointsize>
          </font>
         </property>
+        <property name="styleSheet">
+         <string notr="true">color: rgb(255, 255, 255);</string>
+        </property>
         <property name="text">
          <string>search by</string>
         </property>
@@ -99,8 +119,13 @@
         <property name="font">
          <font>
           <family>Arial</family>
-          <pointsize>16</pointsize>
+          <pointsize>12</pointsize>
          </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">color: rgb(255, 255, 255);
+color: rgb(75, 70, 214);
+background-color: rgb(255, 255, 255);</string>
         </property>
         <property name="text">
          <string>GO</string>
@@ -119,6 +144,10 @@
           <pointsize>14</pointsize>
          </font>
         </property>
+        <property name="styleSheet">
+         <string notr="true">color: rgb(255, 255, 255);
+background-color: rgb(25, 25, 75);</string>
+        </property>
         <property name="text">
          <string>Add</string>
         </property>
@@ -132,6 +161,10 @@
           <pointsize>14</pointsize>
          </font>
         </property>
+        <property name="styleSheet">
+         <string notr="true">color: rgb(255, 255, 255);
+background-color: rgb(25, 25, 75);</string>
+        </property>
         <property name="text">
          <string>Cancel</string>
         </property>
@@ -144,6 +177,10 @@
           <family>Arial</family>
           <pointsize>14</pointsize>
          </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">color: rgb(255, 255, 255);
+background-color: rgb(25, 25, 75);</string>
         </property>
         <property name="text">
          <string>Exit</string>
