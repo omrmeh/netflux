@@ -26,6 +26,7 @@
 #include <QSortFilterProxyModel>
 #include <QComboBox>
 #include <QAbstractItemDelegate>
+#include <QLabel>
 
 class CustomWidget : public QWidget
 {

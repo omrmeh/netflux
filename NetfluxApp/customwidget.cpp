@@ -9,7 +9,7 @@ CustomWidget::CustomWidget(QWidget *parent)
     tableView = nullptr;
     listView = nullptr;
 
-    labels << "id_film" << "id_genre" << "f_title" << "f_year" << "f_ratings" << "f_poster" << "f_synopsis" << "f_length";
+    labels << "ID" << "GENRE" << "TITLE" << "YEAR" << "RATINGS" << "POSTER" << "SYNOPSIS" << "DURATION";
 
     initModel();
 
@@ -28,8 +28,11 @@ void CustomWidget::initModel()
     mFilmsModel->setTable("film");
     mFilmsModel->select();
     mFilmsModel->setEditStrategy((QSqlTableModel::OnManualSubmit));
-}
 
+    for(int i=0; i<labels.length(); i++)
+         mFilmsModel->setHeaderData(i, Qt::Horizontal, labels[i]);
+
+}
 
 
 void CustomWidget::initTableView()
@@ -39,6 +42,7 @@ void CustomWidget::initTableView()
     tableView = new QTableView(this);
     tableView->setModel(mFilmsModel);
     tableView->setSortingEnabled(true);
+    tableView->hideColumn(0);
 
   //  tableView->setSelectionMode(QAbstractItemView::MultiSelection);
 
@@ -88,6 +92,7 @@ void CustomWidget::initMovieCard()
 
     movieCard = new QFormLayout(this);
 
+    movieCard->addWidget(new QLabel("MOVIE DETAILS"));
     for (QString label : labels)
     {
             formFields[label] = new QLineEdit;
