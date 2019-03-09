@@ -28,6 +28,11 @@
      <pointsize>18</pointsize>
     </font>
    </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(75, 70, 214);
+background-color: rgb(0, 0, 0);
+color: rgb(85, 85, 255);</string>
+   </property>
    <property name="title">
     <string>NETFLUX</string>
    </property>
@@ -40,7 +45,7 @@
       <x>10</x>
       <y>42</y>
       <width>531</width>
-      <height>61</height>
+      <height>68</height>
      </rect>
     </property>
     <layout class="QFormLayout" name="formLayout">
@@ -62,8 +67,12 @@
        <property name="font">
         <font>
          <family>Arial</family>
-         <pointsize>12</pointsize>
+         <pointsize>18</pointsize>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(255, 255, 255);
+color: rgb(255, 255, 255);</string>
        </property>
       </widget>
      </item>
@@ -138,6 +147,9 @@
          <pointsize>12</pointsize>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(255, 255, 255);</string>
+       </property>
       </widget>
      </item>
      <item row="2" column="0">
@@ -160,6 +172,9 @@
          <family>Arial</family>
          <pointsize>12</pointsize>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(255, 255, 255);</string>
        </property>
       </widget>
      </item>
@@ -184,6 +199,9 @@
          <pointsize>12</pointsize>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(255, 255, 255);</string>
+       </property>
       </widget>
      </item>
      <item row="4" column="0">
@@ -206,6 +224,10 @@
          <family>Arial</family>
          <pointsize>10</pointsize>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(255, 255, 255);
+color: rgb(255, 255, 255);</string>
        </property>
       </widget>
      </item>
@@ -230,6 +252,9 @@
          <pointsize>8</pointsize>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(255, 255, 255);</string>
+       </property>
       </widget>
      </item>
     </layout>
@@ -252,6 +277,10 @@
          <pointsize>10</pointsize>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(0, 0, 99);
+color: rgb(255, 255, 255);</string>
+       </property>
        <property name="text">
         <string>Edit</string>
        </property>
@@ -264,6 +293,10 @@
          <family>Arial</family>
          <pointsize>10</pointsize>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(0, 0, 99);
+color: rgb(255, 255, 255);</string>
        </property>
        <property name="text">
         <string>Save</string>
@@ -278,6 +311,10 @@
          <pointsize>10</pointsize>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(0, 0, 99);
+color: rgb(255, 255, 255);</string>
+       </property>
        <property name="text">
         <string>Cancel</string>
        </property>
@@ -290,6 +327,10 @@
          <family>Arial</family>
          <pointsize>10</pointsize>
         </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(255, 255, 255);
+background-color: rgb(0, 0, 99);</string>
        </property>
        <property name="text">
         <string>Exit</string>

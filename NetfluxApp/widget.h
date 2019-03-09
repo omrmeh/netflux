@@ -1,7 +1,9 @@
 #ifndef WIDGET_H
 #define WIDGET_H
+#include <moviecard.h>
 
 #include <QWidget>
+
 
 namespace Ui {
 class Widget;
@@ -17,6 +19,10 @@ public:
 
 private:
     Ui::Widget *ui;
+
+private slots:
+    void openNewCard();
+
 };
 
 #endif // WIDGET_H
