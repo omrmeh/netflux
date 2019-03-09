@@ -8,11 +8,8 @@ Widget::Widget(QWidget *parent) :
     ui->setupUi(this);
     design();
 
+    QSqlDatabase db = QSqlDatabase::database("dbFilm");
 
-    //    //connexion DDB & TableView
-    //    ui->setupUi(this);
-    //    //on se connecte à la BDD
-    //    QSqlDatabase db = QSqlDatabase::database("     ");
     //    //on fait un new model de table sql
     //    mMovieModel= new QSqlTableModel(this, db);
     //    //je set la table produit de la bdd

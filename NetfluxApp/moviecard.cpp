@@ -7,6 +7,11 @@ MovieCard::MovieCard(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    QSqlDatabase db = QSqlDatabase::database("dbFilm");
+    //on fait un new model de table sql
+    mMovieModel= new QSqlTableModel(this, db);
+    //je set la table produit de la bdd
+    mMovieModel->setTable("dbFilm");
 
     //Quitter
     connect(ui->pbExit,SIGNAL(clicked()),this,SLOT(close()));
