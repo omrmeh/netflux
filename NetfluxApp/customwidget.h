@@ -58,7 +58,7 @@ private:
 
     QHBoxLayout *externalLayout;
     QVBoxLayout *buttonsPane;
-    QFormLayout *prodForm;
+    QFormLayout *movieCard;
 
     QDialog *addPopup;
     QPushButton *addBtnForm;

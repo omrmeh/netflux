@@ -19,7 +19,7 @@ CustomWidget::CustomWidget(QWidget *parent)
     connect(deleteBtn, SIGNAL(clicked()), this, SLOT(deleteMovie()));
     connect(refreshBtn, SIGNAL(clicked()), this, SLOT(refreshMovies()));
 
-    tableView == nullptr? view = listView : view = tableView;
+
 }
 
 void CustomWidget::initModel()
@@ -33,38 +33,37 @@ void CustomWidget::initModel()
 
 void CustomWidget::initIHMTableView()
 {
-    externalLayout = new QHBoxLayout;
-
-    QVBoxLayout *rightPane = new QVBoxLayout;
+    externalLayout = new QHBoxLayout(this);
 
     tableView = new QTableView(this);
     tableView->setModel(mFilmsModel);
-    tableView->hideColumn(0);
     tableView->setSortingEnabled(true);
 
-    tableView->setSelectionMode(QAbstractItemView::MultiSelection);
+  //  tableView->setSelectionMode(QAbstractItemView::MultiSelection);
 
-    addBtn = new QPushButton("ADD");
-    rightPane->addWidget(addBtn);
+    initBtnPane();
 
-    deleteBtn = new QPushButton("DELETE");
-    rightPane->addWidget(deleteBtn);
+    initMovieCard();
 
-    editBtn = new QPushButton("EDIT");
-    rightPane->addWidget(editBtn);
-
-    clearBtn = new QPushButton("CLEAR");
-    rightPane->addWidget(clearBtn);
-
-    refreshBtn = new QPushButton("LOAD");
-    rightPane->addWidget(refreshBtn);
-
-    externalLayout->addLayout(rightPane);
+    externalLayout->addLayout(buttonsPane);
     externalLayout->addWidget(tableView);
+    externalLayout->addLayout(movieCard);
+
+    setLayout(externalLayout);
+
+    QDataWidgetMapper *mapper = new QDataWidgetMapper(this);
+    mapper->setModel(filteringModel);
+
+    for(QString label: labels)
+        /*on fait le mapping sur chaque QLineEdit de la QMap formFields */
+         mapper->addMapping(formFields[label], labels.indexOf(label));
+
+    connect(tableView->selectionModel(), SIGNAL(currentRowChanged(QModelIndex, QModelIndex)), mapper, SLOT(setCurrentModelIndex(QModelIndex)));
+
 
    // tableView->show();
 
-    setLayout(externalLayout);
+
 }
 
 void CustomWidget::initIHMListView()
@@ -82,7 +81,7 @@ void CustomWidget::initIHMListView()
 
     externalLayout->addLayout(buttonsPane);
     externalLayout->addWidget(listView);
-    externalLayout->addLayout(prodForm);
+    externalLayout->addLayout(movieCard);
 
     setLayout(externalLayout);
 
@@ -102,12 +101,12 @@ void CustomWidget::initMovieCard()
     /*créé un formulaire en générant un QLineEdit correspondant à
      * chaque label de la QStringList labels. */
 
-    prodForm = new QFormLayout(this);
+    movieCard = new QFormLayout(this);
 
     for (QString label : labels)
     {
             formFields[label] = new QLineEdit;
-            prodForm->addRow(label, formFields[label]);
+            movieCard->addRow(label, formFields[label]);
     }
 }
 
@@ -154,7 +153,8 @@ void CustomWidget::initFilteringModel()
 
     connect(searchBar, SIGNAL(textChanged(QString)), this, SLOT(search()));
 
-    listView->setModel(filteringModel);
+    tableView == nullptr? view = listView : view = tableView;
+    view->setModel(filteringModel);
 }
 
 void CustomWidget::deleteMovie()
