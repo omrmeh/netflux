@@ -27,11 +27,13 @@ CONFIG += c++11
 SOURCES += \
         main.cpp \
         widget.cpp \
-    moviecard.cpp
+    moviecard.cpp \
+    customwidget.cpp
 
 HEADERS += \
         widget.h \
-    moviecard.h
+    moviecard.h \
+    customwidget.h
 
 FORMS += \
         widget.ui \
