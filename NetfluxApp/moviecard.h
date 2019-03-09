@@ -2,6 +2,10 @@
 #define MOVIECARD_H
 
 #include <QWidget>
+#include <QSqlTableModel>
+#include <QDataWidgetMapper>
+#include<QSqlQuery>
+
 
 namespace Ui {
 class Form;
@@ -19,13 +23,15 @@ public:
 
 private:
     Ui::Form *ui;
+    QSqlTableModel* mMovieModel;
 
 private slots:
 
-
+    void displayCard();
     void enabledCard();
     void editMovie();
     void saveMovie();
+    void cancel();
 
 };
 

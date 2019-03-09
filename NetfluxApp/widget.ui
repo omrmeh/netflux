@@ -94,7 +94,7 @@ background-color: rgb(0, 0, 0);</string>
          <string/>
         </property>
         <property name="pixmap">
-         <pixmap>../../../Desktop/jamespeng-movie-database2.jpg</pixmap>
+         <pixmap>../jamespeng-movie-database.jpg</pixmap>
         </property>
         <property name="scaledContents">
          <bool>true</bool>
@@ -106,7 +106,7 @@ background-color: rgb(0, 0, 0);</string>
         <property name="font">
          <font>
           <family>Harrington</family>
-          <pointsize>30</pointsize>
+          <pointsize>50</pointsize>
           <weight>75</weight>
           <bold>true</bold>
          </font>
@@ -118,7 +118,7 @@ background-color: rgb(0, 0, 0);</string>
          <string notr="true">color: rgb(85, 85, 255);</string>
         </property>
         <property name="text">
-         <string>NET FLUX</string>
+         <string>NETFLUX</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
@@ -126,10 +126,10 @@ background-color: rgb(0, 0, 0);</string>
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="label_8">
+       <widget class="QLabel" name="label_10">
         <property name="maximumSize">
          <size>
-          <width>116</width>
+          <width>118</width>
           <height>109</height>
          </size>
         </property>
@@ -137,23 +137,10 @@ background-color: rgb(0, 0, 0);</string>
          <string/>
         </property>
         <property name="pixmap">
-         <pixmap>../../../Desktop/jamespeng-movie-database.ico</pixmap>
+         <pixmap>../jamespeng-movie-database.ico</pixmap>
         </property>
         <property name="scaledContents">
          <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="label_10">
-        <property name="maximumSize">
-         <size>
-          <width>120</width>
-          <height>109</height>
-         </size>
-        </property>
-        <property name="text">
-         <string/>
         </property>
        </widget>
       </item>
@@ -165,6 +152,13 @@ background-color: rgb(0, 0, 0);</string>
           <height>109</height>
          </size>
         </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_8">
         <property name="text">
          <string/>
         </property>
@@ -267,7 +261,7 @@ background-color: rgb(255, 255, 255);</string>
          <string/>
         </property>
         <property name="pixmap">
-         <pixmap>../../../Desktop/Magnifier2.png</pixmap>
+         <pixmap>../Magnifier2.png</pixmap>
         </property>
         <property name="scaledContents">
          <bool>true</bool>

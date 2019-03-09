@@ -5,6 +5,7 @@
 #include<QDataWidgetMapper>
 #include <QSortFilterProxyModel>
 
+
 #include <QWidget>
 
 
@@ -26,10 +27,14 @@ private:
 
 
 private slots:
-    void openNewCard();
-    void setupView();
+
     //void initModel();
+    void design();
+    void setupView();
     void initFilteringModel();
+    void addMovie();
+    void deleteMovie ();
+
 
 
 };
