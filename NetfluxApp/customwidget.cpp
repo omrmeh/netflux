@@ -13,7 +13,7 @@ CustomWidget::CustomWidget(QWidget *parent)
 
     initModel();
 
-    initIHMTableView();
+    initTableView();
 
     connect(addBtn, SIGNAL(clicked()), this, SLOT(addMovie()));
     connect(deleteBtn, SIGNAL(clicked()), this, SLOT(deleteMovie()));
@@ -31,7 +31,8 @@ void CustomWidget::initModel()
 }
 
 
-void CustomWidget::initIHMTableView()
+
+void CustomWidget::initTableView()
 {
     externalLayout = new QHBoxLayout(this);
 
@@ -41,6 +42,25 @@ void CustomWidget::initIHMTableView()
 
   //  tableView->setSelectionMode(QAbstractItemView::MultiSelection);
 
+    initIHMElements();
+
+}
+
+void CustomWidget::initListView()
+{
+    externalLayout = new QHBoxLayout(this);
+
+    listView = new QListView(this);
+    listView->setModel(mFilmsModel);
+    listView->setModelColumn(1);
+    listView->setSelectionMode(QAbstractItemView::MultiSelection);
+
+    initIHMElements();
+}
+
+
+void CustomWidget::initIHMElements()
+{
     initBtnPane();
 
     initMovieCard();
@@ -59,41 +79,6 @@ void CustomWidget::initIHMTableView()
          mapper->addMapping(formFields[label], labels.indexOf(label));
 
     connect(tableView->selectionModel(), SIGNAL(currentRowChanged(QModelIndex, QModelIndex)), mapper, SLOT(setCurrentModelIndex(QModelIndex)));
-
-
-   // tableView->show();
-
-
-}
-
-void CustomWidget::initIHMListView()
-{
-    externalLayout = new QHBoxLayout(this);
-
-    listView = new QListView(this);
-    listView->setModel(mFilmsModel);
-    listView->setModelColumn(1);
-    listView->setSelectionMode(QAbstractItemView::MultiSelection);
-
-    initBtnPane();
-
-    initMovieCard();
-
-    externalLayout->addLayout(buttonsPane);
-    externalLayout->addWidget(listView);
-    externalLayout->addLayout(movieCard);
-
-    setLayout(externalLayout);
-
-    QDataWidgetMapper *mapper = new QDataWidgetMapper(this);
-    mapper->setModel(filteringModel);
-
-    for(QString label: labels)
-        /*on fait le mapping sur chaque QLineEdit de la QMap formFields */
-         mapper->addMapping(formFields[label], labels.indexOf(label));
-
-    connect(listView->selectionModel(), SIGNAL(currentRowChanged(QModelIndex, QModelIndex)), mapper, SLOT(setCurrentModelIndex(QModelIndex)));
-
 }
 
 void CustomWidget::initMovieCard()

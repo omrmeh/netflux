@@ -34,14 +34,16 @@ class CustomWidget : public QWidget
 public:
     CustomWidget(QWidget *parent = 0);
     ~CustomWidget();
-    void initIHMTableView();
-    void initIHMListView();
+    void initTableView();
+    void initListView();
     void initBtnPane(); //génère la barre latérales des push buttons
     void initMovieCard(); //génère le formulaire contenant les détails du produit sélectionné
 
     void initFilteringModel();
 
     void initModel();
+
+    void initIHMElements();
 
 public slots:
     void deleteMovie();
