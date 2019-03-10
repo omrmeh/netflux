@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui sql
+QT       += core gui sql network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -28,12 +28,14 @@ SOURCES += \
         main.cpp \
         widget.cpp \
     moviecard.cpp \
-    customwidget.cpp
+    customwidget.cpp \
+    filedownloader.cpp
 
 HEADERS += \
         widget.h \
     moviecard.h \
-    customwidget.h
+    customwidget.h \
+    filedownloader.h
 
 FORMS += \
         widget.ui \

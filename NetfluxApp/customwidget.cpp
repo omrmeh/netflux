@@ -1,5 +1,8 @@
 #include "customwidget.h"
 
+#include <QUrl>
+
+
 
 CustomWidget::CustomWidget(QWidget *parent)
     : QWidget(parent)
@@ -98,6 +101,13 @@ void CustomWidget::initMovieCard()
             formFields[label] = new QLineEdit;
             movieCard->addRow(label, formFields[label]);
     }
+
+    QUrl imageUrl("http://qt.digia.com/Documents/1/QtLogo.png");
+    m_pImgCtrl = new FileDownloader(imageUrl, this);
+
+    connect(m_pImgCtrl, SIGNAL (downloaded()), this, SLOT (loadImage()));
+
+
 }
 
 
@@ -170,6 +180,18 @@ void CustomWidget::search()
     filteringModel->setFilterKeyColumn(column);
     filteringModel->setFilterWildcard("*" + searchBar->text() + "*");
 
+}
+
+void CustomWidget::loadImage()
+{
+    poster = new QPixmap;
+    poster->loadFromData(m_pImgCtrl->downloadedData());
+
+    posterLbl = new QLabel;
+    posterLbl->setPixmap(*poster);
+    movieCard->addWidget(posterLbl);
+
+    qDebug() << poster << " " << posterLbl << endl;
 }
 
 CustomWidget::~CustomWidget()

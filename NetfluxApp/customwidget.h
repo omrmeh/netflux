@@ -27,6 +27,7 @@
 #include <QComboBox>
 #include <QAbstractItemDelegate>
 #include <QLabel>
+#include "filedownloader.h"
 
 class CustomWidget : public QWidget
 {
@@ -51,6 +52,7 @@ public slots:
     void addMovie();
     void refreshMovies();
     void search();
+    void loadImage();
 
 private:
     QSqlDatabase db;
@@ -79,7 +81,12 @@ private:
 
     QLineEdit *idEdit, *nameEdit, *priceEdit, *codeEdit, *stockEdit, *condEdit;
 
+    QPixmap *poster;
+    QLabel *posterLbl;
+
     QStringList labels;
+
+    FileDownloader *m_pImgCtrl;
 };
 
 #endif // CUSTOMWIDGET_H
