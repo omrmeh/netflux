@@ -17,7 +17,11 @@ MovieCard::MovieCard(QWidget *parent) :
     connect(ui->pbExit,SIGNAL(clicked()),this,SLOT(close()));
     //Edit
     connect(ui->pbEdit,SIGNAL(clicked()),this,SLOT(enabledCard()));
-    connect(ui->pbEdit,SIGNAL(clicked()),this,SLOT(EditMovie()));
+    connect(ui->pbEdit,SIGNAL(clicked()),this,SLOT(editMovie()));
+    //save
+    connect(ui->pbSave, SIGNAL(clicked()),this,SLOT(saveMovie()));
+    //dwonload poster
+    connect(ui->pbPoster, SIGNAL(clicked()),this,SLOT(downloadPoster()));
 }
 
 MovieCard::~MovieCard()
@@ -57,7 +61,7 @@ void MovieCard::newCard()
     ui->teSynopsis->clear();
     ui->teSynopsis->setStyleSheet("QTextEdit { background : rgb(255, 255, 255);}");
     ui->pbPoster->setStyleSheet("QPushButton { color: rgb(255, 255, 255); background : rgb(0, 0, 99);}");
-
+    ui->pbEdit->setDisabled(true);
 }
 
 void MovieCard::enabledCard()
@@ -84,27 +88,38 @@ void MovieCard::editMovie()
 
 void MovieCard::saveMovie()
 {   
-//    QSqlDatabase db = QSqlDatabase::database("    ");
-//    QSqlQuery query(db);
-//    query.prepare("INSERT INTO produit (pr_nom, pr_code, pr_prix_ht, pr_qtite_stock) VALUES (?, ?, ?, ?)");
 
-//    query.addBindValue(ui->leTitle->text());
-//    query.addBindValue(ui->leRating->text().toInt());
-//    query.addBindValue(ui->leYear->text().toInt());
-//    query.addBindValue(ui->leLength->text().toInt());
-//    query.addBindValue(ui->teSynopsis->text().toInt());
+    mMovieModel->submitAll();
 
-//    query.exec();
+    QSqlDatabase db = QSqlDatabase::database("dbFilm");
+    QSqlQuery query(db);
+    query.prepare("INSERT INTO film (f_title, f_ratings, f_year, f_length) VALUES (?, ?, ?, ?)");
 
-//    qDebug() << query.lastQuery() << query.lastError().text();
+    query.addBindValue(ui->leTitle->text());
+    query.addBindValue(ui->leRating->text().toInt());
+    query.addBindValue(ui->leYear->text().toInt());
+    query.addBindValue(ui->leLength->text().toInt());
+    //query.addBindValue(ui->teSynopsis->text());
+    // query.addBindValue(ui->labPoster->text());
+
+    query.exec();
+
+    //    qDebug() << query.lastQuery() << query.lastError().text();
     //upDate la 1ere fenetre
-//    QListWidgetItem* item = new QListWidgetItem(ui->leNom->text());
+    //    QListWidgetItem* item = new QListWidgetItem(ui->leNom->text());
     //    ui->listWidget->addItem(item);
 }
 
 void MovieCard::cancel()
 {
 
+}
+
+void MovieCard::downloadPoster()
+{
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open Image"), "c:/", tr("Image Files (*.png *.jpg *.bmp)"));
+    QPixmap monImage(fileName);
+    ui->labPoster->setPixmap(monImage);
 }
 
 

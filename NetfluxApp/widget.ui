@@ -14,8 +14,8 @@
    <string>Widget</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(0, 0, 127);
-background-color: rgb(0, 0, 0);</string>
+   <string notr="true">color: rgb(0, 0, 0);
+background-color: rgb(255, 255, 255);</string>
   </property>
   <widget class="QGroupBox" name="groupBox">
    <property name="geometry">
@@ -45,7 +45,7 @@ background-color: rgb(0, 0, 0);</string>
     </font>
    </property>
    <property name="styleSheet">
-    <string notr="true">color: rgb(85, 85, 255);</string>
+    <string notr="true">background-color: rgb(0, 0, 0);</string>
    </property>
    <property name="title">
     <string/>
@@ -54,6 +54,166 @@ background-color: rgb(0, 0, 0);</string>
     <set>Qt::AlignCenter</set>
    </property>
    <layout class="QGridLayout" name="gridLayout_2">
+    <item row="1" column="0">
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="0" column="2">
+       <widget class="QLineEdit" name="leSearch">
+        <property name="font">
+         <font>
+          <family>Arial</family>
+          <pointsize>14</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">border-color: rgb(255, 255, 255);
+background-color: rgb(255, 255, 255);</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="5">
+       <widget class="QComboBox" name="comboBox">
+        <property name="font">
+         <font>
+          <family>Arial</family>
+          <pointsize>14</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(255, 255, 255);
+color: rgb(0, 0, 255);</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="3" colspan="2">
+       <widget class="QLabel" name="label">
+        <property name="font">
+         <font>
+          <family>Arial</family>
+          <pointsize>8</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">color: rgb(255, 255, 255);</string>
+        </property>
+        <property name="text">
+         <string>search by</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="6">
+       <widget class="QPushButton" name="pbGo">
+        <property name="font">
+         <font>
+          <family>Arial</family>
+          <pointsize>12</pointsize>
+          <weight>75</weight>
+          <italic>true</italic>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">color: rgb(255, 255, 255);
+border-color: rgb(85, 85, 255);
+color: rgb(75, 70, 214);
+background-color: rgb(255, 255, 255);</string>
+        </property>
+        <property name="text">
+         <string>GO!</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_2">
+        <property name="font">
+         <font>
+          <family>Arial</family>
+          <pointsize>8</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">color: rgb(255, 255, 255);</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLabel" name="label_3">
+        <property name="maximumSize">
+         <size>
+          <width>55</width>
+          <height>32</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="pixmap">
+         <pixmap>../Magnifier2.png</pixmap>
+        </property>
+        <property name="scaledContents">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="3" column="0">
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QPushButton" name="pbAdd">
+        <property name="font">
+         <font>
+          <family>Arial</family>
+          <pointsize>14</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">color: rgb(255, 255, 255);
+background-color: rgb(25, 25, 75);</string>
+        </property>
+        <property name="text">
+         <string>Add</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pbRemove">
+        <property name="font">
+         <font>
+          <family>Arial</family>
+          <pointsize>14</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">color: rgb(255, 255, 255);
+background-color: rgb(25, 25, 75);</string>
+        </property>
+        <property name="text">
+         <string>Remove</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pbExit">
+        <property name="font">
+         <font>
+          <family>Arial</family>
+          <pointsize>14</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">color: rgb(255, 255, 255);
+background-color: rgb(25, 25, 75);</string>
+        </property>
+        <property name="text">
+         <string>Exit</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
     <item row="0" column="0">
      <layout class="QHBoxLayout" name="horizontalLayout_2">
       <item>
@@ -166,169 +326,40 @@ background-color: rgb(0, 0, 0);</string>
       </item>
      </layout>
     </item>
-    <item row="1" column="0">
-     <layout class="QGridLayout" name="gridLayout">
-      <item row="0" column="2">
-       <widget class="QLineEdit" name="leSearch">
-        <property name="font">
-         <font>
-          <family>Arial</family>
-          <pointsize>14</pointsize>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">border-color: rgb(255, 255, 255);
-background-color: rgb(255, 255, 255);</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="5">
-       <widget class="QComboBox" name="comboBox">
-        <property name="font">
-         <font>
-          <family>Arial</family>
-          <pointsize>14</pointsize>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">background-color: rgb(255, 255, 255);</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="3" colspan="2">
-       <widget class="QLabel" name="label">
-        <property name="font">
-         <font>
-          <family>Arial</family>
-          <pointsize>8</pointsize>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">color: rgb(255, 255, 255);</string>
-        </property>
-        <property name="text">
-         <string>search by</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="6">
-       <widget class="QPushButton" name="pbGo">
-        <property name="font">
-         <font>
-          <family>Arial</family>
-          <pointsize>12</pointsize>
-          <weight>75</weight>
-          <italic>true</italic>
-          <bold>true</bold>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">color: rgb(255, 255, 255);
-border-color: rgb(85, 85, 255);
-color: rgb(75, 70, 214);
-background-color: rgb(255, 255, 255);</string>
-        </property>
-        <property name="text">
-         <string>GO!</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0">
-       <widget class="QLabel" name="label_2">
-        <property name="font">
-         <font>
-          <family>Arial</family>
-          <pointsize>8</pointsize>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">color: rgb(255, 255, 255);</string>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QLabel" name="label_3">
-        <property name="maximumSize">
-         <size>
-          <width>55</width>
-          <height>32</height>
-         </size>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="pixmap">
-         <pixmap>../Magnifier2.png</pixmap>
-        </property>
-        <property name="scaledContents">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
     <item row="2" column="0">
-     <widget class="QTableView" name="tableView"/>
-    </item>
-    <item row="3" column="0">
-     <layout class="QHBoxLayout" name="horizontalLayout">
-      <item>
-       <widget class="QPushButton" name="pbAdd">
-        <property name="font">
-         <font>
-          <family>Arial</family>
-          <pointsize>14</pointsize>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">color: rgb(255, 255, 255);
-background-color: rgb(25, 25, 75);</string>
-        </property>
-        <property name="text">
-         <string>Add</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="pbCancel">
-        <property name="font">
-         <font>
-          <family>Arial</family>
-          <pointsize>14</pointsize>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">color: rgb(255, 255, 255);
-background-color: rgb(25, 25, 75);</string>
-        </property>
-        <property name="text">
-         <string>Cancel</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="pbExit">
-        <property name="font">
-         <font>
-          <family>Arial</family>
-          <pointsize>14</pointsize>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">color: rgb(255, 255, 255);
-background-color: rgb(25, 25, 75);</string>
-        </property>
-        <property name="text">
-         <string>Exit</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
+     <widget class="QTableView" name="tableView">
+      <property name="minimumSize">
+       <size>
+        <width>983</width>
+        <height>390</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(0, 0, 0);
+color: rgb(85, 85, 255);</string>
+      </property>
+      <property name="tabKeyNavigation">
+       <bool>true</bool>
+      </property>
+      <property name="dragDropOverwriteMode">
+       <bool>true</bool>
+      </property>
+      <property name="alternatingRowColors">
+       <bool>false</bool>
+      </property>
+      <property name="sortingEnabled">
+       <bool>true</bool>
+      </property>
+      <property name="wordWrap">
+       <bool>true</bool>
+      </property>
+     </widget>
     </item>
    </layout>
+   <zorder></zorder>
+   <zorder></zorder>
+   <zorder></zorder>
+   <zorder>tableView</zorder>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>

@@ -6,30 +6,44 @@ Widget::Widget(QWidget *parent) :
     ui(new Ui::Widget)
 {
     ui->setupUi(this);
+    QSqlDatabase db = QSqlDatabase::database("dbFilm");
+    mMovieModel = new QSqlTableModel(this, db);
+    mMovieModel->setTable("film");
+    mMovieModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    mMovieModel->select();
+
+     qDebug() << "interieur initModel";
+
+
+
+    ui->tableView->setModel(mMovieModel);
+    ui->tableView->hideColumn(0);
+    ui->tableView->hideColumn(3);
+    ui->tableView->hideColumn(4);
+    ui->tableView->hideColumn(5);
+    ui->tableView->hideColumn(6);
+
+    ui->tableView->setSortingEnabled(true);
+    ui->tableView->show();
+
+    qDebug() << "interieur setupView";
+    //QSqlDatabase db = QSqlDatabase::database("bdFilm");
+//    initModel();
+//    qDebug()<<"initModel";
+//    setupView();
+//    qDebug()<<"BDD setupView";
     design();
 
-    QSqlDatabase db = QSqlDatabase::database("dbFilm");
-
-    //    //on fait un new model de table sql
-    //    mMovieModel= new QSqlTableModel(this, db);
-    //    //je set la table produit de la bdd
-    //    mMovieModel->setTable("   ");
-    //    //select pour selectionne toutes les donnees
-    //    mMovieModel->select();
-
-    //on met dans notre tableview notre model
-    ui->tableView->setModel(mMovieModel);
-
-    //comboBox filter
-    ui->comboBox->addItem("Title",1);
-    ui->comboBox->addItem("Genre", 2);
-
-
-
     //Quitter
-    connect(ui->pbExit,SIGNAL(clicked()),this,SLOT(close()));
+    QObject::connect(ui->pbExit,SIGNAL(clicked()),this,SLOT(close()));
+    //Add
+    QObject::connect(ui->pbAdd, SIGNAL(clicked()), this, SLOT(addMovie()));
+    //display
+    //remove
+    QObject::connect(ui->pbRemove, SIGNAL(clicked()), this, SLOT(deleteMovie()));
+    //search
+    QObject::connect(ui->pbGo, SIGNAL(clicked()), this, SLOT(filter()));
 
-    connect(ui->pbAdd, SIGNAL(clicked()), this, SLOT(addMovie()));
 }
 
 Widget::~Widget()
@@ -39,6 +53,10 @@ Widget::~Widget()
 
 void Widget::design()
 {
+    //comboBox filter
+    ui->comboBox->addItem("Title",1);
+    ui->comboBox->addItem("Genre", 2);
+
     QImage photoGauche("C:/Users/Dell/Documents/netflux/labelGauche.jpg");
     ui->label_6->setPixmap(QPixmap ::fromImage(photoGauche));
 
@@ -48,19 +66,22 @@ void Widget::design()
     QImage loupe("C:/Users/Dell/Documents/netflux/loupe.png");
     ui->label_3->setPixmap(QPixmap ::fromImage(loupe));
 }
-//Widget::initModel()
-//{
-//    mMovieModel = new QSqlTableModel(this, db);
-//    mMovieModel->setTable("Movie");
-//    mMovieModel->select();
-//}
 
-void Widget::setupView()
-{
-    ui->tableView->setModel(mMovieModel);
-    //ui->tableView->hideColumn()
-    ui->tableView->setSortingEnabled(true);
-}
+//void Widget::initModel()
+//{
+//    QSqlDatabase db = QSqlDatabase::database("bdFilm");
+//    mMovieModel = new QSqlTableModel(this, db);
+//    mMovieModel->setTable("film");
+//    mMovieModel->select();
+//    mMovieModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
+//     qDebug() << "interieur initModel";
+
+//    ui->tableView->setModel(mMovieModel);
+//    ui->tableView->hideColumn(0);
+//    ui->tableView->setSortingEnabled(true);
+
+//    qDebug() << "interieur setupView";
+//}
 
 void Widget::initFilteringModel()
 {
@@ -70,14 +91,18 @@ void Widget::initFilteringModel()
     filteringModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
 }
 
+void Widget::filter()
+{
+    mMovieFilteredModel->setFilterWildcard(ui->leSearch->text());
+    mMovieFilteredModel->setFilterKeyColumn(ui->comboBox->currentData().toInt());
+}
+
 void Widget::addMovie()
 {
     MovieCard* emptyCard= new MovieCard();
     emptyCard->newCard();
     emptyCard->show();
 }
-
-
 
 void Widget::deleteMovie()
 {
@@ -92,5 +117,12 @@ void Widget::deleteMovie()
     //    refresh();
 }
 
-
+void Widget::initFilteredModel()
+{
+    mMovieFilteredModel = new QSortFilterProxyModel(this);
+    mMovieFilteredModel->setDynamicSortFilter(true);
+    mMovieFilteredModel->setSourceModel(mMovieModel);
+    mMovieFilteredModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
+    ui->tableView->setModel(mMovieFilteredModel);
+}
 

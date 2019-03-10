@@ -5,6 +5,7 @@
 #include <QSqlTableModel>
 #include <QDataWidgetMapper>
 #include<QSqlQuery>
+#include<QFileDialog>
 
 
 namespace Ui {
@@ -23,7 +24,9 @@ public:
 
 private:
     Ui::Form *ui;
-    QSqlTableModel* mMovieModel;
+   QSqlTableModel* mMovieModel;
+
+
 
 private slots:
 
@@ -32,6 +35,7 @@ private slots:
     void editMovie();
     void saveMovie();
     void cancel();
+    void downloadPoster();
 
 };
 

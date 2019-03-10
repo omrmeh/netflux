@@ -2,10 +2,10 @@
 #define WIDGET_H
 #include <moviecard.h>
 #include <QSqlTableModel>
-#include<QDataWidgetMapper>
+
 #include <QSortFilterProxyModel>
 
-
+#include<QDebug>
 #include <QWidget>
 
 
@@ -20,20 +20,25 @@ class Widget : public QWidget
 public:
     explicit Widget(QWidget *parent = nullptr);
     ~Widget();
-
+    void initModel();
+  // void setupView();
+    void design();
+    void initFilteredModel();
 private:
     Ui::Widget *ui;
     QSqlTableModel* mMovieModel;
+    QSortFilterProxyModel *mMovieFilteredModel;
+
+
 
 
 private slots:
 
-    //void initModel();
-    void design();
-    void setupView();
+    void filter();
     void initFilteringModel();
     void addMovie();
-    void deleteMovie ();
+    void deleteMovie();
+
 
 
 
