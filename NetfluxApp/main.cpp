@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
     db.setHostName("127.0.0.1");
     db.setDatabaseName("netflux");
     db.setUserName("postgres");
-    db.setPassword("*souha&zak*");
+    db.setPassword("");
     bool ok = db.open();
 
     //vérif à retirer après écriture du Gtest

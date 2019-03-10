@@ -4,7 +4,7 @@
 #include <QSqlTableModel>
 
 #include <QSortFilterProxyModel>
-
+#include <QModelIndex>
 #include<QDebug>
 #include <QWidget>
 
@@ -20,9 +20,11 @@ class Widget : public QWidget
 public:
     explicit Widget(QWidget *parent = nullptr);
     ~Widget();
-    void initModel();
-  // void setupView();
     void design();
+    void initModel();
+    void setupView();
+    void displayMovie(); //A completer cmnt envoyer un signal si on selectionné une ligne/case
+
     void initFilteredModel();
 private:
     Ui::Widget *ui;
@@ -35,7 +37,7 @@ private:
 private slots:
 
     void filter();
-    void initFilteringModel();
+    //void initFilteringModel();
     void addMovie();
     void deleteMovie();
 

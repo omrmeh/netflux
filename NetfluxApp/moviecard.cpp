@@ -8,9 +8,7 @@ MovieCard::MovieCard(QWidget *parent) :
     ui->setupUi(this);
 
     QSqlDatabase db = QSqlDatabase::database("dbFilm");
-    //on fait un new model de table sql
     mMovieModel= new QSqlTableModel(this, db);
-    //je set la table produit de la bdd
     mMovieModel->setTable("dbFilm");
 
     //Quitter
@@ -91,18 +89,18 @@ void MovieCard::saveMovie()
 
     mMovieModel->submitAll();
 
-    QSqlDatabase db = QSqlDatabase::database("dbFilm");
-    QSqlQuery query(db);
-    query.prepare("INSERT INTO film (f_title, f_ratings, f_year, f_length) VALUES (?, ?, ?, ?)");
 
-    query.addBindValue(ui->leTitle->text());
-    query.addBindValue(ui->leRating->text().toInt());
-    query.addBindValue(ui->leYear->text().toInt());
-    query.addBindValue(ui->leLength->text().toInt());
+//    QSqlQuery query(db);
+//    query.prepare("INSERT INTO film (f_title, f_ratings, f_year, f_length) VALUES (?, ?, ?, ?)");
+
+//    query.addBindValue(ui->leTitle->text());
+//    query.addBindValue(ui->leRating->text().toInt());
+//    query.addBindValue(ui->leYear->text().toInt());
+//    query.addBindValue(ui->leLength->text().toInt());
     //query.addBindValue(ui->teSynopsis->text());
     // query.addBindValue(ui->labPoster->text());
 
-    query.exec();
+//    query.exec();
 
     //    qDebug() << query.lastQuery() << query.lastError().text();
     //upDate la 1ere fenetre

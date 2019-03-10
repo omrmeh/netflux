@@ -21,6 +21,7 @@ public:
     ~MovieCard();
 
     void newCard();
+    void displayCard();
 
 private:
     Ui::Form *ui;
@@ -30,7 +31,7 @@ private:
 
 private slots:
 
-    void displayCard();
+
     void enabledCard();
     void editMovie();
     void saveMovie();
