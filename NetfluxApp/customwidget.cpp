@@ -1,6 +1,6 @@
 #include "customwidget.h"
 
-#include <QUrl>
+
 
 
 
@@ -31,7 +31,6 @@ void CustomWidget::initModel()
     mFilmsModel = new QSqlTableModel(this, db);
     mFilmsModel->setTable("film");
     mFilmsModel->select();
-    mFilmsModel->setEditStrategy((QSqlTableModel::OnManualSubmit));
 
     for(int i=0; i<labels.length(); i++)
          mFilmsModel->setHeaderData(i, Qt::Horizontal, labels[i]);
@@ -79,7 +78,7 @@ void CustomWidget::initIHMElements()
 
     setLayout(externalLayout);
 
-    QDataWidgetMapper *mapper = new QDataWidgetMapper(this);
+    mapper = new QDataWidgetMapper(this);
     mapper->setModel(filteringModel);
 
     for(QString label: labels)
@@ -103,7 +102,7 @@ void CustomWidget::initMovieCard()
             movieCard->addRow(label, formFields[label]);
     }
 
-    QUrl imageUrl("http://qt.digia.com/Documents/1/QtLogo.png");
+    QUrl imageUrl("http://image.tmdb.org/t/p/w300_and_h450_bestv2/4ucLGcXVVSVnsfkGtbLY4XAius8.jpg");
     m_pImgCtrl = new FileDownloader(imageUrl, this);
 
     connect(m_pImgCtrl, SIGNAL (downloaded()), this, SLOT (loadImage()));
@@ -184,12 +183,13 @@ void CustomWidget::search()
 
 void CustomWidget::loadImage()
 {
-    QPixmap poster2(QSize(10, 10));
+    QPixmap poster2(QSize(5, 5));
 
     poster2.loadFromData(m_pImgCtrl->downloadedData());
 
     posterLbl = new QLabel("poster");
     posterLbl->setPixmap(poster2);
+    posterLbl->resize(2, 2);
 
     movieCard->addWidget(posterLbl);
 

@@ -28,6 +28,7 @@
 #include <QAbstractItemDelegate>
 #include <QLabel>
 #include "filedownloader.h"
+#include <QUrl>
 
 class CustomWidget : public QWidget
 {
@@ -84,9 +85,15 @@ private:
     QPixmap *poster;
     QLabel *posterLbl;
 
+    QVector<QLabel*> postersLbl;
+
     QStringList labels;
 
     FileDownloader *m_pImgCtrl;
+
+    QDataWidgetMapper *mapper;
+
+    QVector<QVariant> urls;
 };
 
 #endif // CUSTOMWIDGET_H
