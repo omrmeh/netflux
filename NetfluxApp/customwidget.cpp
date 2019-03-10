@@ -4,6 +4,7 @@
 
 
 
+
 CustomWidget::CustomWidget(QWidget *parent)
     : QWidget(parent)
 {
@@ -107,7 +108,6 @@ void CustomWidget::initMovieCard()
 
     connect(m_pImgCtrl, SIGNAL (downloaded()), this, SLOT (loadImage()));
 
-
 }
 
 
@@ -184,14 +184,16 @@ void CustomWidget::search()
 
 void CustomWidget::loadImage()
 {
-    poster = new QPixmap;
-    poster->loadFromData(m_pImgCtrl->downloadedData());
+    QPixmap poster2(QSize(10, 10));
 
-    posterLbl = new QLabel;
-    posterLbl->setPixmap(*poster);
+    poster2.loadFromData(m_pImgCtrl->downloadedData());
+
+    posterLbl = new QLabel("poster");
+    posterLbl->setPixmap(poster2);
+
     movieCard->addWidget(posterLbl);
 
-    qDebug() << poster << " " << posterLbl << endl;
+    qDebug() << m_pImgCtrl->downloadedData() << " " << poster2 << " " << posterLbl << endl;
 }
 
 CustomWidget::~CustomWidget()
