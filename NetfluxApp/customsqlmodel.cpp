@@ -41,8 +41,10 @@ QVector<QPixmap *> CustomSQLModel::getPxmBuffer()
 
 QPixmap *CustomSQLModel::getPosterAtRow(int row)
 {
+    qDebug() << pxmBuffer.at(row);
     return pxmBuffer.at(row);
 }
+
 
 /**
  * @brief : -Génère les pixmaps correspondant aux posters téléchargés
