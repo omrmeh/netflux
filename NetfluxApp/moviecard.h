@@ -2,8 +2,15 @@
 #define MOVIECARD_H
 
 #include <QWidget>
-#include <QDataWidgetMapper>
+
+
 #include <QSortFilterProxyModel>
+#include <QSqlTableModel>
+#include <QDataWidgetMapper>
+#include<QSqlQuery>
+#include<QFileDialog>
+
+
 
 namespace Ui {
 class Form;
@@ -16,23 +23,20 @@ class MovieCard : public QWidget
 public:
     explicit MovieCard(QWidget *parent = nullptr, QDataWidgetMapper *mapper=nullptr, QSortFilterProxyModel *sortingModel=nullptr);
     ~MovieCard();
-
     void newCard();
-    void setUpMapper();
-
-    Ui::Form *getUi();
 
 private:
     Ui::Form *ui;
     QDataWidgetMapper *mMapper;
     QSortFilterProxyModel *mSortingModel;
-
+    QSqlTableModel* mMovieModel;
+    
 private slots:
-
-
-    void enabledCard();
-    void editMovie();
-    void saveMovie();
+    void enabledCard(); //done
+    void editMovie(); //to do
+    void saveMovie(); //to do
+    void cancel(); //to do
+    void downloadPoster();//To complete: save in db
 
 };
 
