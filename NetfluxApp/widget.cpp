@@ -28,9 +28,6 @@ Widget::Widget(QWidget *parent) :
     connect(ui->pbEdit, SIGNAL(clicked()), this, SLOT(enabledCard()));
 }
 
-
-
-
 void Widget::initModel()
 {
     QSqlDatabase db = QSqlDatabase::database("dbFilm");
@@ -114,6 +111,9 @@ void Widget::filter()
 {    
     mMovieFilteredModel->setFilterWildcard(ui->leSearch->text());
     mMovieFilteredModel->setFilterKeyColumn(ui->comboBox->currentData().toInt());
+    ui->labPoster->setPixmap(*(mCustomMovieModel->getPosterAtRow(4)));
+    qDebug() << mCustomMovieModel->getPxmBuffer();
+    ui->labPoster->update();
 }
 
 void Widget::addMovie()
@@ -121,7 +121,7 @@ void Widget::addMovie()
     newCard();
     enabledCard();
     QImage posterVide("C:/Users/Dell/Documents/netflux/posterVideView.png");
-    ui->labPoster->setPixmap(QPixmap ::fromImage(posterVide));
+    ui->labPoster->setPixmap(QPixmap::fromImage(posterVide));
     ui->pbDownload->show();
 
 }
