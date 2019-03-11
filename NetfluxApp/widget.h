@@ -48,11 +48,11 @@ private slots:
     void setupView();//A adapter (ordre des colonnes)
 
     void filter();//fait
-    void displayMovie(); //to do
     void addMovie();//to do
     void editMovie();
     void deleteMovie();//to do
     void newCard();
+    void disabledCard();
     void enabledCard();
     void saveMovie();
     void downloadPoster();
