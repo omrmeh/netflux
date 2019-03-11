@@ -17,6 +17,10 @@ public:
     void fetchUrls();
     void downloadPosters();
 
+    QVector<QPixmap *> getPxmBuffer();
+
+    QPixmap* getPosterAtRow(int);
+
 private:
     QVector<QPixmap*> pxmBuffer;
     QVector<FileDownloader*> downloaders;
