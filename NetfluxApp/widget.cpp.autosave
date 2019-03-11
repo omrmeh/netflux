@@ -122,6 +122,7 @@ void Widget::addMovie()
     emptyCard->show();
 }
 
+
 void Widget::deleteMovie()
 {
 

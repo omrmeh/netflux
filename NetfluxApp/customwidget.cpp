@@ -1,10 +1,5 @@
 #include "customwidget.h"
 
-
-
-
-
-
 CustomWidget::CustomWidget(QWidget *parent)
     : QWidget(parent)
 {
@@ -22,8 +17,6 @@ CustomWidget::CustomWidget(QWidget *parent)
     connect(addBtn, SIGNAL(clicked()), this, SLOT(addMovie()));
     connect(deleteBtn, SIGNAL(clicked()), this, SLOT(deleteMovie()));
     connect(refreshBtn, SIGNAL(clicked()), this, SLOT(refreshMovies()));
-
-
 }
 
 void CustomWidget::initModel()
@@ -34,7 +27,6 @@ void CustomWidget::initModel()
 
     for(int i=0; i<labels.length(); i++)
          mFilmsModel->setHeaderData(i, Qt::Horizontal, labels[i]);
-
 }
 
 
@@ -50,7 +42,6 @@ void CustomWidget::initTableView()
   //  tableView->setSelectionMode(QAbstractItemView::MultiSelection);
 
     initIHMElements();
-
 }
 
 void CustomWidget::initListView()

@@ -1,21 +1,17 @@
 #include "moviecard.h"
 #include "ui_moviecard.h"
 
-MovieCard::MovieCard(QWidget *parent, QDataWidgetMapper *mapper, QSortFilterProxyModel *sortingModel) :
+MovieCard::MovieCard(QWidget *parent, QSortFilterProxyModel *sortingModel) :
     QWidget(parent),
-    ui(new Ui::Form)
+    ui(new Ui::MovieCard)
 {
     ui->setupUi(this);
-
-
-    mMapper = mapper;
 
     mSortingModel = sortingModel;
 
     QSqlDatabase db = QSqlDatabase::database("dbFilm");
     mMovieModel= new QSqlTableModel(this, db);
     mMovieModel->setTable("dbFilm");
-
 
     //Quitter
     connect(ui->pbExit,SIGNAL(clicked()),this,SLOT(close()));

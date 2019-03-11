@@ -13,7 +13,7 @@
 
 
 namespace Ui {
-class Form;
+class MovieCard;
 }
 
 class MovieCard : public QWidget
@@ -21,13 +21,13 @@ class MovieCard : public QWidget
     Q_OBJECT
 
 public:
-    explicit MovieCard(QWidget *parent = nullptr, QDataWidgetMapper *mapper=nullptr, QSortFilterProxyModel *sortingModel=nullptr);
+    explicit MovieCard(QWidget *parent = nullptr, QSortFilterProxyModel *sortingModel=nullptr);
     ~MovieCard();
     void newCard();
     void displayCard();
 
 private:
-    Ui::Form *ui;
+    Ui::MovieCard *ui;
     QDataWidgetMapper *mMapper;
     QSortFilterProxyModel *mSortingModel;
     QSqlTableModel* mMovieModel;
