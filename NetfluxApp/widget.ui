@@ -146,6 +146,15 @@ color: rgb(0, 0, 0);</string>
          <height>411</height>
         </size>
        </property>
+       <property name="font">
+        <font>
+         <family>MS Shell Dlg 2</family>
+         <pointsize>12</pointsize>
+         <weight>50</weight>
+         <italic>false</italic>
+         <bold>false</bold>
+        </font>
+       </property>
        <property name="styleSheet">
         <string notr="true">color: rgb(0, 170, 255);
 font: 12pt &quot;MS Shell Dlg 2&quot;;</string>
@@ -173,17 +182,6 @@ color: rgb(255, 255, 255);</string>
          </property>
          <property name="text">
           <string>Remove</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="pbExit">
-         <property name="styleSheet">
-          <string notr="true">background-color: rgb(0, 0, 127);
-color: rgb(255, 255, 255);</string>
-         </property>
-         <property name="text">
-          <string>Exit</string>
          </property>
         </widget>
        </item>
@@ -247,36 +245,6 @@ color: rgb(255, 255, 255);</string>
      </item>
     </layout>
    </item>
-   <item row="1" column="1">
-    <layout class="QVBoxLayout" name="verticalLayout_2">
-     <item>
-      <widget class="QLabel" name="label_8">
-       <property name="text">
-        <string>Title</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="leTitle">
-       <property name="font">
-        <font>
-         <family>MS Shell Dlg 2</family>
-         <pointsize>8</pointsize>
-         <weight>50</weight>
-         <italic>false</italic>
-         <bold>false</bold>
-        </font>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background-color: rgb(255, 255, 255);
-font: 75 18pt &quot;MS Shell Dlg 2&quot;;
-color: rgb(85, 85, 255);
-font: 8pt &quot;MS Shell Dlg 2&quot;;</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
    <item row="2" column="1">
     <layout class="QVBoxLayout" name="verticalLayout_3">
      <item>
@@ -310,12 +278,42 @@ font: 8pt &quot;MS Shell Dlg 2&quot;;</string>
      </item>
     </layout>
    </item>
+   <item row="1" column="1">
+    <layout class="QVBoxLayout" name="verticalLayout_2">
+     <item>
+      <widget class="QLabel" name="label_8">
+       <property name="text">
+        <string>Title</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="leTitle">
+       <property name="font">
+        <font>
+         <family>MS Shell Dlg 2</family>
+         <pointsize>8</pointsize>
+         <weight>50</weight>
+         <italic>false</italic>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(255, 255, 255);
+font: 75 18pt &quot;MS Shell Dlg 2&quot;;
+color: rgb(85, 85, 255);
+font: 8pt &quot;MS Shell Dlg 2&quot;;</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
    <item row="3" column="1">
     <layout class="QFormLayout" name="formLayout">
      <item row="0" column="0">
       <widget class="QLabel" name="label_9">
        <property name="text">
-        <string>Rating</string>
+        <string>Ratings</string>
        </property>
       </widget>
      </item>

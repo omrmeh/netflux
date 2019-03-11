@@ -15,14 +15,15 @@ Widget::Widget(QWidget *parent) :
     initMapper();
     disabledCard();
 
+
     //Quitter
-    connect(ui->pbExit,SIGNAL(clicked()),this,SLOT(close()));
+    connect(ui->pbExit_2,SIGNAL(clicked()),this,SLOT(close()));
+
     //Add
     connect(ui->pbAdd, SIGNAL(clicked()), this, SLOT(addMovie()));
-    //display
 
-    //connect(ui->pbAdd, SIGNAL(clicked()), this, SLOT(displayMovie()));
-
+    //save
+    connect(ui->pbSave, SIGNAL(clicked()), this, SLOT(saveMovie()));
 
     //remove
     connect(ui->pbRemove, SIGNAL(clicked()), this, SLOT(deleteMovie()));
@@ -42,6 +43,8 @@ void Widget::design()
     //comboBox filter
     ui->comboBox->addItem("Title",2);
     ui->comboBox->addItem("Year", 3);
+    ui->comboBox->addItem("Genre",1);
+
 
 
 
@@ -53,6 +56,10 @@ void Widget::design()
 
     QImage loupe("C:/Users/Dell/Documents/netflux/loupe.png");
     ui->labSearch->setPixmap(QPixmap ::fromImage(loupe));
+
+    QImage posterVide("C:/Users/Dell/Documents/netflux/posterVideView.png");
+    ui->labPoster->setPixmap(QPixmap ::fromImage(posterVide));
+    ui->pbDownload->show();
 }
 
 void Widget::initModel()
@@ -62,11 +69,12 @@ void Widget::initModel()
 
     mMovieModel->setTable("film");
     mMovieModel->select();
+    mMovieModel->setHeaderData(1,Qt::Horizontal,"Genre");
     mMovieModel->setHeaderData(2,Qt::Horizontal,"Title");
     mMovieModel->setHeaderData(3,Qt::Horizontal,"Year");
     mMovieModel->setHeaderData(5,Qt::Horizontal,"Poster");
     //pour ajouter une securite et que les modif n'y vont pas direct en BDD avt de confirmer
-    //mMovieModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    mMovieModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
 
     qDebug() << "interieur initModel";
 }
@@ -87,23 +95,13 @@ void Widget::initMapper()
             SIGNAL(currentRowChanged(QModelIndex, QModelIndex)),
             mapper, SLOT(setCurrentModelIndex(QModelIndex)));
 }
-void Widget::displayMovie()
-{
-
-    mapper = new QDataWidgetMapper(this);
-    mapper->setModel(mMovieModel);
-
-    //selectionModel: quel model est selectionné
-    //current row changed va renseigner (un signal) qu'on a changer de ligne
-
-}
 void Widget::setupView()
 {
     // A revoir
 
     ui->tableView->setModel(mMovieModel);
     ui->tableView->hideColumn(0);
-    ui->tableView->hideColumn(1);
+    //ui->tableView->hideColumn(1);
     ui->tableView->hideColumn(4);
     ui->tableView->hideColumn(6);
     ui->tableView->hideColumn(7);
@@ -130,6 +128,7 @@ void Widget::filter()
 void Widget::addMovie()
 {
     newCard();
+    enabledCard();
     QImage posterVide("C:/Users/Dell/Documents/netflux/posterVideView.png");
     ui->labPoster->setPixmap(QPixmap ::fromImage(posterVide));
     ui->pbDownload->show();
@@ -138,19 +137,20 @@ void Widget::addMovie()
 
 void Widget::editMovie()
 {
-   enabledCard();
+    enabledCard();
 }
 
 void Widget::saveMovie()
 {
 
     mMovieModel->submitAll();
+    //newCard();
 }
 
 void Widget::deleteMovie()
 {
 
-      mMovieModel->removeRow(ui->tableView->currentIndex().row());
+    mMovieModel->removeRow(ui->tableView->currentIndex().row());
 }
 
 void Widget::cancel()
