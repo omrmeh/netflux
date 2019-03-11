@@ -21,9 +21,13 @@ public:
 
     QPixmap* getPosterAtRow(int);
 
+    QPixmap *getPosterAtKey(int title);
 private:
     QVector<QPixmap*> pxmBuffer;
     QVector<FileDownloader*> downloaders;
+
+    QMap<int, QPixmap*> pxmMapBuffer;
+
     FileDownloader *mFileDl;
     QStringList urls;
 

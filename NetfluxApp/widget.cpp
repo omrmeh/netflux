@@ -1,9 +1,6 @@
 #include "widget.h"
 #include "ui_widget.h"
 
-
-
-
 Widget::Widget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Widget)
@@ -12,10 +9,12 @@ Widget::Widget(QWidget *parent) :
     initModel();
     setupView();
     design();
+
+    leId = new QLineEdit; //LineEdit caché pour pouvoir retrouvé le poster correspondant à l'Id du film
+
     initFilteredModel();
     initMapper();
     disabledCard();
-
 
     //Quitter
     connect(ui->pbExit_2,SIGNAL(clicked()),this,SLOT(close()));
@@ -33,9 +32,13 @@ Widget::Widget(QWidget *parent) :
     //edit
     connect(ui->pbEdit, SIGNAL(clicked()), this, SLOT(enabledCard()));
 
+
+
 }
 
-
+/**
+ * @brief Widget::initModel
+ */
 void Widget::initModel()
 {
     QSqlDatabase db = QSqlDatabase::database("dbFilm");
@@ -52,7 +55,6 @@ void Widget::initModel()
 
     //pour ajouter une securite et que les modif n'y vont pas direct en BDD avt de confirmer
     mMovieModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
-
 
     qDebug() << "interieur initModel";
 }
@@ -81,11 +83,14 @@ void Widget::initMapper()
     mapper->addMapping(ui->leYear,3);
     mapper->addMapping(ui->leLength, 7);
     mapper->addMapping(ui->teSynopsis,6);
+    mapper->addMapping(leId, 0); //l'id permettant de retrouver le poster adéquat
+
     ui->pbDownload->hide();
     connect(ui->tableView->selectionModel(),
             SIGNAL(currentRowChanged(QModelIndex, QModelIndex)),
             mapper, SLOT(setCurrentModelIndex(QModelIndex)));
 }
+
 
 void Widget::setupView()
 {
@@ -102,6 +107,7 @@ void Widget::setupView()
     qDebug() << "interieur setupView";
 }
 
+
 void Widget::initFilteredModel()
 {
     mMovieFilteredModel = new QSortFilterProxyModel(this);
@@ -112,12 +118,15 @@ void Widget::initFilteredModel()
     QObject::connect(ui->leSearch, SIGNAL(textChanged(QString)), this, SLOT(filter()));
 }
 
+
 void Widget::filter()
 {    
     mMovieFilteredModel->setFilterWildcard(ui->leSearch->text());
     mMovieFilteredModel->setFilterKeyColumn(ui->comboBox->currentData().toInt());
-    ui->labPoster->setPixmap(*(mCustomMovieModel->getPosterAtRow(4)));
-    qDebug() << mCustomMovieModel->getPxmBuffer();
+
+  // ui->labPoster->setPixmap(*(mCustomMovieModel->getPosterAtRow(4)));
+    ui->labPoster->setPixmap(*(mCustomMovieModel->getPosterAtKey(leId->text().toInt())));
+    qDebug() << leId->text();
     ui->labPoster->update();
 }
 
@@ -125,16 +134,18 @@ void Widget::addMovie()
 {
     newCard();
     enabledCard();
-    QImage posterVide("C:/Users/Dell/Documents/netflux/posterVideView.png");
+    QImage posterVide(":/posterVideView.png");
     ui->labPoster->setPixmap(QPixmap::fromImage(posterVide));
     ui->pbDownload->show();
 
 }
 
+
 void Widget::editMovie()
 {
     enabledCard();
 }
+
 
 void Widget::saveMovie()
 {
@@ -143,16 +154,19 @@ void Widget::saveMovie()
     //newCard();
 }
 
+
 void Widget::deleteMovie()
 {
 
     mMovieModel->removeRow(ui->tableView->currentIndex().row());
 }
 
+
 void Widget::cancel()
 {
 
 }
+
 
 void Widget::downloadPoster()
 {
@@ -161,6 +175,7 @@ void Widget::downloadPoster()
     ui->labPoster->setPixmap(monImage);
     //save in db
 }
+
 
 void Widget::newCard()
 {
@@ -180,6 +195,8 @@ void Widget::newCard()
     ui->pbDownload->setStyleSheet("QPushButton { color: rgb(255, 255, 255); background : rgb(0, 0, 99);}");
     ui->pbEdit->setDisabled(true);
 }
+
+
 void Widget::disabledCard()
 {
     ui->leTitle->setEnabled(false);
@@ -196,6 +213,7 @@ void Widget::disabledCard()
     ui->teSynopsis->setStyleSheet("QTextEdit { background : rgb(255, 255, 255);}");
     ui->pbDownload->setStyleSheet("QPushButton { color: rgb(255, 255, 255); background : rgb(0, 0, 99);}");
 }
+
 
 void Widget::enabledCard()
 {
@@ -215,8 +233,6 @@ void Widget::enabledCard()
 }
 
 
-
-
 Widget::~Widget()
 {
     delete ui;
@@ -228,19 +244,16 @@ void Widget::design()
     ui->comboBox->addItem("Year", 3);
     ui->comboBox->addItem("Genre",1);
 
-
-
-
-    QImage photoGauche("C:/Users/Dell/Documents/netflux/labelGauche.jpg");
+    QImage photoGauche(":/images/labelGauche.jpg");
     ui->labGauche->setPixmap(QPixmap ::fromImage(photoGauche));
 
-    QImage photoDroite("C:/Users/Dell/Documents/netflux/labelDroit.ico");
+    QImage photoDroite(":/images/labelDroit.ico");
     ui->labDroit->setPixmap(QPixmap ::fromImage(photoDroite));
 
-    QImage loupe("C:/Users/Dell/Documents/netflux/loupe.png");
+    QImage loupe(":/images/loupe.png");
     ui->labSearch->setPixmap(QPixmap ::fromImage(loupe));
 
-    QImage posterVide("C:/Users/Dell/Documents/netflux/posterVideView.png");
+    QImage posterVide(":/images/posterVideView.png");
     ui->labPoster->setPixmap(QPixmap ::fromImage(posterVide));
     ui->pbDownload->show();
 }
