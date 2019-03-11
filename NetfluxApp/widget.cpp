@@ -134,7 +134,7 @@ void Widget::addMovie()
 {
     newCard();
     enabledCard();
-    QImage posterVide("C:/Users/Dell/Documents/netflux/posterVideView.png");
+    QImage posterVide(":/posterVideView.png");
     ui->labPoster->setPixmap(QPixmap::fromImage(posterVide));
     ui->pbDownload->show();
 
@@ -244,19 +244,16 @@ void Widget::design()
     ui->comboBox->addItem("Year", 3);
     ui->comboBox->addItem("Genre",1);
 
-
-
-
-    QImage photoGauche("C:/Users/Dell/Documents/netflux/labelGauche.jpg");
+    QImage photoGauche(":/images/labelGauche.jpg");
     ui->labGauche->setPixmap(QPixmap ::fromImage(photoGauche));
 
-    QImage photoDroite("C:/Users/Dell/Documents/netflux/labelDroit.ico");
+    QImage photoDroite(":/images/labelDroit.ico");
     ui->labDroit->setPixmap(QPixmap ::fromImage(photoDroite));
 
-    QImage loupe("C:/Users/Dell/Documents/netflux/loupe.png");
+    QImage loupe(":/images/loupe.png");
     ui->labSearch->setPixmap(QPixmap ::fromImage(loupe));
 
-    QImage posterVide("C:/Users/Dell/Documents/netflux/posterVideView.png");
+    QImage posterVide(":/images/posterVideView.png");
     ui->labPoster->setPixmap(QPixmap ::fromImage(posterVide));
     ui->pbDownload->show();
 }
