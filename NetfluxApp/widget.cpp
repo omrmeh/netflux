@@ -3,6 +3,7 @@
 
 
 
+
 Widget::Widget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Widget)
@@ -27,6 +28,7 @@ Widget::Widget(QWidget *parent) :
 
     //remove
     connect(ui->pbRemove, SIGNAL(clicked()), this, SLOT(deleteMovie()));
+
 
     //edit
     connect(ui->pbEdit, SIGNAL(clicked()), this, SLOT(enabledCard()));
@@ -62,10 +64,13 @@ void Widget::design()
     ui->pbDownload->show();
 }
 
+
 void Widget::initModel()
 {
     QSqlDatabase db = QSqlDatabase::database("dbFilm");
     mMovieModel = new QSqlTableModel(this, db);
+
+    initCustomSqlModel(db);
 
     mMovieModel->setTable("film");
     mMovieModel->select();
@@ -73,11 +78,26 @@ void Widget::initModel()
     mMovieModel->setHeaderData(2,Qt::Horizontal,"Title");
     mMovieModel->setHeaderData(3,Qt::Horizontal,"Year");
     mMovieModel->setHeaderData(5,Qt::Horizontal,"Poster");
+
     //pour ajouter une securite et que les modif n'y vont pas direct en BDD avt de confirmer
     mMovieModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
 
+
     qDebug() << "interieur initModel";
 }
+
+
+void Widget::initCustomSqlModel(QSqlDatabase db)
+{
+    mCustomMovieModel = new CustomSQLModel(this, &db);
+    mCustomMovieModel->setTable("film");
+    mCustomMovieModel->setRelation(1, QSqlRelation("GENRE", "ID_GENRE", "G_NAME"));
+    mCustomMovieModel->select();
+    mCustomMovieModel->fetchUrls();
+    mCustomMovieModel->downloadPosters();
+}
+
+
 void Widget::initMapper()
 {
     QDataWidgetMapper *mapper = new QDataWidgetMapper(this);
@@ -95,17 +115,19 @@ void Widget::initMapper()
             SIGNAL(currentRowChanged(QModelIndex, QModelIndex)),
             mapper, SLOT(setCurrentModelIndex(QModelIndex)));
 }
+
 void Widget::setupView()
 {
     // A revoir
 
-    ui->tableView->setModel(mMovieModel);
+    ui->tableView->setModel(mCustomMovieModel);
     ui->tableView->hideColumn(0);
     //ui->tableView->hideColumn(1);
     ui->tableView->hideColumn(4);
     ui->tableView->hideColumn(6);
     ui->tableView->hideColumn(7);
     ui->tableView->setSortingEnabled(true);
+    ui->tableView->setItemDelegate(new QSqlRelationalDelegate(ui->tableView));
     qDebug() << "interieur setupView";
 }
 
@@ -113,7 +135,7 @@ void Widget::initFilteredModel()
 {
     mMovieFilteredModel = new QSortFilterProxyModel(this);
     mMovieFilteredModel->setDynamicSortFilter(true);
-    mMovieFilteredModel->setSourceModel(mMovieModel);
+    mMovieFilteredModel->setSourceModel(mCustomMovieModel);
     mMovieFilteredModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
     ui->tableView->setModel(mMovieFilteredModel);
     QObject::connect(ui->leSearch, SIGNAL(textChanged(QString)), this, SLOT(filter()));
@@ -216,4 +238,39 @@ void Widget::enabledCard()
     ui->teSynopsis->setEnabled(true);
     ui->teSynopsis->setStyleSheet("QTextEdit { background : rgb(255, 255, 255);}");
     ui->pbDownload->setStyleSheet("QPushButton { color: rgb(255, 255, 255); background : rgb(0, 0, 99);}");
+}
+
+void Widget::design()
+{
+    //comboBox filter
+    ui->comboBox->addItem("Title",2);
+    ui->comboBox->addItem("Year", 3);
+
+
+    QPixmap photoGauche(":/labelGauche.jpg");
+
+    ui->label_6->setPixmap(photoGauche);
+
+    QPixmap photoDroite(":images/labelDroit.ico");
+    ui->label_10->setPixmap(photoDroite);
+    qDebug() << photoDroite;
+
+    QImage loupe(":/loupe.png");
+    ui->label_3->setPixmap(QPixmap ::fromImage(loupe));
+
+    QImage posterVide(":/posterVideView.png");
+    ui->labPoster->setPixmap(QPixmap ::fromImage(posterVide));
+
+}
+
+
+Widget::~Widget()
+{
+    delete ui;
+}
+
+
+void Widget::displayMovie()
+{
+
 }

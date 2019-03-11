@@ -29,13 +29,15 @@ SOURCES += \
         widget.cpp \
     moviecard.cpp \
     customwidget.cpp \
-    filedownloader.cpp
+    filedownloader.cpp \
+    customsqlmodel.cpp
 
 HEADERS += \
         widget.h \
     moviecard.h \
     customwidget.h \
-    filedownloader.h
+    filedownloader.h \
+    customsqlmodel.h
 
 FORMS += \
         widget.ui \
