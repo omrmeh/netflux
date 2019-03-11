@@ -218,6 +218,7 @@ void Widget::design()
     //enlever le header horizontale
     ui->tableView->verticalHeader()->setVisible(false);
 
+
     //les images des fenetres (pour le design)
     QImage photoGauche("C:/Users/Dell/Documents/netflux/labelGauche.jpg");
     ui->labGauche->setPixmap(QPixmap ::fromImage(photoGauche));
