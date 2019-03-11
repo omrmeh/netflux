@@ -1,16 +1,14 @@
 #include "moviecard.h"
 #include "ui_moviecard.h"
 
-MovieCard::MovieCard(QWidget *parent, QDataWidgetMapper *mapper, QSortFilterProxyModel *sortingModel) :
+MovieCard::MovieCard(QWidget *parent, QSortFilterProxyModel *sortingModel, QTableView *tableview) :
     QWidget(parent),
     ui(new Ui::Form)
 {
     ui->setupUi(this);
 
-
-    mMapper = mapper;
-
     mSortingModel = sortingModel;
+    mTableView = tableview;
 
     QSqlDatabase db = QSqlDatabase::database("dbFilm");
     mMovieModel= new QSqlTableModel(this, db);
@@ -35,17 +33,20 @@ MovieCard::~MovieCard()
 void MovieCard::displayCard()
 {
     //a revoir
-//    QDataWidgetMapper *mapper = new QDataWidgetMapper(this);
-//    mapper->setModel(mMovieModel);
+    QDataWidgetMapper *mapper = new QDataWidgetMapper(this);
+    mapper->setModel(mSortingModel);
 
-//    mapper->addMapping(ui->labPoster, 5);
-//    mapper->addMapping(ui->leTitle, 2);
-//    mapper->addMapping(ui->leRating,4);
-//    mapper->addMapping(ui->leGenre, 1);
-//    mapper->addMapping(ui->leYear,3);
-//    mapper->addMapping(ui->leLength, 7);
-//    mapper->addMapping(ui->teSynopsis,6);
+    mapper->addMapping(ui->labPoster, 5);
+    mapper->addMapping(ui->leTitle, 2);
+    mapper->addMapping(ui->leRating,4);
+    mapper->addMapping(ui->leGenre, 1);
+    mapper->addMapping(ui->leYear,3);
+    mapper->addMapping(ui->leLength, 7);
+    mapper->addMapping(ui->teSynopsis,6);
     ui->pbPoster->hide();
+    //faire pointeur
+    connect(mTableView->selectionModel(), SIGNAL(currentRowChanged(QModelIndex, QModelIndex)), mapper, SLOT(setCurrentModelIndex(QModelIndex)));
+    qDebug() <<mTableView;
 }
 
 void MovieCard::newCard()
