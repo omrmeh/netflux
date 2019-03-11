@@ -1,5 +1,8 @@
 <!DOCTYPE RCC><RCC version="1.0">
 <qresource prefix="/">
-  <file>images/star.png</file>
+  <file>images/labelDroit.ico</file>
+<file>images/posterVideView.png</file>
+<file>images/labelGauche.jpg</file>
+<file>images/loupe.png</file>
 </qresource>
 </RCC>
