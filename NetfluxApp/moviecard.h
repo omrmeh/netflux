@@ -31,7 +31,7 @@ public:
 
 private:
 
-    Ui::Form *ui;
+    Ui::MovieCard *ui;
     QTableView* mTableView;
 
     QDataWidgetMapper *mMapper;

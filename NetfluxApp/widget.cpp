@@ -64,7 +64,7 @@ void Widget::design()
 
 void Widget::initModel()
 {
-    QSqlDatabase db = QSqlDatabase::database("netflux");
+    QSqlDatabase db = QSqlDatabase::database("dbFilm");
     mMovieModel = new QSqlTableModel(this, db);
 
     mMovieModel->setTable("film");
