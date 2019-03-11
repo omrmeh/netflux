@@ -10,7 +10,7 @@ Widget::Widget(QWidget *parent) :
     setupView();
     design();
 
-    leId = new QLineEdit; //LineEdit caché pour pouvoir retrouvé le poster correspondant à l'Id du film
+    leId = new QLineEdit; //LineEdit caché pour pouvoir retrouver le poster correspondant à l'Id du film
 
     initFilteredModel();
     initMapper();
