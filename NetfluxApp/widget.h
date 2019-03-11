@@ -9,6 +9,7 @@
 #include<QDebug>
 #include <QWidget>
 #include <QSqlRelationalTableModel>
+#include <QSqlRelationalDelegate>
 
 
 namespace Ui {

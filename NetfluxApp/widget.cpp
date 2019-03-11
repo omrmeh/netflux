@@ -53,7 +53,7 @@ void Widget::design()
 
 void Widget::initModel()
 {
-    QSqlDatabase db = QSqlDatabase::database("dbFilm");
+    QSqlDatabase db = QSqlDatabase::database("netflux");
     mMovieModel = new QSqlRelationalTableModel(this, db);
 
     mMovieModel->setTable("film");
@@ -95,16 +95,18 @@ void Widget::setupView()
 {
     // A revoir
 
-//    ui->tableView->setModel(mMovieModel);
-//    ui->tableView->hideColumn(0);
-//    ui->tableView->hideColumn(1);
-//    ui->tableView->hideColumn(4);
-//    ui->tableView->hideColumn(6);
-//    ui->tableView->hideColumn(7);
-//    ui->tableView->setSortingEnabled(true);
+    ui->tableView->setModel(mMovieModel);
+    ui->tableView->hideColumn(0);
+    ui->tableView->hideColumn(1);
+    ui->tableView->hideColumn(4);
+    ui->tableView->hideColumn(6);
+    ui->tableView->hideColumn(7);
+    ui->tableView->setSortingEnabled(true);
+
+    ui->tableView->setItemDelegate(new QSqlRelationalDelegate(ui->tableView)); //Permet d'avoir une combobox des genres. Doit ajouter possibilité de rentrer un genre.
 
     //************mettre en place de la starDelegate ici *****************************
-    //ui->tableView->setItemDelegateForColumn(4, StarRating());
+    //ui->tableView->setItemDelegate(StarRating());
 
     qDebug() << "interieur setupView";
 }

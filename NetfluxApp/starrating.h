@@ -3,6 +3,7 @@
 
 #include <QMetaType>
 #include <QPointF>
+#include <QPainter>
 #include <QVector>
 
 class StarRating
