@@ -45,6 +45,10 @@ QPixmap *CustomSQLModel::getPosterAtRow(int row)
     return pxmBuffer.at(row);
 }
 
+QPixmap *CustomSQLModel::getPosterAtKey(int key)
+{
+    return pxmMapBuffer[key];
+}
 
 /**
  * @brief : -Génère les pixmaps correspondant aux posters téléchargés
@@ -57,6 +61,9 @@ void CustomSQLModel::loadPosters()
     QPixmap* poster = new QPixmap;
     poster->loadFromData(downloader->downloadedData());
     pxmBuffer.append(poster);
+    pxmMapBuffer[pxmBuffer.indexOf(poster)]=poster; /* si on part du principe que les pixmaps seront téléchargés dans le même
+                                                        ordre qu'ont été fetchées les urls */
+
 }
 
 
