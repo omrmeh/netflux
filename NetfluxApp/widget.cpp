@@ -28,9 +28,6 @@ Widget::Widget(QWidget *parent) :
     connect(ui->pbEdit, SIGNAL(clicked()), this, SLOT(enabledCard()));
 }
 
-
-
-
 void Widget::initModel()
 {
     QSqlDatabase db = QSqlDatabase::database("dbFilm");
@@ -135,7 +132,7 @@ void Widget::saveMovie()
 {
 
     mMovieModel->submitAll();
-    //newCard();
+    newCard();
 }
 
 void Widget::deleteMovie()
@@ -208,8 +205,6 @@ void Widget::enabledCard()
     ui->teSynopsis->setStyleSheet("QTextEdit { background : rgb(255, 255, 255);}");
     ui->pbDownload->setStyleSheet("QPushButton { color: rgb(255, 255, 255); background : rgb(0, 0, 99);}");
 }
-
-
 
 
 Widget::~Widget()

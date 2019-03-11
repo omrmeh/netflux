@@ -251,7 +251,7 @@ color: rgb(255, 255, 255);</string>
       <widget class="QLabel" name="labPoster">
        <property name="minimumSize">
         <size>
-         <width>489</width>
+         <width>517</width>
          <height>237</height>
         </size>
        </property>
