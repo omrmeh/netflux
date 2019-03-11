@@ -15,10 +15,8 @@ void CustomSQLModel::fetchUrls()
     urls.clear();
 
     for(int i=0; i<this->rowCount(); i++)
-    {
          urls.append(this->index(i, 5).data().toString());
-         qDebug() << this->index(i, 5).data().toString() << endl;
-    }
+
 }
 
 
@@ -30,11 +28,20 @@ void CustomSQLModel::downloadPosters()
     for(QString url:urls)
     {
        QUrl imageUrl(url);
-       qDebug() << url;
        FileDownloader *downloader = new FileDownloader(imageUrl, this);
        downloaders.append(downloader);
        connect(downloader, SIGNAL (downloaded()), this, SLOT (loadPosters()));
     }
+}
+
+QVector<QPixmap *> CustomSQLModel::getPxmBuffer()
+{
+    return pxmBuffer;
+}
+
+QPixmap *CustomSQLModel::getPosterAtRow(int row)
+{
+    return pxmBuffer.at(row);
 }
 
 /**
