@@ -35,34 +35,9 @@ Widget::Widget(QWidget *parent) :
 
 }
 
-Widget::~Widget()
-{
-    delete ui;
-}
-
-void Widget::design()
-{
-    //comboBox filter
-    ui->comboBox->addItem("Title",2);
-    ui->comboBox->addItem("Year", 3);
-    ui->comboBox->addItem("Genre",1);
 
 
 
-
-    QImage photoGauche("C:/Users/Dell/Documents/netflux/labelGauche.jpg");
-    ui->labGauche->setPixmap(QPixmap ::fromImage(photoGauche));
-
-    QImage photoDroite("C:/Users/Dell/Documents/netflux/labelDroit.ico");
-    ui->labDroit->setPixmap(QPixmap ::fromImage(photoDroite));
-
-    QImage loupe("C:/Users/Dell/Documents/netflux/loupe.png");
-    ui->labSearch->setPixmap(QPixmap ::fromImage(loupe));
-
-    QImage posterVide("C:/Users/Dell/Documents/netflux/posterVideView.png");
-    ui->labPoster->setPixmap(QPixmap ::fromImage(posterVide));
-    ui->pbDownload->show();
-}
 
 
 void Widget::initModel()
@@ -240,37 +215,33 @@ void Widget::enabledCard()
     ui->pbDownload->setStyleSheet("QPushButton { color: rgb(255, 255, 255); background : rgb(0, 0, 99);}");
 }
 
-void Widget::design()
-{
-    //comboBox filter
-    ui->comboBox->addItem("Title",2);
-    ui->comboBox->addItem("Year", 3);
 
-
-    QPixmap photoGauche(":/labelGauche.jpg");
-
-    ui->label_6->setPixmap(photoGauche);
-
-    QPixmap photoDroite(":images/labelDroit.ico");
-    ui->label_10->setPixmap(photoDroite);
-    qDebug() << photoDroite;
-
-    QImage loupe(":/loupe.png");
-    ui->label_3->setPixmap(QPixmap ::fromImage(loupe));
-
-    QImage posterVide(":/posterVideView.png");
-    ui->labPoster->setPixmap(QPixmap ::fromImage(posterVide));
-
-}
 
 
 Widget::~Widget()
 {
     delete ui;
 }
-
-
-void Widget::displayMovie()
+void Widget::design()
 {
+    //comboBox filter
+    ui->comboBox->addItem("Title",2);
+    ui->comboBox->addItem("Year", 3);
+    ui->comboBox->addItem("Genre",1);
 
+
+
+
+    QImage photoGauche("C:/Users/Dell/Documents/netflux/labelGauche.jpg");
+    ui->labGauche->setPixmap(QPixmap ::fromImage(photoGauche));
+
+    QImage photoDroite("C:/Users/Dell/Documents/netflux/labelDroit.ico");
+    ui->labDroit->setPixmap(QPixmap ::fromImage(photoDroite));
+
+    QImage loupe("C:/Users/Dell/Documents/netflux/loupe.png");
+    ui->labSearch->setPixmap(QPixmap ::fromImage(loupe));
+
+    QImage posterVide("C:/Users/Dell/Documents/netflux/posterVideView.png");
+    ui->labPoster->setPixmap(QPixmap ::fromImage(posterVide));
+    ui->pbDownload->show();
 }
