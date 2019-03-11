@@ -3,6 +3,7 @@
 
 
 
+
 Widget::Widget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Widget)
@@ -58,6 +59,7 @@ void Widget::initCustomSqlModel(QSqlDatabase db)
 {
     mCustomMovieModel = new CustomSQLModel(this, &db);
     mCustomMovieModel->setTable("film");
+    mCustomMovieModel->setRelation(1, QSqlRelation("GENRE", "ID_GENRE", "G_NAME"));
     mCustomMovieModel->select();
     mCustomMovieModel->fetchUrls();
     mCustomMovieModel->downloadPosters();
@@ -94,6 +96,7 @@ void Widget::setupView()
     ui->tableView->hideColumn(6);
     ui->tableView->hideColumn(7);
     ui->tableView->setSortingEnabled(true);
+    ui->tableView->setItemDelegate(new QSqlRelationalDelegate(ui->tableView));
     qDebug() << "interieur setupView";
 }
 

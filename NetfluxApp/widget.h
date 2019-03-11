@@ -9,6 +9,8 @@
 #include<QDebug>
 #include <QWidget>
 
+#include <QSqlRelationalDelegate>
+
 
 #include <customsqlmodel.h>
 

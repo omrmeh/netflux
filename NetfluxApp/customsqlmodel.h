@@ -2,12 +2,16 @@
 #define CUSTOMSQLMODEL_H
 
 #include <QSqlTableModel>
+#include <QSqlRelationalTableModel>
 #include <QPixmap>
 #include "filedownloader.h"
 #include <QDebug>
+#include <QObject>
 
-class CustomSQLModel : public QSqlTableModel
+class CustomSQLModel : public QSqlRelationalTableModel
 {
+    Q_OBJECT
+
 public:
     CustomSQLModel(QObject* parent = nullptr, QSqlDatabase* =nullptr);
     void fetchUrls();
