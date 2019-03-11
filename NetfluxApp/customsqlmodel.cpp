@@ -1,12 +1,10 @@
 #include "customsqlmodel.h"
 
 
-
-
 CustomSQLModel::CustomSQLModel(QObject* parent, QSqlDatabase *db):QSqlTableModel(parent, *db)
 {
-     fetchUrls();
-     downloadPosters();
+     qDebug() << "constructor" << endl;
+
 }
 
 
@@ -15,8 +13,13 @@ CustomSQLModel::CustomSQLModel(QObject* parent, QSqlDatabase *db):QSqlTableModel
  */
 void CustomSQLModel::fetchUrls()
 {
+    qDebug() << "fetching urls ..." << endl;
+
     for(int i=0; i<this->rowCount(); i++)
-       urls.append(this->index(i, 4).data().toString());
+    {
+         urls.append(this->index(i, 5).data().toString());
+         qDebug() << this->index(i, 5).data().toString() << endl;
+    }
 }
 
 
@@ -29,10 +32,10 @@ void CustomSQLModel::downloadPosters()
     for(QString url:urls)
     {
        QUrl imageUrl(url);
+       qDebug() << url;
        FileDownloader *downloader = new FileDownloader(imageUrl, this);
        downloaders.append(downloader);
        connect(downloader, SIGNAL (downloaded()), this, SLOT (loadPosters()));
-       qDebug() << url;
     }
 }
 
@@ -47,6 +50,7 @@ void CustomSQLModel::loadPosters()
     QPixmap* poster = new QPixmap;
     poster->loadFromData(downloader->downloadedData());
     pxmBuffer.append(poster);
+    qDebug() << pxmBuffer;
 }
 
 

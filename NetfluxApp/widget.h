@@ -30,10 +30,13 @@ public:
 
     void initMapper();
 
+    void initCustomSqlModel(QSqlDatabase db);
+
 private:
     Ui::Widget *ui;
     QDataWidgetMapper *mapper;
     QSqlTableModel* mMovieModel;
+    CustomSQLModel* mCustomMovieModel;
     QSortFilterProxyModel *mMovieFilteredModel;
 
 private slots:

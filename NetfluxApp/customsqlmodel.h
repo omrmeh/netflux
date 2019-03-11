@@ -4,19 +4,23 @@
 #include <QSqlTableModel>
 #include <QPixmap>
 #include "filedownloader.h"
+#include <QDebug>
 
 class CustomSQLModel : public QSqlTableModel
 {
 public:
     CustomSQLModel(QObject* parent = nullptr, QSqlDatabase* =nullptr);
-    void fetchPosters();
+    void fetchUrls();
+    void downloadPosters();
 
 private:
     QVector<QPixmap*> pxmBuffer;
+    QVector<FileDownloader*> downloaders;
     FileDownloader *mFileDl;
+    QStringList urls;
 
 private slots:
-    void loadImage();
+    void loadPosters();
 };
 
 #endif // CUSTOMSQLMODEL_H
