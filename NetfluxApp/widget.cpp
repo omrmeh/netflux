@@ -45,22 +45,26 @@ void Widget::design()
     ui->comboBox->addItem("Title",2);
     ui->comboBox->addItem("Year", 3);
 
+
     QPixmap photoGauche(":/labelGauche.jpg");
+
     ui->label_6->setPixmap(photoGauche);
 
-    QImage photoDroite(":/labelDroit.ico");
-    ui->label_10->setPixmap(QPixmap ::fromImage(photoDroite));
-
+    QPixmap photoDroite(":images/labelDroit.ico");
+    ui->label_10->setPixmap(photoDroite);
+    qDebug() << photoDroite;
+  
     QImage loupe(":/loupe.png");
     ui->label_3->setPixmap(QPixmap ::fromImage(loupe));
 
     QImage posterVide(":/posterVideView.png");
     ui->labPoster->setPixmap(QPixmap ::fromImage(posterVide));
+
 }
 
 void Widget::initModel()
 {
-    QSqlDatabase db = QSqlDatabase::database("dbFilm");
+    QSqlDatabase db = QSqlDatabase::database("netflux");
     mMovieModel = new QSqlTableModel(this, db);
 
     mMovieModel->setTable("film");
@@ -68,8 +72,10 @@ void Widget::initModel()
     mMovieModel->setHeaderData(2,Qt::Horizontal,"Title");
     mMovieModel->setHeaderData(3,Qt::Horizontal,"Year");
     mMovieModel->setHeaderData(5,Qt::Horizontal,"Poster");
+
     //pour ajouter une securite et que les modif n'y vont pas direct en BDD avt de confirmer
     //mMovieModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
+
 
     qDebug() << "interieur initModel";
 }
@@ -93,8 +99,10 @@ void Widget::initMapper()
 void Widget::displayMovie()
 {
 
+
     mapper = new QDataWidgetMapper(this);
     mapper->setModel(mMovieModel);
+
 
     //selectionModel: quel model est selectionné
     //current row changed va renseigner (un signal) qu'on a changer de ligne
