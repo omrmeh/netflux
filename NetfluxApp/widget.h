@@ -8,6 +8,7 @@
 #include<QDataWidgetMapper>
 #include<QDebug>
 #include <QWidget>
+#include <QSqlRelationalTableModel>
 
 
 namespace Ui {
@@ -27,7 +28,7 @@ public:
 
 private:
     Ui::Widget *ui;
-    QSqlTableModel* mMovieModel;
+    QSqlRelationalTableModel* mMovieModel;
     QSortFilterProxyModel *mMovieFilteredModel;
 
 private slots:

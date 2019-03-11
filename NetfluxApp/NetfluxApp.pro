@@ -29,13 +29,19 @@ SOURCES += \
         widget.cpp \
     moviecard.cpp \
     customwidget.cpp \
-    filedownloader.cpp
+    filedownloader.cpp \
+    stardelegate.cpp \
+    stareditor.cpp \
+    starrating.cpp
 
 HEADERS += \
         widget.h \
     moviecard.h \
     customwidget.h \
-    filedownloader.h
+    filedownloader.h \
+    stardelegate.h \
+    stareditor.h \
+    starrating.h
 
 FORMS += \
         widget.ui \

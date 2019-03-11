@@ -95,13 +95,13 @@ void Widget::setupView()
 {
     // A revoir
 
-//    ui->tableView->setModel(mMovieModel);
-//    ui->tableView->hideColumn(0);
-//    ui->tableView->hideColumn(1);
-//    ui->tableView->hideColumn(4);
-//    ui->tableView->hideColumn(6);
-//    ui->tableView->hideColumn(7);
-//    ui->tableView->setSortingEnabled(true);
+    ui->tableView->setModel(mMovieModel);
+    ui->tableView->hideColumn(0);
+    ui->tableView->hideColumn(1);
+    ui->tableView->hideColumn(4);
+    ui->tableView->hideColumn(6);
+    ui->tableView->hideColumn(7);
+    ui->tableView->setSortingEnabled(true);
 
     //************mettre en place de la starDelegate ici *****************************
     //ui->tableView->setItemDelegateForColumn(4, StarRating());
