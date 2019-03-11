@@ -24,6 +24,7 @@ public:
     explicit MovieCard(QWidget *parent = nullptr, QDataWidgetMapper *mapper=nullptr, QSortFilterProxyModel *sortingModel=nullptr);
     ~MovieCard();
     void newCard();
+    void displayCard();
 
 private:
     Ui::Form *ui;

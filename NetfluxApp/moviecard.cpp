@@ -12,8 +12,6 @@ MovieCard::MovieCard(QWidget *parent, QDataWidgetMapper *mapper, QSortFilterProx
 
     mSortingModel = sortingModel;
 
-    setUpMapper();
-
     QSqlDatabase db = QSqlDatabase::database("dbFilm");
     mMovieModel= new QSqlTableModel(this, db);
     mMovieModel->setTable("dbFilm");
@@ -67,27 +65,12 @@ void MovieCard::newCard()
     ui->leLength->setStyleSheet("QLineEdit { background : rgb(255, 255, 255);}");
     ui->teSynopsis->clear();
     ui->teSynopsis->setStyleSheet("QTextEdit { background : rgb(255, 255, 255);}");
-
-    ui->pbImage->setStyleSheet("QPushButton { color: rgb(255, 255, 255); background : rgb(0, 0, 99);}");
+    ui->pbEdit->setDisabled(true);
+    ui->pbPoster->setStyleSheet("QPushButton { color: rgb(255, 255, 255); background : rgb(0, 0, 99);}");
 
     //  ui->pbImage->hide();
 }
 
-void MovieCard::setUpMapper()
-{
-
-    mMapper->addMapping(ui->leTitle, 0);
-    mMapper->addMapping(ui->leGenre, 1);
-}
-
-Ui::Form *MovieCard::getUi()
-{
-    return ui;
-=======
-    ui->pbPoster->setStyleSheet("QPushButton { color: rgb(255, 255, 255); background : rgb(0, 0, 99);}");
-    ui->pbEdit->setDisabled(true);
-
-}
 
 void MovieCard::enabledCard()
 {
