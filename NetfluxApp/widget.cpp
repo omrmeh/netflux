@@ -16,26 +16,17 @@ Widget::Widget(QWidget *parent) :
     initMapper();
     disabledCard();
 
-
     //Quitter
     connect(ui->pbExit_2,SIGNAL(clicked()),this,SLOT(close()));
-
     //Add
     connect(ui->pbAdd, SIGNAL(clicked()), this, SLOT(addMovie()));
-
     //save
     connect(ui->pbSave, SIGNAL(clicked()), this, SLOT(saveMovie()));
-
     //remove
     connect(ui->pbRemove, SIGNAL(clicked()), this, SLOT(deleteMovie()));
-
-
     //edit
     connect(ui->pbEdit, SIGNAL(clicked()), this, SLOT(enabledCard()));
-
 }
-
-
 
 
 
@@ -57,7 +48,6 @@ void Widget::initModel()
     //pour ajouter une securite et que les modif n'y vont pas direct en BDD avt de confirmer
     mMovieModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
 
-
     qDebug() << "interieur initModel";
 }
 
@@ -70,6 +60,10 @@ void Widget::initCustomSqlModel(QSqlDatabase db)
     mCustomMovieModel->select();
     mCustomMovieModel->fetchUrls();
     mCustomMovieModel->downloadPosters();
+    mCustomMovieModel->setHeaderData(1,Qt::Horizontal,"Genre");
+    mCustomMovieModel->setHeaderData(2,Qt::Horizontal,"Title");
+    mCustomMovieModel->setHeaderData(3,Qt::Horizontal,"Year");
+    mCustomMovieModel->setHeaderData(5,Qt::Horizontal,"Poster");
 }
 
 
@@ -230,7 +224,7 @@ void Widget::design()
     ui->comboBox->addItem("Genre",1);
 
 
-
+ui->tableView->verticalHeader()->setVisible(false);
 
     QImage photoGauche("C:/Users/Dell/Documents/netflux/labelGauche.jpg");
     ui->labGauche->setPixmap(QPixmap ::fromImage(photoGauche));

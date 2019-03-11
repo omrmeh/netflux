@@ -46,7 +46,6 @@ private slots:
     void design();//fait
     void initModel();//fait
     void setupView();//A adapter (ordre des colonnes)
-
     void filter();//fait
     void addMovie();//to do
     void editMovie();
