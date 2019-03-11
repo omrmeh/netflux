@@ -1,7 +1,12 @@
 #ifndef WIDGET_H
 #define WIDGET_H
 #include <moviecard.h>
+#include <QSqlTableModel>
 
+#include <QSortFilterProxyModel>
+#include <QModelIndex>
+#include<QDataWidgetMapper>
+#include<QDebug>
 #include <QWidget>
 
 
@@ -17,11 +22,27 @@ public:
     explicit Widget(QWidget *parent = nullptr);
     ~Widget();
 
+    void initFilteredModel();//fait
+
+
 private:
     Ui::Widget *ui;
+    QSqlTableModel* mMovieModel;
+    QSortFilterProxyModel *mMovieFilteredModel;
 
 private slots:
-    void openNewCard();
+
+    void design();//fait
+    void initModel();//fait
+    void setupView();//A adapter (ordre des colonnes)
+
+    void filter();//fait
+    void displayMovie(); //to do
+    void addMovie();//to do
+    void deleteMovie();//to do
+
+
+
 
 };
 
