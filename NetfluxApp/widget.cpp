@@ -13,24 +13,22 @@ Widget::Widget(QWidget *parent) :
     design();
     initFilteredModel();
     initMapper();
+    disabledCard();
 
     //Quitter
     connect(ui->pbExit,SIGNAL(clicked()),this,SLOT(close()));
-
     //Add
     connect(ui->pbAdd, SIGNAL(clicked()), this, SLOT(addMovie()));
-
     //display
 
     //connect(ui->pbAdd, SIGNAL(clicked()), this, SLOT(displayMovie()));
-    //connect(mTableView->selectionModel(), SIGNAL(currentRowChanged(QModelIndex, QModelIndex)), mapper, SLOT(setCurrentModelIndex(QModelIndex)));
 
-    //connect(****************************************)
 
     //remove
     connect(ui->pbRemove, SIGNAL(clicked()), this, SLOT(deleteMovie()));
 
-
+    //edit
+    connect(ui->pbEdit, SIGNAL(clicked()), this, SLOT(enabledCard()));
 
 }
 
@@ -45,17 +43,16 @@ void Widget::design()
     ui->comboBox->addItem("Title",2);
     ui->comboBox->addItem("Year", 3);
 
-    QPixmap photoGauche(":/labelGauche.jpg");
-    ui->label_6->setPixmap(photoGauche);
 
-    QImage photoDroite(":/labelDroit.ico");
-    ui->label_10->setPixmap(QPixmap ::fromImage(photoDroite));
 
-    QImage loupe(":/loupe.png");
-    ui->label_3->setPixmap(QPixmap ::fromImage(loupe));
+    QImage photoGauche("C:/Users/Dell/Documents/netflux/labelGauche.jpg");
+    ui->labGauche->setPixmap(QPixmap ::fromImage(photoGauche));
 
-    QImage posterVide(":/posterVideView.png");
-    ui->labPoster->setPixmap(QPixmap ::fromImage(posterVide));
+    QImage photoDroite("C:/Users/Dell/Documents/netflux/labelDroit.ico");
+    ui->labDroit->setPixmap(QPixmap ::fromImage(photoDroite));
+
+    QImage loupe("C:/Users/Dell/Documents/netflux/loupe.png");
+    ui->labSearch->setPixmap(QPixmap ::fromImage(loupe));
 }
 
 void Widget::initModel()
@@ -133,55 +130,27 @@ void Widget::filter()
 void Widget::addMovie()
 {
     newCard();
-//    MovieCard* emptyCard= new MovieCard();
-//    emptyCard->newCard();
-//    emptyCard->show();
+    QImage posterVide("C:/Users/Dell/Documents/netflux/posterVideView.png");
+    ui->labPoster->setPixmap(QPixmap ::fromImage(posterVide));
+    ui->pbDownload->show();
+
 }
 
 void Widget::editMovie()
 {
-    enabledCard();
-    //to do
+   enabledCard();
 }
 
 void Widget::saveMovie()
 {
 
     mMovieModel->submitAll();
-
-
-//    QSqlQuery query(db);
-//    query.prepare("INSERT INTO film (f_title, f_ratings, f_year, f_length) VALUES (?, ?, ?, ?)");
-
-//    query.addBindValue(ui->leTitle->text());
-//    query.addBindValue(ui->leRating->text().toInt());
-//    query.addBindValue(ui->leYear->text().toInt());
-//    query.addBindValue(ui->leLength->text().toInt());
-    //query.addBindValue(ui->teSynopsis->text());
-    // query.addBindValue(ui->labPoster->text());
-
-//    query.exec();
-
-    //    qDebug() << query.lastQuery() << query.lastError().text();
-    //upDate la 1ere fenetre
-    //    QListWidgetItem* item = new QListWidgetItem(ui->leNom->text());
-    //    ui->listWidget->addItem(item);
 }
 
 void Widget::deleteMovie()
 {
 
       mMovieModel->removeRow(ui->tableView->currentIndex().row());
-
-//    QSqlDatabase db = QSqlDatabase::database("   ");
-//        QSqlQuery query(db);
-//      //  QSqlQuery prepare("DELETE FROM FILM WHERE pr_nom='"+ui->leNom->text()+"'");
-//        query.exec();
-
-    //    QListWidgetItem* item = ui->listWidget->currentItem();
-    //    ui->listWidget->removeItemWidget(item);
-    //    delete item;
-    //    refresh();
 }
 
 void Widget::cancel()
@@ -200,7 +169,6 @@ void Widget::downloadPoster()
 void Widget::newCard()
 {
 
-
     ui->leTitle->clear();
     ui->leTitle->setStyleSheet("QLineEdit { background : rgb(255, 255, 255);}");
     ui->leRating->clear();
@@ -216,6 +184,23 @@ void Widget::newCard()
     ui->pbDownload->setStyleSheet("QPushButton { color: rgb(255, 255, 255); background : rgb(0, 0, 99);}");
     ui->pbEdit->setDisabled(true);
 }
+void Widget::disabledCard()
+{
+    ui->leTitle->setEnabled(false);
+    ui->leTitle->setStyleSheet("QLineEdit { background : rgb(255, 255, 255);}");
+    ui->leRating->setEnabled(false);
+    ui->leRating->setStyleSheet("QLineEdit { background : rgb(255, 255, 255);}");
+    ui->leYear->setEnabled(false);
+    ui->leYear->setStyleSheet("QLineEdit { background : rgb(255, 255, 255);}");
+    ui->leGenre->setEnabled(false);
+    ui->leGenre->setStyleSheet("QLineEdit { background : rgb(255, 255, 255);}");
+    ui->leLength->setEnabled(false);
+    ui->leLength->setStyleSheet("QLineEdit { background : rgb(255, 255, 255);}");
+    ui->teSynopsis->setEnabled(false);
+    ui->teSynopsis->setStyleSheet("QTextEdit { background : rgb(255, 255, 255);}");
+    ui->pbDownload->setStyleSheet("QPushButton { color: rgb(255, 255, 255); background : rgb(0, 0, 99);}");
+}
+
 void Widget::enabledCard()
 {
     ui->leTitle->setEnabled(true);

@@ -45,6 +45,7 @@ private slots:
     void editMovie();
     void deleteMovie();//to do
     void newCard();
+    void disabledCard();
     void enabledCard();
     void saveMovie();
     void downloadPoster();
