@@ -11,15 +11,18 @@ int main(int argc, char *argv[])
 
 
     //Création d'un objet base de données
-    QSqlDatabase db = QSqlDatabase::addDatabase("QPSQL", "netflux");
-    db.setHostName("localhost");
-     db.setDatabaseName("netflux");
-     db.setUserName("postgres");
-     db.setPassword("postgres123");
-     bool ok = db.open();
+    QSqlDatabase db = QSqlDatabase::addDatabase("QPSQL", "dbFilm");
+    db.setHostName("127.0.0.1");
+    db.setDatabaseName("netflux");
+    db.setUserName("postgres");
+    db.setPassword("");
+    bool ok = db.open();
 
-     ok ? qDebug() << db : qDebug() << "probleme d'ouverture de la db" ;
-
+    //vérif à retirer après écriture du Gtest
+    if (ok)
+        qDebug()<<"BDD ouvert";
+    if (!ok)
+        qDebug()<<"non ouvert";
     Widget w;
     w.show();
     return a.exec();

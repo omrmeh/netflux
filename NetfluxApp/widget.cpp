@@ -1,6 +1,8 @@
 #include "widget.h"
 #include "ui_widget.h"
 
+
+
 Widget::Widget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Widget)
@@ -10,6 +12,7 @@ Widget::Widget(QWidget *parent) :
     setupView();
     design();
     initFilteredModel();
+    initMapper();
 
     //Quitter
     connect(ui->pbExit,SIGNAL(clicked()),this,SLOT(close()));
@@ -18,13 +21,17 @@ Widget::Widget(QWidget *parent) :
     connect(ui->pbAdd, SIGNAL(clicked()), this, SLOT(addMovie()));
 
     //display
+
+    //connect(ui->pbAdd, SIGNAL(clicked()), this, SLOT(displayMovie()));
+    //connect(mTableView->selectionModel(), SIGNAL(currentRowChanged(QModelIndex, QModelIndex)), mapper, SLOT(setCurrentModelIndex(QModelIndex)));
+
     //connect(****************************************)
 
     //remove
     connect(ui->pbRemove, SIGNAL(clicked()), this, SLOT(deleteMovie()));
 
-    //search
-    connect(ui->pbGo, SIGNAL(clicked()), this, SLOT(filter()));
+
+
 }
 
 Widget::~Widget()
@@ -38,15 +45,21 @@ void Widget::design()
     ui->comboBox->addItem("Title",2);
     ui->comboBox->addItem("Year", 3);
 
-    QPixmap photoGauche(":images/labelGauche.jpg");
+
+    QPixmap photoGauche(":/labelGauche.jpg");
+
     ui->label_6->setPixmap(photoGauche);
 
     QPixmap photoDroite(":images/labelDroit.ico");
     ui->label_10->setPixmap(photoDroite);
     qDebug() << photoDroite;
+  
+    QImage loupe(":/loupe.png");
+    ui->label_3->setPixmap(QPixmap ::fromImage(loupe));
 
-    QPixmap loupe(":images/loupe.png");
-    ui->label_3->setPixmap(loupe);
+    QImage posterVide(":/posterVideView.png");
+    ui->labPoster->setPixmap(QPixmap ::fromImage(posterVide));
+
 }
 
 void Widget::initModel()
@@ -59,31 +72,41 @@ void Widget::initModel()
     mMovieModel->setHeaderData(2,Qt::Horizontal,"Title");
     mMovieModel->setHeaderData(3,Qt::Horizontal,"Year");
     mMovieModel->setHeaderData(5,Qt::Horizontal,"Poster");
+
+    //pour ajouter une securite et que les modif n'y vont pas direct en BDD avt de confirmer
     //mMovieModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
+
+
     qDebug() << "interieur initModel";
 }
+void Widget::initMapper()
+{
+    QDataWidgetMapper *mapper = new QDataWidgetMapper(this);
+    mapper->setModel(mMovieFilteredModel);
 
+    mapper->addMapping(ui->labPoster, 5);
+    mapper->addMapping(ui->leTitle, 2);
+    mapper->addMapping(ui->leRating,4);
+    mapper->addMapping(ui->leGenre, 1);
+    mapper->addMapping(ui->leYear,3);
+    mapper->addMapping(ui->leLength, 7);
+    mapper->addMapping(ui->teSynopsis,6);
+    ui->pbDownload->hide();
+    connect(ui->tableView->selectionModel(),
+            SIGNAL(currentRowChanged(QModelIndex, QModelIndex)),
+            mapper, SLOT(setCurrentModelIndex(QModelIndex)));
+}
 void Widget::displayMovie()
 {
 
-    MovieCard *card = new MovieCard(this, mMovieFilteredModel);
-    card->displayCard();
-    card->show();
 
-//voir ou connecter les 2 fenetres
-//    QDataWidgetMapper *mapper = new QDataWidgetMapper(this);
-//    mapper->setModel(mProduitsModel);
-//    mapper->addMapping(ui->leNom, 1);
-//    mapper->addMapping(ui->leCode,2);
-//    mapper->addMapping(ui->lePrix,3);
-//    mapper->addMapping(ui->leQtite,4);
+    mapper = new QDataWidgetMapper(this);
+    mapper->setModel(mMovieModel);
 
-//    //selectionModel: quel model est selectionné
-//    //current row changed va renseigner (un signal) qu'on a changer de ligne
 
-//    connect(ui->listView->selectionModel(),
-//            SIGNAL(currentRowChanged(QModelIndex, QModelIndex)),
-//            mapper, SLOT(setCurrentModelIndex(QModelIndex)));
+    //selectionModel: quel model est selectionné
+    //current row changed va renseigner (un signal) qu'on a changer de ligne
+
 }
 void Widget::setupView()
 {
@@ -117,9 +140,40 @@ void Widget::filter()
 
 void Widget::addMovie()
 {
-    MovieCard* emptyCard= new MovieCard();
-    emptyCard->newCard();
-    emptyCard->show();
+    newCard();
+//    MovieCard* emptyCard= new MovieCard();
+//    emptyCard->newCard();
+//    emptyCard->show();
+}
+
+void Widget::editMovie()
+{
+    enabledCard();
+    //to do
+}
+
+void Widget::saveMovie()
+{
+
+    mMovieModel->submitAll();
+
+
+//    QSqlQuery query(db);
+//    query.prepare("INSERT INTO film (f_title, f_ratings, f_year, f_length) VALUES (?, ?, ?, ?)");
+
+//    query.addBindValue(ui->leTitle->text());
+//    query.addBindValue(ui->leRating->text().toInt());
+//    query.addBindValue(ui->leYear->text().toInt());
+//    query.addBindValue(ui->leLength->text().toInt());
+    //query.addBindValue(ui->teSynopsis->text());
+    // query.addBindValue(ui->labPoster->text());
+
+//    query.exec();
+
+    //    qDebug() << query.lastQuery() << query.lastError().text();
+    //upDate la 1ere fenetre
+    //    QListWidgetItem* item = new QListWidgetItem(ui->leNom->text());
+    //    ui->listWidget->addItem(item);
 }
 
 void Widget::deleteMovie()
@@ -136,4 +190,53 @@ void Widget::deleteMovie()
     //    ui->listWidget->removeItemWidget(item);
     //    delete item;
     //    refresh();
+}
+
+void Widget::cancel()
+{
+
+}
+
+void Widget::downloadPoster()
+{
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open Image"), "c:/", tr("Image Files (*.png *.jpg *.bmp)"));
+    QPixmap monImage(fileName);
+    ui->labPoster->setPixmap(monImage);
+    //save in db
+}
+
+void Widget::newCard()
+{
+
+
+    ui->leTitle->clear();
+    ui->leTitle->setStyleSheet("QLineEdit { background : rgb(255, 255, 255);}");
+    ui->leRating->clear();
+    ui->leRating->setStyleSheet("QLineEdit { background : rgb(255, 255, 255);}");
+    ui->leYear->clear();
+    ui->leYear->setStyleSheet("QLineEdit { background : rgb(255, 255, 255);}");
+    ui->leGenre->clear();
+    ui->leGenre->setStyleSheet("QLineEdit { background : rgb(255, 255, 255);}");
+    ui->leLength->clear();
+    ui->leLength->setStyleSheet("QLineEdit { background : rgb(255, 255, 255);}");
+    ui->teSynopsis->clear();
+    ui->teSynopsis->setStyleSheet("QTextEdit { background : rgb(255, 255, 255);}");
+    ui->pbDownload->setStyleSheet("QPushButton { color: rgb(255, 255, 255); background : rgb(0, 0, 99);}");
+    ui->pbEdit->setDisabled(true);
+}
+void Widget::enabledCard()
+{
+    ui->leTitle->setEnabled(true);
+    ui->leTitle->setStyleSheet("QLineEdit { background : rgb(255, 255, 255);}");
+    ui->leRating->setEnabled(true);
+    ui->leRating->setStyleSheet("QLineEdit { background : rgb(255, 255, 255);}");
+    ui->leYear->setEnabled(true);
+    ui->leYear->setStyleSheet("QLineEdit { background : rgb(255, 255, 255);}");
+    ui->leGenre->setEnabled(true);
+    ui->leGenre->setStyleSheet("QLineEdit { background : rgb(255, 255, 255);}");
+    ui->leLength->setEnabled(true);
+    ui->leLength->setStyleSheet("QLineEdit { background : rgb(255, 255, 255);}");
+    ui->teSynopsis->setEnabled(true);
+    ui->teSynopsis->setStyleSheet("QTextEdit { background : rgb(255, 255, 255);}");
+    ui->pbDownload->setStyleSheet("QPushButton { color: rgb(255, 255, 255); background : rgb(0, 0, 99);}");
 }

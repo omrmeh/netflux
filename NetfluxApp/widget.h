@@ -25,8 +25,11 @@ public:
     void initFilteredModel();//fait
 
 
+    void initMapper();
+
 private:
     Ui::Widget *ui;
+    QDataWidgetMapper *mapper;
     QSqlTableModel* mMovieModel;
     QSortFilterProxyModel *mMovieFilteredModel;
 
@@ -39,8 +42,13 @@ private slots:
     void filter();//fait
     void displayMovie(); //to do
     void addMovie();//to do
+    void editMovie();
     void deleteMovie();//to do
-
+    void newCard();
+    void enabledCard();
+    void saveMovie();
+    void downloadPoster();
+    void cancel();
 
 
 
