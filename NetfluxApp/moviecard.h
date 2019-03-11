@@ -20,23 +20,19 @@ public:
     explicit MovieCard(QWidget *parent = nullptr);
     ~MovieCard();
 
-    void newCard();
-    void displayCard();
+    void newCard(); //done
+    void displayCard(); //to do
 
 private:
     Ui::Form *ui;
    QSqlTableModel* mMovieModel;
 
-
-
 private slots:
-
-
-    void enabledCard();
-    void editMovie();
-    void saveMovie();
-    void cancel();
-    void downloadPoster();
+    void enabledCard(); //done
+    void editMovie(); //to do
+    void saveMovie(); //to do
+    void cancel(); //to do
+    void downloadPoster();//To complete: save in db
 
 };
 

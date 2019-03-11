@@ -5,6 +5,7 @@
 
 #include <QSortFilterProxyModel>
 #include <QModelIndex>
+#include<QDataWidgetMapper>
 #include<QDebug>
 #include <QWidget>
 
@@ -20,26 +21,25 @@ class Widget : public QWidget
 public:
     explicit Widget(QWidget *parent = nullptr);
     ~Widget();
-    void design();
-    void initModel();
-    void setupView();
-    void displayMovie(); //A completer cmnt envoyer un signal si on selectionné une ligne/case
 
-    void initFilteredModel();
+    void initFilteredModel();//fait
+
+
 private:
     Ui::Widget *ui;
     QSqlTableModel* mMovieModel;
     QSortFilterProxyModel *mMovieFilteredModel;
 
-
-
-
 private slots:
 
-    void filter();
-    //void initFilteringModel();
-    void addMovie();
-    void deleteMovie();
+    void design();//fait
+    void initModel();//fait
+    void setupView();//A adapter (ordre des colonnes)
+
+    void filter();//fait
+    void displayMovie(); //to do
+    void addMovie();//to do
+    void deleteMovie();//to do
 
 
 

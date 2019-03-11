@@ -6,7 +6,6 @@ MovieCard::MovieCard(QWidget *parent) :
     ui(new Ui::Form)
 {
     ui->setupUi(this);
-
     QSqlDatabase db = QSqlDatabase::database("dbFilm");
     mMovieModel= new QSqlTableModel(this, db);
     mMovieModel->setTable("dbFilm");
@@ -18,7 +17,7 @@ MovieCard::MovieCard(QWidget *parent) :
     connect(ui->pbEdit,SIGNAL(clicked()),this,SLOT(editMovie()));
     //save
     connect(ui->pbSave, SIGNAL(clicked()),this,SLOT(saveMovie()));
-    //dwonload poster
+    //download poster
     connect(ui->pbPoster, SIGNAL(clicked()),this,SLOT(downloadPoster()));
 }
 
@@ -28,16 +27,17 @@ MovieCard::~MovieCard()
 }
 void MovieCard::displayCard()
 {
-    QDataWidgetMapper *mapper = new QDataWidgetMapper(this);
-    mapper->setModel(mMovieModel);
+    //a revoir
+//    QDataWidgetMapper *mapper = new QDataWidgetMapper(this);
+//    mapper->setModel(mMovieModel);
 
-    mapper->addMapping(ui->labPoster, 5);
-    mapper->addMapping(ui->leTitle, 2);
-    mapper->addMapping(ui->leRating,4);
-    mapper->addMapping(ui->leGenre, 1);
-    mapper->addMapping(ui->leYear,3);
-    mapper->addMapping(ui->leLength, 7);
-    mapper->addMapping(ui->teSynopsis,6);
+//    mapper->addMapping(ui->labPoster, 5);
+//    mapper->addMapping(ui->leTitle, 2);
+//    mapper->addMapping(ui->leRating,4);
+//    mapper->addMapping(ui->leGenre, 1);
+//    mapper->addMapping(ui->leYear,3);
+//    mapper->addMapping(ui->leLength, 7);
+//    mapper->addMapping(ui->teSynopsis,6);
     ui->pbPoster->hide();
 }
 
@@ -118,6 +118,7 @@ void MovieCard::downloadPoster()
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open Image"), "c:/", tr("Image Files (*.png *.jpg *.bmp)"));
     QPixmap monImage(fileName);
     ui->labPoster->setPixmap(monImage);
+    //save in db
 }
 
 

@@ -6,7 +6,6 @@ Widget::Widget(QWidget *parent) :
     ui(new Ui::Widget)
 {
     ui->setupUi(this);
-
     initModel();
     setupView();
     design();
@@ -14,16 +13,18 @@ Widget::Widget(QWidget *parent) :
 
     //Quitter
     connect(ui->pbExit,SIGNAL(clicked()),this,SLOT(close()));
+
     //Add
     connect(ui->pbAdd, SIGNAL(clicked()), this, SLOT(addMovie()));
+
     //display
+    //connect(****************************************)
+
     //remove
     connect(ui->pbRemove, SIGNAL(clicked()), this, SLOT(deleteMovie()));
+
     //search
     connect(ui->pbGo, SIGNAL(clicked()), this, SLOT(filter()));
-
-    //afficher la fiche d'un film
-    connect(ui->tableView->horizontalHeader(), SIGNAL(sectionClicked(int)), this, SLOT(displayMovie()));
 }
 
 Widget::~Widget()
@@ -63,10 +64,25 @@ void Widget::initModel()
 
 void Widget::displayMovie()
 {
-   qDebug() << "Je suis dans le display movie";
+
     MovieCard *card = new MovieCard();
     card->displayCard();
     card->show();
+
+//voir ou connecter les 2 fenetres
+//    QDataWidgetMapper *mapper = new QDataWidgetMapper(this);
+//    mapper->setModel(mProduitsModel);
+//    mapper->addMapping(ui->leNom, 1);
+//    mapper->addMapping(ui->leCode,2);
+//    mapper->addMapping(ui->lePrix,3);
+//    mapper->addMapping(ui->leQtite,4);
+
+//    //selectionModel: quel model est selectionné
+//    //current row changed va renseigner (un signal) qu'on a changer de ligne
+
+//    connect(ui->listView->selectionModel(),
+//            SIGNAL(currentRowChanged(QModelIndex, QModelIndex)),
+//            mapper, SLOT(setCurrentModelIndex(QModelIndex)));
 }
 void Widget::setupView()
 {
@@ -82,20 +98,18 @@ void Widget::setupView()
     qDebug() << "interieur setupView";
 }
 
-/*void Widget::initFilteringModel()
+void Widget::initFilteredModel()
 {
-    QSortFilterProxyModel* filteringModel = new QSortFilterProxyModel(this);
-    filteringModel->setDynamicSortFilter(true);
-    filteringModel->setSourceModel(mMovieModel);
-    filteringModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
-
-    connect(ui->leSearch, SIGNAL(textChanged(QString)), this, SLOT(filter()));
-    ui->tableView->setModel(filteringModel);
-}*/
+    mMovieFilteredModel = new QSortFilterProxyModel(this);
+    mMovieFilteredModel->setDynamicSortFilter(true);
+    mMovieFilteredModel->setSourceModel(mMovieModel);
+    mMovieFilteredModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
+    ui->tableView->setModel(mMovieFilteredModel);
+    QObject::connect(ui->leSearch, SIGNAL(textChanged(QString)), this, SLOT(filter()));
+}
 
 void Widget::filter()
-{
-    //mMovieFilteredModel = new QSortFilterProxyModel(this);
+{    
     mMovieFilteredModel->setFilterWildcard(ui->leSearch->text());
     mMovieFilteredModel->setFilterKeyColumn(ui->comboBox->currentData().toInt());
 }
@@ -123,13 +137,5 @@ void Widget::deleteMovie()
     //    refresh();
 }
 
-void Widget::initFilteredModel()
-{
-    mMovieFilteredModel = new QSortFilterProxyModel(this);
-    mMovieFilteredModel->setDynamicSortFilter(true);
-    mMovieFilteredModel->setSourceModel(mMovieModel);
-    mMovieFilteredModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
-    ui->tableView->setModel(mMovieFilteredModel);
-    QObject::connect(ui->leSearch, SIGNAL(textChanged(QString)), this, SLOT(filter()));
-}
+
 
