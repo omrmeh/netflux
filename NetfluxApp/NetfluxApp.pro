@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui sql
+QT       += core gui sql network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -27,15 +27,21 @@ CONFIG += c++11
 SOURCES += \
         main.cpp \
         widget.cpp \
-    moviecard.cpp
+    moviecard.cpp \
+    customwidget.cpp \
+    filedownloader.cpp
 
 HEADERS += \
         widget.h \
-    moviecard.h
+    moviecard.h \
+    customwidget.h \
+    filedownloader.h
 
 FORMS += \
         widget.ui \
     moviecard.ui
+
+PKGCONFIG += openssl
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

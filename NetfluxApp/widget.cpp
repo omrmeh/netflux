@@ -136,6 +136,3 @@ void Widget::deleteMovie()
     //    delete item;
     //    refresh();
 }
-
-
-
