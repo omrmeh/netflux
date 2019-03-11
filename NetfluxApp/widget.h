@@ -9,6 +9,11 @@
 #include<QDebug>
 #include <QWidget>
 
+#include <QSqlRelationalDelegate>
+
+
+#include <customsqlmodel.h>
+
 
 namespace Ui {
 class Widget;
@@ -27,10 +32,13 @@ public:
 
     void initMapper();
 
+    void initCustomSqlModel(QSqlDatabase db);
+
 private:
     Ui::Widget *ui;
     QDataWidgetMapper *mapper;
     QSqlTableModel* mMovieModel;
+    CustomSQLModel* mCustomMovieModel;
     QSortFilterProxyModel *mMovieFilteredModel;
 
 private slots:

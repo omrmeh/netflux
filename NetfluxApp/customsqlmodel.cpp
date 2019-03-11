@@ -1,21 +1,54 @@
 #include "customsqlmodel.h"
 
 
-
-
-CustomSQLModel::CustomSQLModel(QObject* parent, QSqlDatabase *db)
+CustomSQLModel::CustomSQLModel(QObject* parent, QSqlDatabase *db):QSqlRelationalTableModel(parent, *db)
 {
-    QSqlTableModel(parent, *db);
-    QUrl imageUrl("http://qt.digia.com/Documents/1/QtLogo.png");
-    mFileDl = new FileDownloader(imageUrl, this);
-
-    connect(mFileDl, SIGNAL (downloaded()), this, SLOT (loadImage()));
+     qDebug() << "constructor" << endl;
 }
 
-void CustomSQLModel::loadImage()
+/**
+ * @brief : - Récupère les url de la BDD et les stocks dans urls
+ */
+void CustomSQLModel::fetchUrls()
 {
-    QPixmap buttonImage;
-    buttonImage.loadFromData(mFileDl->downloadedData());
+    qDebug() << "fetching urls ..." << endl;
+    urls.clear();
+
+    for(int i=0; i<this->rowCount(); i++)
+    {
+         urls.append(this->index(i, 5).data().toString());
+         qDebug() << this->index(i, 5).data().toString() << endl;
+    }
 }
+
+
+/**
+ * @brief : - Lance les téléchargements des posters à partir de la liste des urls
+ */
+void CustomSQLModel::downloadPosters()
+{
+    for(QString url:urls)
+    {
+       QUrl imageUrl(url);
+       qDebug() << url;
+       FileDownloader *downloader = new FileDownloader(imageUrl, this);
+       downloaders.append(downloader);
+       connect(downloader, SIGNAL (downloaded()), this, SLOT (loadPosters()));
+    }
+}
+
+/**
+ * @brief : -Génère les pixmaps correspondant aux posters téléchargés
+ *          -Les stocke dans pxmBuffer
+ */
+void CustomSQLModel::loadPosters()
+{
+    qDebug() << "loading posters... " << endl;
+    FileDownloader* downloader = (FileDownloader*)sender(); //on récupère le downloader ayant émis le signal
+    QPixmap* poster = new QPixmap;
+    poster->loadFromData(downloader->downloadedData());
+    pxmBuffer.append(poster);
+}
+
 
 
