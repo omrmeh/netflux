@@ -38,13 +38,13 @@ void Widget::design()
     ui->comboBox->addItem("Title",2);
     ui->comboBox->addItem("Year", 3);
 
-    QImage photoGauche("C:/Users/Dell/Documents/netflux/labelGauche.jpg");
+    QImage photoGauche(":/labelGauche.jpg");
     ui->label_6->setPixmap(QPixmap ::fromImage(photoGauche));
 
-    QImage photoDroite("C:/Users/Dell/Documents/netflux/labelDroit.ico");
+    QImage photoDroite(":/labelDroit.ico");
     ui->label_10->setPixmap(QPixmap ::fromImage(photoDroite));
 
-    QImage loupe("C:/Users/Dell/Documents/netflux/loupe.png");
+    QImage loupe(":/loupe.png");
     ui->label_3->setPixmap(QPixmap ::fromImage(loupe));
 }
 
