@@ -47,6 +47,7 @@ void CustomSQLModel::loadPosters()
     QPixmap* poster = new QPixmap;
     poster->loadFromData(downloader->downloadedData());
     pxmBuffer.append(poster);
+    qDebug() << pxmBuffer;
 }
 
 

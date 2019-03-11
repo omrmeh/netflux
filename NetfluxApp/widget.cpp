@@ -66,6 +66,7 @@ void Widget::initModel()
 {
     QSqlDatabase db = QSqlDatabase::database("dbFilm");
     mMovieModel = new QSqlTableModel(this, db);
+    mCustomMovieModel = new CustomSQLModel(this, &db);
 
     mMovieModel->setTable("film");
     mMovieModel->select();
