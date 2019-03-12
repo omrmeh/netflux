@@ -9,6 +9,10 @@ Widget::Widget(QWidget *parent) :
 {
     db = QSqlDatabase::database("dbFilm");
 
+    /*
+     * initialisation de l'IHM, du modèle, de la view
+     *          et des autres élts graphiques
+     */
     ui->setupUi(this);
     initCustomSqlModel();
     setupView();
@@ -16,9 +20,13 @@ Widget::Widget(QWidget *parent) :
 
     leId = new QLineEdit; //LineEdit caché pour pouvoir retrouver le poster correspondant à l'Id du film
 
+    /*
+     * initialisation du FilteredModel et du mapper
+     */
     initFilteredModel();
     initMapper();
-    disabledCard();
+
+    disabledCard();  //afin qu'on ne puisse pas éditer les moviecard
 
     //Quitter
     connect(ui->pbExit_2,SIGNAL(clicked()),this,SLOT(close()));
@@ -104,14 +112,26 @@ void Widget::initFilteredModel()
     QObject::connect(ui->leSearch, SIGNAL(textChanged(QString)), this, SLOT(filter()));
 }
 
+/**
+ * @brief Méthode SLOT appelée lorsqu'on clique sur un élément de la TableView
+ *        Elle récupère le int contenant l'id du film et situé dans la LineEdit leID
+ *        Elle va chercher le poster correspondant à ce film dans le CustomMovieModel
+ */
+void Widget::changePoster()
+{
+    int idFilm = leId->text().toInt(); //récupération de l'id du film
+
+    if(idFilm != 0)
+         ui->labPoster->setPixmap(*(mCustomMovieModel->getPosterAtKey(idFilm)));
+}
+
 
 void Widget::filter()
-{    
+{
     mMovieFilteredModel->setFilterWildcard(ui->leSearch->text());
     mMovieFilteredModel->setFilterKeyColumn(ui->comboBox->currentData().toInt());
-
-
 }
+
 
 void Widget::addMovie()
 {
@@ -155,23 +175,6 @@ void Widget::deleteMovie()
 }
 
 
-void Widget::cancel()
-{
-
-}
-
-/**
- * @brief Méthode SLOT appelée lorsqu'on clique sur un élément de la TableView
- *        Elle récupère le int contenant l'id du film et situé dans la LineEdit leID
- *        Elle va chercher le poster correspondant à ce film dans le CustomMovieModel
- */
-void Widget::changePoster()
-{
-    int idFilm = leId->text().toInt(); //récupération de l'id du film
-
-    if(idFilm != 0)
-         ui->labPoster->setPixmap(*(mCustomMovieModel->getPosterAtKey(idFilm)));
-}
 
 
 void Widget::downloadPoster()
@@ -262,3 +265,9 @@ void Widget::design()
     ui->labPoster->setPixmap(QPixmap ::fromImage(posterVide));
 
 }
+
+void Widget::cancel()
+{
+
+}
+
