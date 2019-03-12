@@ -133,6 +133,7 @@ void Widget::editMovie()
 void Widget::saveMovie()
 {
     mCustomMovieModel->submitAll();
+    QMessageBox::information(this,"Save","Thank you for your contribution!");
 }
 
 void Widget::deleteMovie()
