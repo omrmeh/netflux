@@ -60,6 +60,7 @@ private slots:
     void saveMovie();
     void downloadPoster();
     void cancel();
+    void changePoster();
 
 
 

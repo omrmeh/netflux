@@ -8,6 +8,8 @@ CustomSQLModel::CustomSQLModel(QObject* parent, QSqlDatabase *db):QSqlRelational
 
 /**
  * @brief : - Récupère les url de la BDD et les stocks dans urls
+ *          - urls est un QMap associant une clé correspondant à
+ * l'id du film avec l'url du film correspondant
  */
 void CustomSQLModel::fetchUrls()
 {
@@ -15,55 +17,67 @@ void CustomSQLModel::fetchUrls()
     urls.clear();
 
     for(int i=0; i<this->rowCount(); i++)
-         urls.append(this->index(i, 5).data().toString());
-
+         urls[this->index(i,0).data().toInt()]=this->index(i, 5).data().toString();
 }
 
 
 /**
  * @brief : - Lance les téléchargements des posters à partir de la liste des urls
+ *          - chaque Url va construire sa propre requête, qui servira à créer son
+ * propre objet de type FileDownloader
+ *          - Ce FileDownloader sera stocké dans le QMap downloaders à la même clé
+ * que celle correspondant à son url dans le QMap urls
  */
 void CustomSQLModel::downloadPosters()
 {
-    for(QString url:urls)
+    for(int key:urls.keys())
     {
-       QUrl imageUrl(url);
+       QUrl imageUrl(urls[key]);
        FileDownloader *downloader = new FileDownloader(imageUrl, this);
-       downloaders.append(downloader);
+       downloaders[key] = downloader;
        connect(downloader, SIGNAL (downloaded()), this, SLOT (loadPosters()));
     }
 }
 
-QVector<QPixmap *> CustomSQLModel::getPxmBuffer()
-{
-    return pxmBuffer;
-}
-
-QPixmap *CustomSQLModel::getPosterAtRow(int row)
-{
-    qDebug() << pxmBuffer.at(row);
-    return pxmBuffer.at(row);
-}
 
 QPixmap *CustomSQLModel::getPosterAtKey(int key)
 {
-    return pxmMapBuffer[key];
+    return pixmapBuffer[key];
 }
 
 /**
- * @brief : -Génère les pixmaps correspondant aux posters téléchargés
- *          -Les stocke dans pxmBuffer
+ * @brief affiche pixmapBuffer dans le qDebug()
+ */
+void CustomSQLModel::printBufferMap()
+{
+    qDebug() << pixmapBuffer << endl;
+}
+
+/**
+ * @brief : - Méthode SLOT appelée lorsque un downloader a terminé de télécharger
+ * l'image
+ *          - Elle génère un pixmap à partir de la donnée téléchargée
+ *          - La pixmap est stockée dans le pixmapBuffer, à la même clé que la clé
+ * à laquelle était stockée le FileDownloader correspondant dans downloaders
  */
 void CustomSQLModel::loadPosters()
 {
-    qDebug() << "loading posters... " << endl;
-    FileDownloader* downloader = (FileDownloader*)sender(); //on récupère le downloader ayant émis le signal
-    QPixmap* poster = new QPixmap;
-    poster->loadFromData(downloader->downloadedData());
-    pxmBuffer.append(poster);
-    pxmMapBuffer[pxmBuffer.indexOf(poster)]=poster; /* si on part du principe que les pixmaps seront téléchargés dans le même
-                                                        ordre qu'ont été fetchées les urls */
+    qDebug() << "loading posters :))... " << endl;
 
+    FileDownloader* downloader = (FileDownloader*)sender();//on récupère le downloader ayant émis le signal
+
+    QPixmap* poster = new QPixmap;
+
+    poster->loadFromData(downloader->downloadedData());
+
+    for(int key:downloaders.keys())
+    {/*
+     * on cherche à quelle id de film correspond le downloader ayant
+     * émis le signal
+     */
+        if(downloaders[key]==downloader)
+            pixmapBuffer[key]=poster;
+    }
 }
 
 

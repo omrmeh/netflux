@@ -27,13 +27,6 @@ Widget::Widget(QWidget *parent) :
 
     //remove
     connect(ui->pbRemove, SIGNAL(clicked()), this, SLOT(deleteMovie()));
-
-
-    //edit
-
-
-
-
 }
 
 /**
@@ -48,7 +41,6 @@ void Widget::initModel()
 
     mMovieModel->setTable("film");
     mMovieModel->select();
-
 
     //pour ajouter une securite et que les modif n'y vont pas direct en BDD avt de confirmer
     mCustomMovieModel->setEditStrategy(QSqlRelationalTableModel::OnManualSubmit);
@@ -85,12 +77,17 @@ void Widget::initMapper()
     mapper->addMapping(ui->leYear,3);
     mapper->addMapping(ui->leLength, 7);
     mapper->addMapping(ui->teSynopsis,6);
+
     mapper->addMapping(leId, 0); //l'id permettant de retrouver le poster adéquat
 
 
     connect(ui->tableView->selectionModel(),
             SIGNAL(currentRowChanged(QModelIndex, QModelIndex)),
             mapper, SLOT(setCurrentModelIndex(QModelIndex)));
+
+    connect(ui->tableView->selectionModel(),
+            SIGNAL(currentRowChanged(QModelIndex, QModelIndex)),
+            this, SLOT(changePoster()));
 }
 
 
@@ -126,10 +123,7 @@ void Widget::filter()
     mMovieFilteredModel->setFilterWildcard(ui->leSearch->text());
     mMovieFilteredModel->setFilterKeyColumn(ui->comboBox->currentData().toInt());
 
-  // ui->labPoster->setPixmap(*(mCustomMovieModel->getPosterAtRow(4)));
-    ui->labPoster->setPixmap(*(mCustomMovieModel->getPosterAtKey(leId->text().toInt())));
-    qDebug() << leId->text();
-    ui->labPoster->update();
+
 }
 
 void Widget::addMovie()
@@ -171,6 +165,24 @@ void Widget::deleteMovie()
 void Widget::cancel()
 {
 
+}
+
+void Widget::changePoster()
+{
+    //QItemSelectionModel* selection = ui->tableView->selectionModel();
+
+   // qDebug() << "current col : " << selection->currentIndex().column() << endl;
+
+
+    qDebug() << "id line edit " << leId->text().toInt() << endl;
+    leId->update();
+
+    int idFilm = leId->text().toInt();
+
+    if(idFilm != 0)
+         ui->labPoster->setPixmap(*(mCustomMovieModel->getPosterAtKey(idFilm)));
+    //qDebug() << ui->tableView->selectionModel()->currentIndex().column();
+    ui->labPoster->update();
 }
 
 
