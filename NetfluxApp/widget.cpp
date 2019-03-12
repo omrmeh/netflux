@@ -80,7 +80,7 @@ void Widget::initMapper()
     mapper->addMapping(ui->leYear,3);
     mapper->addMapping(ui->leLength, 7);
     mapper->addMapping(ui->teSynopsis,6);
-    ui->pbDownload->hide();
+    ui->labPoster_2->hide();
     connect(ui->tableView->selectionModel(),
             SIGNAL(currentRowChanged(QModelIndex, QModelIndex)),
             mapper, SLOT(setCurrentModelIndex(QModelIndex)));
@@ -131,7 +131,7 @@ void Widget::addMovie()
     QImage posterVide("C:/Users/Dell/Documents/netflux/posterVideView.png");
     ui->labPoster->setPixmap(QPixmap ::fromImage(posterVide));
     //je fais apparaitre le boutton telecharger affiche du film qui est caché quand il y a que l'affichage
-    ui->pbDownload->show();
+    ui->labPoster_2->show();
 
 }
 //pour modifier les infos d'un film, j'enleve le mode "lecture seule" de mes lineEdit
@@ -177,7 +177,8 @@ void Widget::newCard()
     ui->leGenre->clear();
     ui->leLength->clear();
     ui->teSynopsis->clear();
-    ui->pbDownload->setStyleSheet("QPushButton { color: rgb(255, 255, 255); background : rgb(0, 0, 99);}");
+    ui->labPoster_2->show();
+    ui->lePoster->show();
     ui->pbEdit->setDisabled(true);
 }
 
@@ -190,6 +191,8 @@ void Widget::disabledCard()
     ui->leGenre->setEnabled(false);
     ui->leLength->setEnabled(false);
     ui->teSynopsis->setEnabled(false);
+    ui->labPoster_2->hide();
+    ui->lePoster->hide();
 }
 //j'enleve le mode lecture seule des lineEdit
 void Widget::enabledCard()
@@ -200,8 +203,9 @@ void Widget::enabledCard()
     ui->leGenre->setEnabled(true);
     ui->leLength->setEnabled(true);
     ui->teSynopsis->setEnabled(true);
-    ui->pbDownload->setStyleSheet("QPushButton { color: rgb(255, 255, 255); background : rgb(0, 0, 99);}");
-     ui->pbDownload->show();
+    ui->lePoster->show();
+    ui->labPoster_2->show();
+
 }
 
 
@@ -228,6 +232,7 @@ void Widget::design()
 
     QImage loupe("C:/Users/Dell/Documents/netflux/loupe.png");
     ui->labSearch->setPixmap(QPixmap ::fromImage(loupe));
+
     //le poster vide pour le formulaire vide
     QImage posterVide("C:/Users/Dell/Documents/netflux/posterVideView.png");
     ui->labPoster->setPixmap(QPixmap ::fromImage(posterVide));
