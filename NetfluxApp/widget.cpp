@@ -1,20 +1,22 @@
 #include "widget.h"
 #include "ui_widget.h"
 
-
-
-
 Widget::Widget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Widget)
 {
     ui->setupUi(this);
-    initModel();//initier le model
-    setupView();//la mise en place de la vue
-    design();//la combobox pour le filtre et les icones pour la fenetre
-    initFilteredModel();//initier le model filtré
-    initMapper();//le mapper
-    disabledCard();//desactiver les lineEdit sur le formulaire pour ne pas pouvoir les modifier que qd on clique sur Edit/modifier
+
+    initModel();
+    setupView();
+    design();
+
+    leId = new QLineEdit; //LineEdit caché pour pouvoir retrouver le poster correspondant à l'Id du film
+
+    initFilteredModel();
+    initMapper();
+    disabledCard();
+
 
     //Quitter
     connect(ui->pbExit_2,SIGNAL(clicked()),this,SLOT(close()));
@@ -28,7 +30,11 @@ Widget::Widget(QWidget *parent) :
     //edit
     connect(ui->pbEdit, SIGNAL(clicked()), this, SLOT(enabledCard()));
 }
-//initier le model sql
+
+/**
+ * @brief Widget::initModel
+ */
+
 void Widget::initModel()
 {
     QSqlDatabase db = QSqlDatabase::database("dbFilm");
@@ -80,7 +86,12 @@ void Widget::initMapper()
     mapper->addMapping(ui->leYear,3);
     mapper->addMapping(ui->leLength, 7);
     mapper->addMapping(ui->teSynopsis,6);
+  
     ui->labPoster_2->hide();
+  
+    mapper->addMapping(leId, 0); //l'id permettant de retrouver le poster adéquat
+
+
     connect(ui->tableView->selectionModel(),
             SIGNAL(currentRowChanged(QModelIndex, QModelIndex)),
             mapper, SLOT(setCurrentModelIndex(QModelIndex)));
@@ -88,6 +99,7 @@ void Widget::initMapper()
     //pour ajouter une securite et que les modif n'y vont pas direct en BDD avt de confirmer
     mMovieModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
 }
+
 
 void Widget::setupView()
 {
@@ -104,7 +116,9 @@ void Widget::setupView()
     //cacher le vertical header
     ui->tableView->verticalHeader()->hide();
 }
-//le model filtré
+
+/**@brief : initialisation du filtre sur le modèle
+*/
 void Widget::initFilteredModel()
 {
     mMovieFilteredModel = new QSortFilterProxyModel(this);
@@ -115,37 +129,46 @@ void Widget::initFilteredModel()
     QObject::connect(ui->leSearch, SIGNAL(textChanged(QString)), this, SLOT(filter()));
 }
 
+
 //lier la combobox filtre et la barre de recherche avec le model filtré
 void Widget::filter()
 {    
     mMovieFilteredModel->setFilterWildcard(ui->leSearch->text());
     mMovieFilteredModel->setFilterKeyColumn(ui->comboBox->currentData().toInt());
+
+  // ui->labPoster->setPixmap(*(mCustomMovieModel->getPosterAtRow(4)));
+    ui->labPoster->setPixmap(*(mCustomMovieModel->getPosterAtKey(leId->text().toInt())));
+    qDebug() << leId->text();
+    ui->labPoster->update();
 }
 
 void Widget::addMovie()
 {
+
     newCard();//effacer les lineEdit pour pouvoir ecrire
     enabledCard();//activer les lineEdit qui sont desactivé par default
 
     //je remplit le label poster par une image provisoir en attendant de telecharger l'affiche du film
-    QImage posterVide("C:/Users/Dell/Documents/netflux/posterVideView.png");
+    QImage posterVide(":/posterVideView.png");
     ui->labPoster->setPixmap(QPixmap ::fromImage(posterVide));
     //je fais apparaitre le boutton telecharger affiche du film qui est caché quand il y a que l'affichage
     ui->labPoster_2->show();
 
 }
+
 //pour modifier les infos d'un film, j'enleve le mode "lecture seule" de mes lineEdit
 void Widget::editMovie()
 {
     enabledCard();
 }
+
 //je sauvegarde un nouveau film ou des modif
+
 void Widget::saveMovie()
 {
-
     mCustomMovieModel->submitAll();
-
 }
+
 
 void Widget::deleteMovie()
 {
@@ -153,10 +176,12 @@ void Widget::deleteMovie()
     mCustomMovieModel->removeRow(ui->tableView->currentIndex().row());
 }
 
+
 void Widget::cancel()
 {
 
 }
+
 
 void Widget::downloadPoster()
 {
@@ -167,6 +192,8 @@ void Widget::downloadPoster()
     ui->labPoster->setPixmap(monImage);
     //save in db
 }
+
+
 //un formulaire vide pour ajouter film et apres sauvegarde
 void Widget::newCard()
 {
@@ -182,6 +209,7 @@ void Widget::newCard()
     ui->pbEdit->setDisabled(true);
 }
 
+
 //lineEdit en mode lecture seule
 void Widget::disabledCard()
 {
@@ -194,6 +222,8 @@ void Widget::disabledCard()
     ui->labPoster_2->hide();
     ui->lePoster->hide();
 }
+
+
 //j'enleve le mode lecture seule des lineEdit
 void Widget::enabledCard()
 {
@@ -205,7 +235,6 @@ void Widget::enabledCard()
     ui->teSynopsis->setEnabled(true);
     ui->lePoster->show();
     ui->labPoster_2->show();
-
 }
 
 
@@ -213,6 +242,7 @@ Widget::~Widget()
 {
     delete ui;
 }
+
 void Widget::design()
 {
     //comboBox filter le texte avec la colonne correspondante de la BDD
@@ -223,18 +253,19 @@ void Widget::design()
     ui->tableView->verticalHeader()->setVisible(false);
 
 
-    //les images des fenetres (pour le design)
-    QImage photoGauche("C:/Users/Dell/Documents/netflux/labelGauche.jpg");
+    QImage photoGauche(":/images/labelGauche.jpg");
+
     ui->labGauche->setPixmap(QPixmap ::fromImage(photoGauche));
 
-    QImage photoDroite("C:/Users/Dell/Documents/netflux/labelDroit.ico");
+    QImage photoDroite(":/images/labelDroit.ico");
     ui->labDroit->setPixmap(QPixmap ::fromImage(photoDroite));
 
-    QImage loupe("C:/Users/Dell/Documents/netflux/loupe.png");
+    QImage loupe(":/images/loupe.png");
     ui->labSearch->setPixmap(QPixmap ::fromImage(loupe));
 
     //le poster vide pour le formulaire vide
-    QImage posterVide("C:/Users/Dell/Documents/netflux/posterVideView.png");
+  
+    QImage posterVide(":/images/posterVideView.png");
     ui->labPoster->setPixmap(QPixmap ::fromImage(posterVide));
 
 }

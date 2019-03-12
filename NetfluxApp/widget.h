@@ -11,6 +11,8 @@
 
 #include <QSqlRelationalDelegate>
 
+#include <QLineEdit>
+
 
 #include <customsqlmodel.h>
 
@@ -40,6 +42,7 @@ private:
     QSqlTableModel* mMovieModel;
     CustomSQLModel* mCustomMovieModel;
     QSortFilterProxyModel *mMovieFilteredModel;
+    QLineEdit *leId;
 
 private slots:
 
