@@ -16,7 +16,6 @@ void CustomSQLModel::fetchUrls()
 
     for(int i=0; i<this->rowCount(); i++)
          urls.append(this->index(i, 5).data().toString());
-
 }
 
 
@@ -33,6 +32,7 @@ void CustomSQLModel::downloadPosters()
        connect(downloader, SIGNAL (downloaded()), this, SLOT (loadPosters()));
     }
 }
+
 
 QVector<QPixmap *> CustomSQLModel::getPxmBuffer()
 {
@@ -63,7 +63,6 @@ void CustomSQLModel::loadPosters()
     pxmBuffer.append(poster);
     pxmMapBuffer[pxmBuffer.indexOf(poster)]=poster; /* si on part du principe que les pixmaps seront téléchargés dans le même
                                                         ordre qu'ont été fetchées les urls */
-
 }
 
 
