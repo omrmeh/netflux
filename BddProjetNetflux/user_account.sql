@@ -1,0 +1,3 @@
+--ALTER USER postgres WITH PASSWORD '';
+DROP USER basicuser;
+CREATE USER cinemauser WITH PASSWORD '0000'
