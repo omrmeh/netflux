@@ -30,7 +30,7 @@ Widget::Widget(QWidget *parent) :
 
 
     //edit
-    connect(ui->pbEdit, SIGNAL(clicked()), this, SLOT(enabledCard()));
+
 
 
 
@@ -42,19 +42,16 @@ Widget::Widget(QWidget *parent) :
 void Widget::initModel()
 {
     QSqlDatabase db = QSqlDatabase::database("dbFilm");
-    mMovieModel = new QSqlTableModel(this, db);
+    mMovieModel = new QSqlRelationalTableModel(this, db);
 
     initCustomSqlModel(db);
 
     mMovieModel->setTable("film");
     mMovieModel->select();
-    mMovieModel->setHeaderData(1,Qt::Horizontal,"Genre");
-    mMovieModel->setHeaderData(2,Qt::Horizontal,"Title");
-    mMovieModel->setHeaderData(3,Qt::Horizontal,"Year");
-    mMovieModel->setHeaderData(5,Qt::Horizontal,"Poster");
+
 
     //pour ajouter une securite et que les modif n'y vont pas direct en BDD avt de confirmer
-    mMovieModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    mCustomMovieModel->setEditStrategy(QSqlRelationalTableModel::OnManualSubmit);
 
     qDebug() << "interieur initModel";
 }
@@ -65,9 +62,14 @@ void Widget::initCustomSqlModel(QSqlDatabase db)
     mCustomMovieModel = new CustomSQLModel(this, &db);
     mCustomMovieModel->setTable("film");
     mCustomMovieModel->setRelation(1, QSqlRelation("GENRE", "ID_GENRE", "G_NAME"));
+    mCustomMovieModel->setHeaderData(1,Qt::Horizontal,"Genre");
+    mCustomMovieModel->setHeaderData(2,Qt::Horizontal,"Title");
+    mCustomMovieModel->setHeaderData(3,Qt::Horizontal,"Year");
+    mCustomMovieModel->setHeaderData(5,Qt::Horizontal,"Poster");
     mCustomMovieModel->select();
     mCustomMovieModel->fetchUrls();
     mCustomMovieModel->downloadPosters();
+
 }
 
 
@@ -85,7 +87,7 @@ void Widget::initMapper()
     mapper->addMapping(ui->teSynopsis,6);
     mapper->addMapping(leId, 0); //l'id permettant de retrouver le poster adéquat
 
-    ui->pbDownload->hide();
+
     connect(ui->tableView->selectionModel(),
             SIGNAL(currentRowChanged(QModelIndex, QModelIndex)),
             mapper, SLOT(setCurrentModelIndex(QModelIndex)));
@@ -132,33 +134,37 @@ void Widget::filter()
 
 void Widget::addMovie()
 {
-    newCard();
-    enabledCard();
+//    newCard();
+//    enabledCard();
     QImage posterVide(":/posterVideView.png");
     ui->labPoster->setPixmap(QPixmap::fromImage(posterVide));
-    ui->pbDownload->show();
+
+    mCustomMovieModel->insertRow(mCustomMovieModel->rowCount()); //ajouter une ligne à la fin
 
 }
-
 
 void Widget::editMovie()
 {
-    enabledCard();
+    //enabledCard();
+    ui->tableView->update();
 }
-
 
 void Widget::saveMovie()
 {
 
-    mMovieModel->submitAll();
-    //newCard();
-}
+    mCustomMovieModel->submitAll();
+    //recuperer les infos des lineEdit
 
+        //newCard();
+}
 
 void Widget::deleteMovie()
 {
 
-    mMovieModel->removeRow(ui->tableView->currentIndex().row());
+    mCustomMovieModel->removeRow(ui->tableView->currentIndex().row());
+    mCustomMovieModel->submitAll();
+    ui->tableView->update();
+
 }
 
 
@@ -192,8 +198,7 @@ void Widget::newCard()
     ui->leLength->setStyleSheet("QLineEdit { background : rgb(255, 255, 255);}");
     ui->teSynopsis->clear();
     ui->teSynopsis->setStyleSheet("QTextEdit { background : rgb(255, 255, 255);}");
-    ui->pbDownload->setStyleSheet("QPushButton { color: rgb(255, 255, 255); background : rgb(0, 0, 99);}");
-    ui->pbEdit->setDisabled(true);
+
 }
 
 
@@ -211,7 +216,7 @@ void Widget::disabledCard()
     ui->leLength->setStyleSheet("QLineEdit { background : rgb(255, 255, 255);}");
     ui->teSynopsis->setEnabled(false);
     ui->teSynopsis->setStyleSheet("QTextEdit { background : rgb(255, 255, 255);}");
-    ui->pbDownload->setStyleSheet("QPushButton { color: rgb(255, 255, 255); background : rgb(0, 0, 99);}");
+
 }
 
 
@@ -229,7 +234,7 @@ void Widget::enabledCard()
     ui->leLength->setStyleSheet("QLineEdit { background : rgb(255, 255, 255);}");
     ui->teSynopsis->setEnabled(true);
     ui->teSynopsis->setStyleSheet("QTextEdit { background : rgb(255, 255, 255);}");
-    ui->pbDownload->setStyleSheet("QPushButton { color: rgb(255, 255, 255); background : rgb(0, 0, 99);}");
+
 }
 
 
@@ -255,5 +260,5 @@ void Widget::design()
 
     QImage posterVide(":/images/posterVideView.png");
     ui->labPoster->setPixmap(QPixmap ::fromImage(posterVide));
-    ui->pbDownload->show();
+
 }
