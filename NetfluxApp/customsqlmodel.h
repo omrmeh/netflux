@@ -17,19 +17,19 @@ public:
     void fetchUrls();
     void downloadPosters();
 
-    QVector<QPixmap *> getPxmBuffer();
-
-    QPixmap* getPosterAtRow(int);
-
     QPixmap *getPosterAtKey(int title);
-private:
-    QVector<QPixmap*> pxmBuffer;
-    QVector<FileDownloader*> downloaders;
 
-    QMap<int, QPixmap*> pxmMapBuffer;
+    void printBufferMap();
+
+private:
+
+    QMap<int, FileDownloader*> downloaders;
+
+    QMap<int, QPixmap*> pixmapBuffer;
 
     FileDownloader *mFileDl;
-    QStringList urls;
+
+    QMap<int, QString> urls;
 
 private slots:
     void loadPosters();
