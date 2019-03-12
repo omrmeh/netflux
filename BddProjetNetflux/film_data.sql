@@ -11,7 +11,7 @@
 --******************************************************************************************************************************************
 
 --Table des genres
-INSERT INTO GENRE (G_NAME) Values ('Action');
+INSERT INTO GENRE (G_NAME) Values ('Action'); --0
 INSERT INTO GENRE (G_NAME) Values ('Société'); --1
 INSERT INTO GENRE (G_NAME) Values ('Fantastique'); --2
 INSERT INTO GENRE (G_NAME) Values ('Science fiction'); --3
