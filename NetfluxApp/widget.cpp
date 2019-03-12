@@ -1,12 +1,16 @@
 #include "widget.h"
 #include "ui_widget.h"
 
+#include <QMessageBox>
+
 Widget::Widget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Widget)
 {
+    db = QSqlDatabase::database("dbFilm");
+
     ui->setupUi(this);
-    initModel();
+    initCustomSqlModel();
     setupView();
     design();
 
@@ -29,27 +33,9 @@ Widget::Widget(QWidget *parent) :
     connect(ui->pbRemove, SIGNAL(clicked()), this, SLOT(deleteMovie()));
 }
 
-/**
- * @brief Widget::initModel
- */
-void Widget::initModel()
-{
-    QSqlDatabase db = QSqlDatabase::database("dbFilm");
-    mMovieModel = new QSqlRelationalTableModel(this, db);
-
-    initCustomSqlModel(db);
-
-    mMovieModel->setTable("film");
-    mMovieModel->select();
-
-    //pour ajouter une securite et que les modif n'y vont pas direct en BDD avt de confirmer
-    mCustomMovieModel->setEditStrategy(QSqlRelationalTableModel::OnManualSubmit);
-
-    qDebug() << "interieur initModel";
-}
 
 
-void Widget::initCustomSqlModel(QSqlDatabase db)
+void Widget::initCustomSqlModel()
 {
     mCustomMovieModel = new CustomSQLModel(this, &db);
     mCustomMovieModel->setTable("film");
@@ -58,10 +44,11 @@ void Widget::initCustomSqlModel(QSqlDatabase db)
     mCustomMovieModel->setHeaderData(2,Qt::Horizontal,"Title");
     mCustomMovieModel->setHeaderData(3,Qt::Horizontal,"Year");
     mCustomMovieModel->setHeaderData(5,Qt::Horizontal,"Poster");
+    mCustomMovieModel->setEditStrategy(QSqlRelationalTableModel::OnManualSubmit);
+
     mCustomMovieModel->select();
     mCustomMovieModel->fetchUrls();
     mCustomMovieModel->downloadPosters();
-
 }
 
 
@@ -145,20 +132,25 @@ void Widget::editMovie()
 
 void Widget::saveMovie()
 {
-
     mCustomMovieModel->submitAll();
-    //recuperer les infos des lineEdit
-
-        //newCard();
 }
 
 void Widget::deleteMovie()
 {
+    // ouverture d'une fenetre modale q message box
 
-    mCustomMovieModel->removeRow(ui->tableView->currentIndex().row());
-    mCustomMovieModel->submitAll();
-    ui->tableView->update();
+        int reponse = QMessageBox::question(this,"Remove","Do you want to remove this movie?", QMessageBox::Yes | QMessageBox ::No);
 
+        if (reponse == QMessageBox::Yes)
+        {
+            mCustomMovieModel->removeRow(ui->tableView->currentIndex().row());
+            mCustomMovieModel->submitAll();
+            ui->tableView->update();
+
+            QMessageBox::information(this,"Remove","The movie has been deleted .");
+        }
+        else
+            QMessageBox::critical (this, "Remove","The movie has not been deleted.");
 }
 
 
@@ -167,22 +159,17 @@ void Widget::cancel()
 
 }
 
+/**
+ * @brief Méthode SLOT appelée lorsqu'on clique sur un élément de la TableView
+ *        Elle récupère le int contenant l'id du film et situé dans la LineEdit leID
+ *        Elle va chercher le poster correspondant à ce film dans le CustomMovieModel
+ */
 void Widget::changePoster()
 {
-    //QItemSelectionModel* selection = ui->tableView->selectionModel();
-
-   // qDebug() << "current col : " << selection->currentIndex().column() << endl;
-
-
-    qDebug() << "id line edit " << leId->text().toInt() << endl;
-    leId->update();
-
-    int idFilm = leId->text().toInt();
+    int idFilm = leId->text().toInt(); //récupération de l'id du film
 
     if(idFilm != 0)
          ui->labPoster->setPixmap(*(mCustomMovieModel->getPosterAtKey(idFilm)));
-    //qDebug() << ui->tableView->selectionModel()->currentIndex().column();
-    ui->labPoster->update();
 }
 
 
