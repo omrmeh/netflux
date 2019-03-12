@@ -34,7 +34,7 @@ public:
 
     void initMapper();
 
-    void initCustomSqlModel(QSqlDatabase db);
+    void initCustomSqlModel();
 
 private:
     Ui::Widget *ui;
@@ -43,11 +43,11 @@ private:
     CustomSQLModel* mCustomMovieModel;
     QSortFilterProxyModel *mMovieFilteredModel;
     QLineEdit *leId;
+    QSqlDatabase db;
 
 private slots:
 
     void design();//fait
-    void initModel();//fait
     void setupView();//A adapter (ordre des colonnes)
 
     void filter();//fait
