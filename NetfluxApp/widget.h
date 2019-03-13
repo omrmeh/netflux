@@ -41,7 +41,7 @@ public:
 
     void initMovieMapper();
 
-    void initCustomSqlModel();
+    void initCustomMovieSqlModel();
 
     void initCustomPersonSqlModel();
 
