@@ -19,37 +19,16 @@ Widget::Widget(QWidget *parent) :
     initCustomSqlModel();
     initCustomPersonSqlModel();
 
-    /*
-     * mise en place des autres éléments de l'IHM
-     */
-    setupView();
-    design();
-
-
     leId = new QLineEdit; //LineEdit caché pour pouvoir retrouver le poster correspondant à l'Id du film
 
-    /*
-     * initialisation du FilteredModel et du mapper
-     */
-    initFilteredModel();
-    initMapper();
+    connect(ui->pbMovie, SIGNAL(clicked()), this, SLOT(displayTableViewMovies()));
+    connect(ui->pbPerson, SIGNAL(clicked()), this, SLOT(displayTableViewPersons()));
 
-
-    disabledCard();  //afin qu'on ne puisse pas éditer les moviecard
-
-    /*
-     * Les connects
-     */
-    connect(ui->pbExit_2,SIGNAL(clicked()),this,SLOT(close())); //quitter
-
-    connect(ui->pbAdd, SIGNAL(clicked()), this, SLOT(addMovie())); //ajouter film
-
-    connect(ui->pbSave, SIGNAL(clicked()), this, SLOT(saveMovie())); //sauvegarder film
-
-    connect(ui->pbRemove, SIGNAL(clicked()), this, SLOT(deleteMovie())); //supprimer film
 }
 
-
+/**
+ * @brief initialisation du movieModel
+ */
 void Widget::initCustomSqlModel()
 {
     mCustomMovieModel = new CustomSQLModel(this, &db);
@@ -65,7 +44,6 @@ void Widget::initCustomSqlModel()
     mCustomMovieModel->setHeaderData(6,Qt::Horizontal,"Poster");
     mCustomMovieModel->setEditStrategy(QSqlRelationalTableModel::OnManualSubmit);
 
-
     mCustomMovieModel->select();
     mCustomMovieModel->fetchUrls(6);
     mCustomMovieModel->downloadPosters();
@@ -76,9 +54,7 @@ void Widget::initCustomPersonSqlModel()
     mCustomPersonModel = new CustomSQLModel(this, &db);
     mCustomPersonModel->setTable("personne");
 
-
     //À maj en fonction de la base de donnée
-
     mCustomPersonModel->setHeaderData(3,Qt::Horizontal,"Surname");
     mCustomPersonModel->setHeaderData(2,Qt::Horizontal,"Name");
     mCustomPersonModel->setHeaderData(4,Qt::Horizontal,"Birth");
@@ -86,10 +62,109 @@ void Widget::initCustomPersonSqlModel()
 
     mCustomPersonModel->select();
     //mCustomPersonModel->fetchUrls();
-   // mCustomPersonModel->downloadPosters();
+    // mCustomPersonModel->downloadPosters();
 }
 
-void Widget::initMapper()
+void Widget::initPersonMapper()
+{
+    QDataWidgetMapper *mapperPerson = new QDataWidgetMapper(this);
+    mapper->setModel(mCustomPersonModel);
+
+
+    mapperPerson->addMapping(ui->leTitle, 1); //nom
+    mapperPerson->addMapping(ui->leRating,2); //surnom
+    mapperPerson->addMapping(ui->leGenre, 3); //date
+    mapperPerson->addMapping(ui->leYear,4); //pays
+
+    ui->leTitle->setStyleSheet("QLineEdit { color : rgb(0, 0, 0);}");
+
+    connect(ui->tableView->selectionModel(),
+            SIGNAL(currentRowChanged(QModelIndex, QModelIndex)),
+            mapperPerson, SLOT(setCurrentModelIndex(QModelIndex)));
+
+    connect(ui->tableView->selectionModel(),
+            SIGNAL(currentRowChanged(QModelIndex, QModelIndex)),
+            this, SLOT(changePoster()));
+
+}
+
+void Widget::initPersonFilter()
+{
+    mPersonFilteredModel = new QSortFilterProxyModel(this);
+    mPersonFilteredModel->setDynamicSortFilter(true);
+    mPersonFilteredModel->setSourceModel(mCustomPersonModel);
+    mPersonFilteredModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
+    ui->tableView->setModel(mPersonFilteredModel);
+    QObject::connect(ui->leSearch, SIGNAL(textChanged(QString)), this, SLOT(filter()));
+}
+
+
+/**
+ * @brief connecte la TableView au modèle des films
+ */
+
+void Widget::displayTableViewMovies()
+{
+    /*
+     * mise en place de la view et du design
+     */
+    setupViewMovies();
+    design();
+
+    leId = new QLineEdit; //LineEdit caché pour pouvoir retrouver le poster correspondant à l'Id du film
+
+    /*
+     * initialisation du FilteredModel et du mapper
+     *      pour le modèle avec les films
+     */
+    initMovieFilter();
+    initMovieMapper();
+
+    disabledCard();  //afin qu'on ne puisse pas éditer les moviecard
+
+    connect(ui->pbExit_2,SIGNAL(clicked()),this,SLOT(close())); //quitter
+
+    connect(ui->pbAdd, SIGNAL(clicked()), this, SLOT(addMovie())); //ajouter film
+
+    connect(ui->pbSave, SIGNAL(clicked()), this, SLOT(saveMovie())); //sauvegarder film
+
+    connect(ui->pbRemove, SIGNAL(clicked()), this, SLOT(deleteMovie())); //supprimer film
+
+}
+
+void Widget::displayTableViewPersons()
+{
+    /*
+     * mise en place de la view et du design
+     */
+    setupViewPersons();
+    design();
+
+    /*
+     * initialisation du FilteredModel et du mapper
+     *      pour le modèle avec les films
+     */
+    initPersonFilter();
+
+
+    //todo : création d'un formulaire de personne
+
+
+    initPersonMapper();
+
+    /*
+     * connects
+     */
+    connect(ui->pbExit_2,SIGNAL(clicked()),this,SLOT(close())); //quitter
+
+    connect(ui->pbAdd, SIGNAL(clicked()), this, SLOT(addPerson())); //ajouter film
+
+    connect(ui->pbSave, SIGNAL(clicked()), this, SLOT(savePerson())); //sauvegarder film
+
+    connect(ui->pbRemove, SIGNAL(clicked()), this, SLOT(deletePerson())); //supprimer film
+}
+
+void Widget::initMovieMapper()
 {
     QDataWidgetMapper *mapper = new QDataWidgetMapper(this);
     mapper->setModel(mMovieFilteredModel);
@@ -122,9 +197,9 @@ void Widget::initMapper()
  *          - resize les colonnes
  *          - applique le QSqlRelationalDelegate
  */
-void Widget::setupView()
+void Widget::setupViewMovies()
 {
-    qDebug() << "interieur setupView";
+    qDebug() << "interieur setupViewMovies";
     ui->tableView->setModel(mCustomMovieModel);
     ui->tableView->hideColumn(0);
     ui->tableView->hideColumn(6);
@@ -138,8 +213,17 @@ void Widget::setupView()
 
 }
 
+void Widget::setupViewPersons()
+{
+    qDebug() << "interieur setupViewPersons";
+    ui->tableView->setModel(mCustomPersonModel);
+    ui->tableView->hideColumn(0);
+    ui->tableView->setSortingEnabled(true);
 
-void Widget::initFilteredModel()
+}
+
+
+void Widget::initMovieFilter()
 {
     mMovieFilteredModel = new QSortFilterProxyModel(this);
     mMovieFilteredModel->setDynamicSortFilter(true);
