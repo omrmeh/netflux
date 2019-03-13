@@ -38,10 +38,7 @@ Widget::Widget(QWidget *parent) :
 
     //remove
     connect(ui->pbRemove, SIGNAL(clicked()), this, SLOT(deleteMovie()));
-
-
 }
-
 
 
 void Widget::initCustomSqlModel()
@@ -89,8 +86,7 @@ void Widget::initMapper()
 
 void Widget::setupView()
 {
-    // A revoir
-
+    qDebug() << "interieur setupView";
     ui->tableView->setModel(mCustomMovieModel);
     ui->tableView->hideColumn(0);
     //ui->tableView->hideColumn(1);
@@ -98,8 +94,7 @@ void Widget::setupView()
     ui->tableView->hideColumn(6);
     ui->tableView->hideColumn(7);
     ui->tableView->setSortingEnabled(true);
-    ui->tableView->setItemDelegate(new QSqlRelationalDelegate(ui->tableView));
-    qDebug() << "interieur setupView";
+    ui->tableView->setItemDelegate(new QSqlRelationalDelegate(ui->tableView));   
 }
 
 
@@ -126,13 +121,11 @@ void Widget::changePoster()
          ui->labPoster->setPixmap(*(mCustomMovieModel->getPosterAtKey(idFilm)));
 }
 
-
 void Widget::filter()
 {
     mMovieFilteredModel->setFilterWildcard(ui->leSearch->text());
     mMovieFilteredModel->setFilterKeyColumn(ui->comboBox->currentData().toInt());
 }
-
 
 void Widget::addMovie()
 {
@@ -142,7 +135,6 @@ void Widget::addMovie()
     ui->labPoster->setPixmap(QPixmap::fromImage(posterVide));
 
     mCustomMovieModel->insertRow(mCustomMovieModel->rowCount()); //ajouter une ligne à la fin
-
 }
 
 void Widget::editMovie()
@@ -160,7 +152,6 @@ void Widget::saveMovie()
 void Widget::deleteMovie()
 {
     // ouverture d'une fenetre modale q message box
-
         int reponse = QMessageBox::question(this,"Remove","Do you want to remove this movie?", QMessageBox::Yes | QMessageBox ::No);
 
         if (reponse == QMessageBox::Yes)
@@ -174,8 +165,6 @@ void Widget::deleteMovie()
         else
             QMessageBox::critical (this, "Remove","The movie has not been deleted.");
 }
-
-
 
 
 void Widget::downloadPoster()
