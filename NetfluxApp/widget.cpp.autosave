@@ -149,13 +149,13 @@ void Widget::initMovieFilteredModel()
     QObject::connect(ui->leSearch, SIGNAL(textChanged(QString)), this, SLOT(filter()));
 }
 
-void Widget::initPersoFilteredModel()
+void Widget::initPersonFilteredModel()
 {
-    mPersoFilteredModel = new QSortFilterProxyModel(this);
-    mPersoFilteredModel->setDynamicSortFilter(true);
-    mPersoFilteredModel->setSourceModel(mCustomMovieModel);
-    mPersoFilteredModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
-    ui->tableView->setModel(mPersoFilteredModel);
+    mPersonFilteredModel = new QSortFilterProxyModel(this);
+    mPersonFilteredModel->setDynamicSortFilter(true);
+    mPersonFilteredModel->setSourceModel(mCustomPersonModel);
+    mPersonFilteredModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
+    ui->tableView->setModel(mPersonFilteredModel);
     QObject::connect(ui->leSearch, SIGNAL(textChanged(QString)), this, SLOT(filter()));
 }
 
