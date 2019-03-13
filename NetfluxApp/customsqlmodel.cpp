@@ -35,7 +35,7 @@ void CustomSQLModel::downloadPosters()
     {
        QUrl imageUrl(urls[key]);
        FileDownloader *downloader = new FileDownloader(imageUrl, this);
-       downloaders[key] = downloader;
+       downloaders[key] = downloader;  //la key correspond à l'id_film et la valeur à un ptr sur un downloader
        connect(downloader, SIGNAL (downloaded()), this, SLOT (loadPosters()));
     }
 }
@@ -77,7 +77,7 @@ void CustomSQLModel::loadPosters()
      * émis le signal
      */
         if(downloaders[key]==downloader)
-            pixmapBuffer[key]=poster;
+            pixmapBuffer[key]=poster;  //la key correspond à l'id_film, la valeur à la pixmap
     }
 }
 
