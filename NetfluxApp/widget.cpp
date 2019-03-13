@@ -1,7 +1,6 @@
 #include "widget.h"
 #include "ui_widget.h"
 
-#include <QMessageBox>
 
 Widget::Widget(QWidget *parent) :
     QWidget(parent),
@@ -39,6 +38,8 @@ Widget::Widget(QWidget *parent) :
 
     //remove
     connect(ui->pbRemove, SIGNAL(clicked()), this, SLOT(deleteMovie()));
+
+
 }
 
 
@@ -188,7 +189,6 @@ void Widget::downloadPoster()
 
 void Widget::newCard()
 {
-
     ui->leTitle->clear();
     ui->leTitle->setStyleSheet("QLineEdit { background : rgb(255, 255, 255);}");
     ui->leRating->clear();
@@ -201,7 +201,6 @@ void Widget::newCard()
     ui->leLength->setStyleSheet("QLineEdit { background : rgb(255, 255, 255);}");
     ui->teSynopsis->clear();
     ui->teSynopsis->setStyleSheet("QTextEdit { background : rgb(255, 255, 255);}");
-
 }
 
 
@@ -219,7 +218,6 @@ void Widget::disabledCard()
     ui->leLength->setStyleSheet("QLineEdit { background : rgb(255, 255, 255);}");
     ui->teSynopsis->setEnabled(false);
     ui->teSynopsis->setStyleSheet("QTextEdit { background : rgb(255, 255, 255);}");
-
 }
 
 
@@ -237,7 +235,6 @@ void Widget::enabledCard()
     ui->leLength->setStyleSheet("QLineEdit { background : rgb(255, 255, 255);}");
     ui->teSynopsis->setEnabled(true);
     ui->teSynopsis->setStyleSheet("QTextEdit { background : rgb(255, 255, 255);}");
-
 }
 
 
@@ -263,7 +260,6 @@ void Widget::design()
 
     QImage posterVide(":/images/posterVideView.png");
     ui->labPoster->setPixmap(QPixmap ::fromImage(posterVide));
-
 }
 
 void Widget::cancel()

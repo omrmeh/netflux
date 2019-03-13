@@ -23,13 +23,15 @@ public:
 
 private:
 
+    QMap<int, QString> urls;
+
     QMap<int, FileDownloader*> downloaders;
 
     QMap<int, QPixmap*> pixmapBuffer;
 
     FileDownloader *mFileDl;
 
-    QMap<int, QString> urls;
+
 
 private slots:
     void loadPosters();
