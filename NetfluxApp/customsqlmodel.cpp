@@ -17,7 +17,7 @@ void CustomSQLModel::fetchUrls()
     urls.clear();
 
     for(int i=0; i<this->rowCount(); i++)
-         urls[this->index(i,0/*colonne de l'id_film dans le modèle*/).data().toInt()]=this->index(i, 5/*colonne de l'url dans le modèle*/).data().toString();
+         urls[this->index(i,0/*colonne de l'id_film dans le modèle*/).data().toInt()]=this->index(i,9/*colonne de l'url dans le modèle*/).data().toString();
 
 }
 
@@ -31,9 +31,11 @@ void CustomSQLModel::fetchUrls()
  */
 void CustomSQLModel::downloadPosters()
 {
+    qDebug() << "downloading posters..." <<endl;
     for(int key:urls.keys())
     {
        QUrl imageUrl(urls[key]);
+       qDebug() << urls[key];
        FileDownloader *downloader = new FileDownloader(imageUrl, this);
        downloaders[key] = downloader;  //la key correspond à l'id_film et la valeur à un ptr sur un downloader
        connect(downloader, SIGNAL (downloaded()), this, SLOT (loadPosters()));
@@ -52,6 +54,15 @@ QPixmap *CustomSQLModel::getPosterAtKey(int key)
 void CustomSQLModel::printBufferMap()
 {
     qDebug() << pixmapBuffer << endl;
+}
+
+void CustomSQLModel::printTable()
+{
+    for(int i=0; i<this->rowCount(); i++)
+       {
+        for(int j=0; j<this->columnCount(); j++)
+           qDebug() << this->index(i, j).data().toString() <<endl;
+        }
 }
 
 /**

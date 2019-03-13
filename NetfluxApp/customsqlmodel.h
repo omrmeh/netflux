@@ -21,6 +21,8 @@ public:
 
     void printBufferMap();
 
+    void printTable();
+
 private:
 
     QMap<int, QString> urls;

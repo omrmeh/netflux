@@ -14,6 +14,7 @@ Widget::Widget(QWidget *parent) :
      */
     ui->setupUi(this);
     initCustomSqlModel();
+    mCustomMovieModel->printTable();
     setupView();
     design();
 
@@ -46,10 +47,10 @@ void Widget::initCustomSqlModel()
     mCustomMovieModel = new CustomSQLModel(this, &db);
     mCustomMovieModel->setTable("film");
     mCustomMovieModel->setRelation(1, QSqlRelation("GENRE", "ID_GENRE", "G_NAME"));
-    mCustomMovieModel->setHeaderData(1,Qt::Horizontal,"Genre");
-    mCustomMovieModel->setHeaderData(2,Qt::Horizontal,"Title");
-    mCustomMovieModel->setHeaderData(3,Qt::Horizontal,"Year");
-    mCustomMovieModel->setHeaderData(5,Qt::Horizontal,"Poster");
+    mCustomMovieModel->setHeaderData(3,Qt::Horizontal,"Genre");
+    mCustomMovieModel->setHeaderData(1,Qt::Horizontal,"Title");
+    mCustomMovieModel->setHeaderData(2,Qt::Horizontal,"Year");
+    mCustomMovieModel->setHeaderData(6,Qt::Horizontal,"Poster");
     mCustomMovieModel->setEditStrategy(QSqlRelationalTableModel::OnManualSubmit);
 
     mCustomMovieModel->select();
@@ -57,17 +58,16 @@ void Widget::initCustomSqlModel()
     mCustomMovieModel->downloadPosters();
 }
 
-
 void Widget::initMapper()
 {
     QDataWidgetMapper *mapper = new QDataWidgetMapper(this);
     mapper->setModel(mMovieFilteredModel);
 
     mapper->addMapping(ui->labPoster, 5);
-    mapper->addMapping(ui->leTitle, 2);
+    mapper->addMapping(ui->leTitle, 1);
     mapper->addMapping(ui->leRating,4);
-    mapper->addMapping(ui->leGenre, 1);
-    mapper->addMapping(ui->leYear,3);
+    mapper->addMapping(ui->leGenre, 3);
+    mapper->addMapping(ui->leYear,2);
     mapper->addMapping(ui->leLength, 7);
     mapper->addMapping(ui->teSynopsis,6);
 
@@ -89,7 +89,6 @@ void Widget::setupView()
     qDebug() << "interieur setupView";
     ui->tableView->setModel(mCustomMovieModel);
     ui->tableView->hideColumn(0);
-    //ui->tableView->hideColumn(1);
     ui->tableView->hideColumn(4);
     ui->tableView->hideColumn(6);
     ui->tableView->hideColumn(7);
@@ -104,7 +103,7 @@ void Widget::initFilteredModel()
     mMovieFilteredModel->setDynamicSortFilter(true);
     mMovieFilteredModel->setSourceModel(mCustomMovieModel);
     mMovieFilteredModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
-    //ui->tableView->setModel(mMovieFilteredModel);
+    ui->tableView->setModel(mMovieFilteredModel);
     QObject::connect(ui->leSearch, SIGNAL(textChanged(QString)), this, SLOT(filter()));
 }
 
