@@ -40,6 +40,8 @@ public:
 
     void initCustomSqlModel();
 
+    void initCustomPersonSqlModel();
+
 private:
     Ui::Widget *ui;
     QDataWidgetMapper *mapper;

@@ -7,9 +7,9 @@ CustomSQLModel::CustomSQLModel(QObject* parent, QSqlDatabase *db):QSqlRelational
 }
 
 /**
- * @brief : - Récupère les url de la BDD et les stocks dans urls
+ * @brief : - Récupère les urls stockées à la colonne column de la table et les stocke dans urls
  *          - urls est un QMap associant une clé correspondant à
- * l'id du film avec l'url du film correspondant
+ * l'id de l'objet de la table avec l'url correspondante
  */
 void CustomSQLModel::fetchUrls(int column)
 {
@@ -36,7 +36,7 @@ void CustomSQLModel::downloadPosters()
        QUrl imageUrl(urls[key]);
        qDebug() << urls[key];
        FileDownloader *downloader = new FileDownloader(imageUrl, this);
-       downloaders[key] = downloader;  //la key correspond à l'id_film et la valeur à un ptr sur un downloader
+       downloaders[key] = downloader;  //la key correspond à l'id et la valeur à un ptr sur un downloader
        connect(downloader, SIGNAL (downloaded()), this, SLOT (loadPosters()));
     }
 }

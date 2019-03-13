@@ -9,13 +9,22 @@ Widget::Widget(QWidget *parent) :
     db = QSqlDatabase::database("dbFilm");
 
     /*
-     * initialisation de l'IHM, du modèle, de la view
-     *          et des autres élts graphiques
+     * initialisation de l'IHM
      */
     ui->setupUi(this);
+
+    /*
+     * initialisation des 2 modèles
+     */
     initCustomSqlModel();
+    initCustomPersonSqlModel();
+
+    /*
+     * mise en place des autres éléments de l'IHM
+     */
     setupView();
     design();
+
 
     leId = new QLineEdit; //LineEdit caché pour pouvoir retrouver le poster correspondant à l'Id du film
 
@@ -25,19 +34,19 @@ Widget::Widget(QWidget *parent) :
     initFilteredModel();
     initMapper();
 
+
     disabledCard();  //afin qu'on ne puisse pas éditer les moviecard
 
-    //Quitter
-    connect(ui->pbExit_2,SIGNAL(clicked()),this,SLOT(close()));
+    /*
+     * Les connects
+     */
+    connect(ui->pbExit_2,SIGNAL(clicked()),this,SLOT(close())); //quitter
 
-    //Add
-    connect(ui->pbAdd, SIGNAL(clicked()), this, SLOT(addMovie()));
+    connect(ui->pbAdd, SIGNAL(clicked()), this, SLOT(addMovie())); //ajouter film
 
-    //save
-    connect(ui->pbSave, SIGNAL(clicked()), this, SLOT(saveMovie()));
+    connect(ui->pbSave, SIGNAL(clicked()), this, SLOT(saveMovie())); //sauvegarder film
 
-    //remove
-    connect(ui->pbRemove, SIGNAL(clicked()), this, SLOT(deleteMovie()));
+    connect(ui->pbRemove, SIGNAL(clicked()), this, SLOT(deleteMovie())); //supprimer film
 }
 
 
@@ -75,7 +84,6 @@ void Widget::initCustomPersonSqlModel()
     mCustomPersonModel->setHeaderData(4,Qt::Horizontal,"Birth");
     mCustomPersonModel->setHeaderData(5,Qt::Horizontal,"Country");
 
-    //c pour les images
     mCustomPersonModel->select();
     //mCustomPersonModel->fetchUrls();
    // mCustomPersonModel->downloadPosters();
@@ -96,7 +104,6 @@ void Widget::initMapper()
 
     mapper->addMapping(leId, 0); //l'id permettant de retrouver le poster adéquat
 
-
     ui->leTitle->setStyleSheet("QLineEdit { color : rgb(0, 0, 0);}");
 
     connect(ui->tableView->selectionModel(),
@@ -113,7 +120,7 @@ void Widget::initMapper()
  *          - connecte la tableView au modèle
  *          - cache la colonne de l'id_film
  *          - resize les colonnes
- *          - apllique le QSqlRelationalDelegate
+ *          - applique le QSqlRelationalDelegate
  */
 void Widget::setupView()
 {
@@ -130,9 +137,6 @@ void Widget::setupView()
     ui->tableView->resizeColumnToContents(7);
 
 }
-
-
-
 
 
 void Widget::initFilteredModel()
@@ -217,14 +221,13 @@ void Widget::formatLength()
 {
     for(int i=0 ; i<mCustomMovieModel->rowCount();i++)
     {
-        //on fait une boucle pour recuperer ligne par ligne le model, grace a
+        //on fait une boucle pour recuperer ligne par ligne le model, grâce à
         //qsqlRecord qui permet d'enregistrer les lignes du model
         QSqlRecord recor = mCustomMovieModel->record(i);
         //on recupere la valeur du f_length (data) et on la met en int(apprmnt c un qvariant)
         int t = recor.value("f_length").toInt();
         //fromTime_t prend des secondes d'où la multiplication par 60
         QString time  = QDateTime::fromTime_t(t*60).toUTC().toString("hh'h'mm'min'");
-
 
         //pour envoyer à la BDD
         QVariant v;
