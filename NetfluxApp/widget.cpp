@@ -16,7 +16,7 @@ Widget::Widget(QWidget *parent) :
     /*
      * initialisation des 2 modèles
      */
-    initCustomSqlModel();
+    initCustomMovieSqlModel();
     initCustomPersonSqlModel();
 
     leId = new QLineEdit; //LineEdit caché pour pouvoir retrouver le poster correspondant à l'Id du film
@@ -29,7 +29,7 @@ Widget::Widget(QWidget *parent) :
 /**
  * @brief initialisation du movieModel
  */
-void Widget::initCustomSqlModel()
+void Widget::initCustomMovieSqlModel()
 {
     mCustomMovieModel = new CustomSQLModel(this, &db);
     mCustomMovieModel->setTable("film");
@@ -37,6 +37,7 @@ void Widget::initCustomSqlModel()
 
     //À maj en fonction de la base de donnée
     mCustomMovieModel->setRelation(3, QSqlRelation("GENRE", "ID_GENRE", "G_NAME"));
+    mCustomMovieModel->setRelation(5, QSqlRelation("PERSONNE", "ID_PERSONNE", "P_SURNAME"));
 
     mCustomMovieModel->setHeaderData(3,Qt::Horizontal,"Genre");
     mCustomMovieModel->setHeaderData(1,Qt::Horizontal,"Title");
@@ -68,7 +69,7 @@ void Widget::initCustomPersonSqlModel()
 void Widget::initPersonMapper()
 {
     QDataWidgetMapper *mapperPerson = new QDataWidgetMapper(this);
-    mapper->setModel(mCustomPersonModel);
+    mapperPerson->setModel(mPersonFilteredModel);
 
 
     mapperPerson->addMapping(ui->leTitle, 1); //nom
