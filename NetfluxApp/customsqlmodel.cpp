@@ -17,7 +17,8 @@ void CustomSQLModel::fetchUrls()
     urls.clear();
 
     for(int i=0; i<this->rowCount(); i++)
-         urls[this->index(i,0).data().toInt()]=this->index(i, 5).data().toString();
+         urls[this->index(i,0/*colonne de l'id_film dans le modèle*/).data().toInt()]=this->index(i, 5/*colonne de l'url dans le modèle*/).data().toString();
+
 }
 
 

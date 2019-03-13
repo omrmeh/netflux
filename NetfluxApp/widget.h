@@ -1,19 +1,22 @@
 #ifndef WIDGET_H
 #define WIDGET_H
-#include <moviecard.h>
+
+
 #include <QSqlTableModel>
 
 #include <QSortFilterProxyModel>
 #include <QModelIndex>
-#include<QDataWidgetMapper>
-#include<QDebug>
+#include <QDataWidgetMapper>
+#include <QDebug>
 #include <QWidget>
+#include <QValidator>
 
 #include <QSqlRelationalDelegate>
 
 #include <QLineEdit>
+#include <QMessageBox>
 
-
+#include <moviecard.h>
 #include <customsqlmodel.h>
 
 
