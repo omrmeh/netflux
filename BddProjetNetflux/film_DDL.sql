@@ -12,17 +12,25 @@
 
 DROP TABLE if exists FILM;
 DROP TABLE if exists GENRE;
-
+DROP TABLE if exists REALISATEUR;
 Create Table GENRE (
 ID_GENRE SERIAL PRIMARY KEY,
 G_NAME varchar (25));
 
 Create Table FILM (
 ID_FILM SERIAL PRIMARY KEY,
-ID_GENRE int,
 F_TITLE varchar (100),
-F_YEAR int, 
-F_RATINGS int, 
+F_YEAR int,
+ID_GENRE int,
+F_RATINGS int,
+ID_REALISATEUR int,
 F_POSTER varchar (300), 
 F_SYNOPSIS text,
 F_LENGTH int);
+
+Create Table REALISATEUR (
+ID_REALISATEUR SERIAL PRIMARY KEY,
+P_NAME varchar (100),
+P_SURNAME varchar (100),
+P_BIRTH date,
+P_COUNTRY varchar (150));
