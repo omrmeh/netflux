@@ -14,8 +14,10 @@ int main(int argc, char *argv[])
     QSqlDatabase db = QSqlDatabase::addDatabase("QPSQL", "dbFilm");
     db.setHostName("127.0.0.1");
     db.setDatabaseName("netflux");
-    db.setUserName("postgres");
-    db.setPassword("postgres123");
+    db.setUserName("cinemauser");
+    db.setPassword("0000");
+    db.setPort(5432);
+
     bool ok = db.open();
 
     //vérif à retirer après écriture du Gtest

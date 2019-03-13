@@ -1,31 +1,20 @@
 #include "widget.h"
 #include "ui_widget.h"
 
-
 Widget::Widget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Widget)
 {
-    db = QSqlDatabase::database("dbFilm");
-
-    /*
-     * initialisation de l'IHM, du modèle, de la view
-     *          et des autres élts graphiques
-     */
     ui->setupUi(this);
-    initCustomSqlModel();
+    initModel();
     setupView();
     design();
 
     leId = new QLineEdit; //LineEdit caché pour pouvoir retrouver le poster correspondant à l'Id du film
 
-    /*
-     * initialisation du FilteredModel et du mapper
-     */
     initFilteredModel();
     initMapper();
-
-    disabledCard();  //afin qu'on ne puisse pas éditer les moviecard
+    disabledCard();
 
     //Quitter
     connect(ui->pbExit_2,SIGNAL(clicked()),this,SLOT(close()));
@@ -38,10 +27,37 @@ Widget::Widget(QWidget *parent) :
 
     //remove
     connect(ui->pbRemove, SIGNAL(clicked()), this, SLOT(deleteMovie()));
+
+
+    //edit
+
+
+
+
+}
+
+/**
+ * @brief Widget::initModel
+ */
+void Widget::initModel()
+{
+    QSqlDatabase db = QSqlDatabase::database("dbFilm");
+    mMovieModel = new QSqlRelationalTableModel(this, db);
+
+    initCustomSqlModel(db);
+
+    mMovieModel->setTable("film");
+    mMovieModel->select();
+
+
+    //pour ajouter une securite et que les modif n'y vont pas direct en BDD avt de confirmer
+    mCustomMovieModel->setEditStrategy(QSqlRelationalTableModel::OnManualSubmit);
+
+    qDebug() << "interieur initModel";
 }
 
 
-void Widget::initCustomSqlModel()
+void Widget::initCustomSqlModel(QSqlDatabase db)
 {
     mCustomMovieModel = new CustomSQLModel(this, &db);
     mCustomMovieModel->setTable("film");
@@ -50,8 +66,6 @@ void Widget::initCustomSqlModel()
     mCustomMovieModel->setHeaderData(2,Qt::Horizontal,"Title");
     mCustomMovieModel->setHeaderData(3,Qt::Horizontal,"Year");
     mCustomMovieModel->setHeaderData(5,Qt::Horizontal,"Poster");
-    mCustomMovieModel->setEditStrategy(QSqlRelationalTableModel::OnManualSubmit);
-
     mCustomMovieModel->select();
     mCustomMovieModel->fetchUrls();
     mCustomMovieModel->downloadPosters();
@@ -70,23 +84,19 @@ void Widget::initMapper()
     mapper->addMapping(ui->leYear,3);
     mapper->addMapping(ui->leLength, 7);
     mapper->addMapping(ui->teSynopsis,6);
-
     mapper->addMapping(leId, 0); //l'id permettant de retrouver le poster adéquat
 
 
     connect(ui->tableView->selectionModel(),
             SIGNAL(currentRowChanged(QModelIndex, QModelIndex)),
             mapper, SLOT(setCurrentModelIndex(QModelIndex)));
-
-    connect(ui->tableView->selectionModel(),
-            SIGNAL(currentRowChanged(QModelIndex, QModelIndex)),
-            this, SLOT(changePoster()));
 }
 
 
 void Widget::setupView()
 {
-    qDebug() << "interieur setupView";
+    // A revoir
+
     ui->tableView->setModel(mCustomMovieModel);
     ui->tableView->hideColumn(0);
     //ui->tableView->hideColumn(1);
@@ -94,7 +104,8 @@ void Widget::setupView()
     ui->tableView->hideColumn(6);
     ui->tableView->hideColumn(7);
     ui->tableView->setSortingEnabled(true);
-    ui->tableView->setItemDelegate(new QSqlRelationalDelegate(ui->tableView));   
+    ui->tableView->setItemDelegate(new QSqlRelationalDelegate(ui->tableView));
+    qDebug() << "interieur setupView";
 }
 
 
@@ -108,23 +119,16 @@ void Widget::initFilteredModel()
     QObject::connect(ui->leSearch, SIGNAL(textChanged(QString)), this, SLOT(filter()));
 }
 
-/**
- * @brief Méthode SLOT appelée lorsqu'on clique sur un élément de la TableView
- *        Elle récupère le int contenant l'id du film et situé dans la LineEdit leID
- *        Elle va chercher le poster correspondant à ce film dans le CustomMovieModel
- */
-void Widget::changePoster()
-{
-    int idFilm = leId->text().toInt(); //récupération de l'id du film
-
-    if(idFilm != 0)
-         ui->labPoster->setPixmap(*(mCustomMovieModel->getPosterAtKey(idFilm)));
-}
 
 void Widget::filter()
-{
+{    
     mMovieFilteredModel->setFilterWildcard(ui->leSearch->text());
     mMovieFilteredModel->setFilterKeyColumn(ui->comboBox->currentData().toInt());
+
+  // ui->labPoster->setPixmap(*(mCustomMovieModel->getPosterAtRow(4)));
+    ui->labPoster->setPixmap(*(mCustomMovieModel->getPosterAtKey(leId->text().toInt())));
+    qDebug() << leId->text();
+    ui->labPoster->update();
 }
 
 void Widget::addMovie()
@@ -135,6 +139,7 @@ void Widget::addMovie()
     ui->labPoster->setPixmap(QPixmap::fromImage(posterVide));
 
     mCustomMovieModel->insertRow(mCustomMovieModel->rowCount()); //ajouter une ligne à la fin
+
 }
 
 void Widget::editMovie()
@@ -145,25 +150,26 @@ void Widget::editMovie()
 
 void Widget::saveMovie()
 {
+
     mCustomMovieModel->submitAll();
-    QMessageBox::information(this,"Save","Thank you for your contribution!");
+    //recuperer les infos des lineEdit
+
+        //newCard();
 }
 
 void Widget::deleteMovie()
 {
-    // ouverture d'une fenetre modale q message box
-        int reponse = QMessageBox::question(this,"Remove","Do you want to remove this movie?", QMessageBox::Yes | QMessageBox ::No);
 
-        if (reponse == QMessageBox::Yes)
-        {
-            mCustomMovieModel->removeRow(ui->tableView->currentIndex().row());
-            mCustomMovieModel->submitAll();
-            ui->tableView->update();
+    mCustomMovieModel->removeRow(ui->tableView->currentIndex().row());
+    mCustomMovieModel->submitAll();
+    ui->tableView->update();
 
-            QMessageBox::information(this,"Remove","The movie has been deleted .");
-        }
-        else
-            QMessageBox::critical (this, "Remove","The movie has not been deleted.");
+}
+
+
+void Widget::cancel()
+{
+
 }
 
 
@@ -178,6 +184,7 @@ void Widget::downloadPoster()
 
 void Widget::newCard()
 {
+
     ui->leTitle->clear();
     ui->leTitle->setStyleSheet("QLineEdit { background : rgb(255, 255, 255);}");
     ui->leRating->clear();
@@ -190,6 +197,7 @@ void Widget::newCard()
     ui->leLength->setStyleSheet("QLineEdit { background : rgb(255, 255, 255);}");
     ui->teSynopsis->clear();
     ui->teSynopsis->setStyleSheet("QTextEdit { background : rgb(255, 255, 255);}");
+
 }
 
 
@@ -207,6 +215,7 @@ void Widget::disabledCard()
     ui->leLength->setStyleSheet("QLineEdit { background : rgb(255, 255, 255);}");
     ui->teSynopsis->setEnabled(false);
     ui->teSynopsis->setStyleSheet("QTextEdit { background : rgb(255, 255, 255);}");
+
 }
 
 
@@ -224,6 +233,7 @@ void Widget::enabledCard()
     ui->leLength->setStyleSheet("QLineEdit { background : rgb(255, 255, 255);}");
     ui->teSynopsis->setEnabled(true);
     ui->teSynopsis->setStyleSheet("QTextEdit { background : rgb(255, 255, 255);}");
+
 }
 
 
@@ -249,10 +259,5 @@ void Widget::design()
 
     QImage posterVide(":/images/posterVideView.png");
     ui->labPoster->setPixmap(QPixmap ::fromImage(posterVide));
-}
-
-void Widget::cancel()
-{
 
 }
-
