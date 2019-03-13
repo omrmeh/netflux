@@ -14,8 +14,8 @@ int main(int argc, char *argv[])
     QSqlDatabase db = QSqlDatabase::addDatabase("QPSQL", "dbFilm");
     db.setHostName("localhost");
     db.setDatabaseName("netflux");
-    db.setUserName("postgres");
-    db.setPassword("postgres123");
+    db.setUserName("cinemauser");
+    db.setPassword("0000");
     db.setPort(5432);
 
     qDebug() << db <<endl;
