@@ -58,8 +58,27 @@ void Widget::initCustomSqlModel()
 
 
     mCustomMovieModel->select();
-    mCustomMovieModel->fetchUrls();
+    mCustomMovieModel->fetchUrls(6);
     mCustomMovieModel->downloadPosters();
+}
+
+void Widget::initCustomPersonSqlModel()
+{
+    mCustomPersonModel = new CustomSQLModel(this, &db);
+    mCustomPersonModel->setTable("personne");
+
+
+    //À maj en fonction de la base de donnée
+
+    mCustomPersonModel->setHeaderData(3,Qt::Horizontal,"Surname");
+    mCustomPersonModel->setHeaderData(2,Qt::Horizontal,"Name");
+    mCustomPersonModel->setHeaderData(4,Qt::Horizontal,"Birth");
+    mCustomPersonModel->setHeaderData(5,Qt::Horizontal,"Country");
+
+    //c pour les images
+    mCustomPersonModel->select();
+    //mCustomPersonModel->fetchUrls();
+   // mCustomPersonModel->downloadPosters();
 }
 
 void Widget::initMapper()

@@ -43,8 +43,8 @@ public:
 private:
     Ui::Widget *ui;
     QDataWidgetMapper *mapper;
-    QSqlTableModel* mMovieModel;
     CustomSQLModel* mCustomMovieModel;
+    CustomSQLModel* mCustomPersonModel;
     QSortFilterProxyModel *mMovieFilteredModel;
     QLineEdit *leId;
     QSqlDatabase db;
