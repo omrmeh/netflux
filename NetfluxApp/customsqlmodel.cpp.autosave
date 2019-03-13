@@ -7,9 +7,8 @@ CustomSQLModel::CustomSQLModel(QObject* parent, QSqlDatabase *db):QSqlRelational
 }
 
 /**
- * @brief : - Récupère les url de la BDD et les stocks dans urls
- *          - urls est un QMap associant une clé correspondant à
- * l'id de l'objet de la table avec l'url correspondante
+ * @brief : - Récupère les urls stockées à la colonne column de la table et les stocke dans urls
+ *          - Urls est un QMap associant une clé correspondant à l'id de l'objet de la table avec l'url correspondante
  */
 void CustomSQLModel::fetchUrls(int column)
 {

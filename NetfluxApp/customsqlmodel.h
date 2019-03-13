@@ -14,7 +14,7 @@ class CustomSQLModel : public QSqlRelationalTableModel
 
 public:
     CustomSQLModel(QObject* parent = nullptr, QSqlDatabase* =nullptr);
-    void fetchUrls();
+    void fetchUrls(int column);
     void downloadPosters();
 
     QPixmap *getPosterAtKey(int title);
