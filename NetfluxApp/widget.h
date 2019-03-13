@@ -17,6 +17,9 @@
 #include <QLineEdit>
 #include <QMessageBox>
 
+#include <QFormLayout>
+#include <QLineEdit>
+
 #include <moviecard.h>
 #include <customsqlmodel.h>
 
@@ -33,14 +36,20 @@ public:
     explicit Widget(QWidget *parent = nullptr);
     ~Widget();
 
-    void initFilteredModel();//fait
+    void initMovieFilter();//fait
 
 
-    void initMapper();
+    void initMovieMapper();
 
     void initCustomSqlModel();
 
     void initCustomPersonSqlModel();
+
+    void initPersonMapper();
+
+    void initPersonFilter();
+
+    void displayPersonCard();
 
 private:
     Ui::Widget *ui;
@@ -50,11 +59,15 @@ private:
     QSortFilterProxyModel *mMovieFilteredModel;
     QLineEdit *leId;
     QSqlDatabase db;
+    QFormLayout* personForm;
+    QSortFilterProxyModel* mPersonFilteredModel;
 
 private slots:
 
     void design();//fait
-    void setupView();//A adapter (ordre des colonnes)
+    void setupViewMovies();//A adapter (ordre des colonnes)
+
+    void setupViewPersons();
 
     void filter();//fait
     void addMovie();//to do
@@ -68,6 +81,9 @@ private slots:
     void cancel();
     void changePoster();
     void formatLength();
+
+    void displayTableViewMovies();
+    void displayTableViewPersons();
 
 
 };
