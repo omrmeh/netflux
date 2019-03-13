@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
     QSqlDatabase db = QSqlDatabase::addDatabase("QPSQL", "dbFilm");
     db.setHostName("localhost");
     db.setDatabaseName("netflux");
-    db.setUserName("cineuser");
+    db.setUserName("cinemauser");
     db.setPassword("0000");
     db.setPort(5432);
 
