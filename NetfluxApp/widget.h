@@ -10,6 +10,7 @@
 #include <QDebug>
 #include <QWidget>
 #include <QValidator>
+#include <QSqlRecord>
 
 #include <QSqlRelationalDelegate>
 
@@ -64,7 +65,7 @@ private slots:
     void downloadPoster();
     void cancel();
     void changePoster();
-
+    void formatLength();
 
 
 };
