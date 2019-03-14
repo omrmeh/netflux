@@ -16,6 +16,7 @@
 
 #include <QLineEdit>
 #include <QMessageBox>
+#include <QListWidgetItem>
 
 #include <QFormLayout>
 #include <QLineEdit>
@@ -57,7 +58,7 @@ private:
     CustomSQLModel* mCustomMovieModel;
     CustomSQLModel* mCustomPersonModel;
     QSortFilterProxyModel *mMovieFilteredModel;
-    QLineEdit *leId;
+    QLineEdit *leIdMovie, *leIdPerson;
     QSqlDatabase db;
     QFormLayout* personForm;
     QSortFilterProxyModel* mPersonFilteredModel;
@@ -79,11 +80,15 @@ private slots:
     void saveMovie();
     void downloadPoster();
     void cancel();
-    void changePoster();
     void formatLength();
+
+    void changePosterMovie();
+    void changePosterPerson();
 
     void displayTableViewMovies();
     void displayTableViewPersons();
+    
+    void statFilm();
 
 
     void on_tabWidget_tabBarClicked(int index);

@@ -19,8 +19,8 @@ Widget::Widget(QWidget *parent) :
     initCustomMovieSqlModel();
     initCustomPersonSqlModel();
 
-    leId = new QLineEdit; //LineEdit caché pour pouvoir retrouver le poster correspondant à l'Id du film
-
+    leIdMovie = new QLineEdit; //LineEdit caché pour pouvoir retrouver le poster correspondant à l'Id du film
+    leIdPerson = new QLineEdit; //idem pour le poster de la personne
 
    displayTableViewPersons();
    displayTableViewMovies();
@@ -52,7 +52,7 @@ void Widget::initCustomMovieSqlModel()
     mCustomMovieModel->setEditStrategy(QSqlRelationalTableModel::OnManualSubmit);
 
     mCustomMovieModel->select();
-    mCustomMovieModel->fetchUrls(6);
+    mCustomMovieModel->fetchUrls(6); //urls des films sont à la 5ème colonne de la table film
     mCustomMovieModel->downloadPosters();
 }
 
@@ -66,11 +66,11 @@ void Widget::initCustomPersonSqlModel()
     mCustomPersonModel->setHeaderData(1,Qt::Horizontal,"Name");
     mCustomPersonModel->setHeaderData(3,Qt::Horizontal,"Birth");
     mCustomPersonModel->setHeaderData(4,Qt::Horizontal,"Country");
-    mCustomPersonModel->setHeaderData(5,Qt::Horizontal,"Biography");
+    mCustomPersonModel->setHeaderData(5,Qt::Horizontal,"Url Poster");
 
     mCustomPersonModel->select();
-    //mCustomPersonModel->fetchUrls();
-    // mCustomPersonModel->downloadPosters();
+    mCustomPersonModel->fetchUrls(5); //urls des personnes sont à la 6ème colonne de la table personne
+    mCustomPersonModel->downloadPosters();
 }
 
 void Widget::initPersonMapper()
@@ -85,15 +85,15 @@ void Widget::initPersonMapper()
     mapperPerson->addMapping(ui->leCountry,4);
     mapperPerson->addMapping(ui->teBiography,5);
 
-
+    mapperPerson->addMapping(leIdPerson, 0);
 
     connect(ui->tabViewPerson->selectionModel(),
             SIGNAL(currentRowChanged(QModelIndex, QModelIndex)),
             mapperPerson, SLOT(setCurrentModelIndex(QModelIndex)));
 
-//    connect(ui->tabViewPerson->selectionModel(),
-//            SIGNAL(currentRowChanged(QModelIndex, QModelIndex)),
-//            this, SLOT(changePoster()));
+    connect(ui->tabViewPerson->selectionModel(),
+            SIGNAL(currentRowChanged(QModelIndex, QModelIndex)),
+            this, SLOT(changePosterPerson()));
 
 }
 
@@ -103,9 +103,9 @@ void Widget::initPersonFilter()
     mPersonFilteredModel->setDynamicSortFilter(true);
     mPersonFilteredModel->setSourceModel(mCustomPersonModel);
     mPersonFilteredModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
-    ui->tableView->setModel(mPersonFilteredModel);
-    QObject::connect(ui->leSearchPerson, SIGNAL(textChanged(QString)), this, SLOT(filter()));
 
+    ui->tabViewPerson->setModel(mPersonFilteredModel);
+    QObject::connect(ui->leSearch, SIGNAL(textChanged(QString)), this, SLOT(filter()));
 
 }
 
@@ -124,7 +124,7 @@ void Widget::displayTableViewMovies()
     setupViewMovies();
     design();
 
-    leId = new QLineEdit; //LineEdit caché pour pouvoir retrouver le poster correspondant à l'Id du film
+    leIdMovie = new QLineEdit; //LineEdit caché pour pouvoir retrouver le poster correspondant à l'Id du film
 
     /*
      * initialisation du FilteredModel et du mapper
@@ -142,7 +142,6 @@ void Widget::displayTableViewMovies()
     connect(ui->pbSave, SIGNAL(clicked()), this, SLOT(saveMovie())); //sauvegarder film
 
     connect(ui->pbRemove, SIGNAL(clicked()), this, SLOT(deleteMovie())); //supprimer film
-
 }
 
 void Widget::displayTableViewPersons()
@@ -155,6 +154,8 @@ void Widget::displayTableViewPersons()
     setupViewPersons();
     design();
 
+    leIdPerson = new QLineEdit;
+
     /*
      * initialisation du FilteredModel et du mapper
      *      pour le modèle avec les films
@@ -166,8 +167,6 @@ void Widget::displayTableViewPersons()
 
 //prk marche pas??
     initPersonMapper();
-
-
 
     /*
      * connects
@@ -194,7 +193,7 @@ void Widget::initMovieMapper()
     mapper->addMapping(ui->leLength, 8);
     mapper->addMapping(ui->teSynopsis,7);
 
-    mapper->addMapping(leId, 0); //l'id permettant de retrouver le poster adéquat
+    mapper->addMapping(leIdMovie, 0); //l'id permettant de retrouver le poster adéquat
 
     ui->teTitle->setStyleSheet("QLineEdit { color : rgb(0, 0, 0);}");
 
@@ -204,7 +203,7 @@ void Widget::initMovieMapper()
 
     connect(ui->tableView->selectionModel(),
             SIGNAL(currentRowChanged(QModelIndex, QModelIndex)),
-            this, SLOT(changePoster()));
+            this, SLOT(changePosterMovie()));
 }
 
 /**
@@ -257,12 +256,21 @@ void Widget::initMovieFilter()
  *        Elle récupère le int contenant l'id du film et situé dans la LineEdit leID
  *        Elle va chercher le poster correspondant à ce film dans le CustomMovieModel
  */
-void Widget::changePoster()
+void Widget::changePosterMovie()
 {
-    int idFilm = leId->text().toInt(); //récupération de l'id du film
+    int idFilm = leIdMovie->text().toInt(); //récupération de l'id du film
 
     if(idFilm != 0)
         ui->labPoster->setPixmap(*(mCustomMovieModel->getPosterAtKey(idFilm)));
+}
+
+void Widget::changePosterPerson()
+{
+    int idPerson = leIdPerson->text().toInt(); //récupération de l'id de la personne
+
+    if(idPerson != 0)
+        ui->labPoster_2->setPixmap(*(mCustomPersonModel->getPosterAtKey(idPerson)));
+
 }
 
 void Widget::filter()
@@ -440,6 +448,26 @@ void Widget::design()
     // ui->pbExit->setStyleSheet("QPushButton#pbAdd:hover {background-color: gray;}");
     // ui->pbRemove->setStyleSheet("QPushButton#pbAdd:hover {background-color: gray;}");
 
+
+}
+
+void Widget::statFilm()
+{
+//    ui->lwBest->clear();
+
+//    //Request on the data to find the tree best rating movies.
+//    QString request = "SELECT F_TITLE FROM FILM ORDER BY F_RATINGS DESC";
+//    QSqlQuery * query = new QSqlQuery(request, db);
+
+//    for (int i = 0 ; i < 3 ; i++)
+//    {
+//        query->next();
+//        QListWidgetItem * film = new QListWidgetItem;
+//        QString temp = query->value(0).toString();
+//        film->setText(temp);
+//        ui->lwBest->insertItem(1, film);
+//        ui->lwBest->setSortingEnabled(true);
+//    }
 
 }
 
