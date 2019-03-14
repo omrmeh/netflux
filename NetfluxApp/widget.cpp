@@ -203,7 +203,7 @@ void Widget::initMovieMapper()
 
     connect(ui->tableView->selectionModel(),
             SIGNAL(currentRowChanged(QModelIndex, QModelIndex)),
-            this, SLOT(changePoster()));
+            this, SLOT(changePosterMovie()));
 }
 
 /**
@@ -256,12 +256,17 @@ void Widget::initMovieFilter()
  *        Elle récupère le int contenant l'id du film et situé dans la LineEdit leID
  *        Elle va chercher le poster correspondant à ce film dans le CustomMovieModel
  */
-void Widget::changePoster()
+void Widget::changePosterMovie()
 {
     int idFilm = leIdMovie->text().toInt(); //récupération de l'id du film
 
     if(idFilm != 0)
         ui->labPoster->setPixmap(*(mCustomMovieModel->getPosterAtKey(idFilm)));
+}
+
+void Widget::changePosterPerson()
+{
+
 }
 
 void Widget::filter()

@@ -79,8 +79,10 @@ private slots:
     void saveMovie();
     void downloadPoster();
     void cancel();
-    void changePoster();
     void formatLength();
+
+    void changePosterMovie();
+    void changePosterPerson();
 
     void displayTableViewMovies();
     void displayTableViewPersons();
