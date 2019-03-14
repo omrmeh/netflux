@@ -21,8 +21,9 @@ Widget::Widget(QWidget *parent) :
 
     leId = new QLineEdit; //LineEdit caché pour pouvoir retrouver le poster correspondant à l'Id du film
 
-    connect(ui->pbMovie, SIGNAL(clicked()), this, SLOT(displayTableViewMovies()));
-    connect(ui->pbPerson, SIGNAL(clicked()), this, SLOT(displayTableViewPersons()));
+
+   displayTableViewPersons();
+   displayTableViewMovies();
 
 }
 
@@ -42,7 +43,12 @@ void Widget::initCustomMovieSqlModel()
     mCustomMovieModel->setHeaderData(3,Qt::Horizontal,"Genre");
     mCustomMovieModel->setHeaderData(1,Qt::Horizontal,"Title");
     mCustomMovieModel->setHeaderData(2,Qt::Horizontal,"Year");
-    mCustomMovieModel->setHeaderData(6,Qt::Horizontal,"Poster");
+    mCustomMovieModel->setHeaderData(4,Qt::Horizontal,"Ratings");
+    //pose prob
+    //mCustomMovieModel->setHeaderData(5,Qt::Horizontal,"Director");
+    mCustomMovieModel->setHeaderData(6,Qt::Horizontal,"Url Poster");
+    mCustomMovieModel->setHeaderData(7,Qt::Horizontal,"Synopsis");
+    mCustomMovieModel->setHeaderData(8,Qt::Horizontal,"Length");
     mCustomMovieModel->setEditStrategy(QSqlRelationalTableModel::OnManualSubmit);
 
     mCustomMovieModel->select();
@@ -56,10 +62,11 @@ void Widget::initCustomPersonSqlModel()
     mCustomPersonModel->setTable("personne");
 
     //À maj en fonction de la base de donnée
-    mCustomPersonModel->setHeaderData(3,Qt::Horizontal,"Surname");
-    mCustomPersonModel->setHeaderData(2,Qt::Horizontal,"Name");
-    mCustomPersonModel->setHeaderData(4,Qt::Horizontal,"Birth");
-    mCustomPersonModel->setHeaderData(5,Qt::Horizontal,"Country");
+    mCustomPersonModel->setHeaderData(2,Qt::Horizontal,"Surname");
+    mCustomPersonModel->setHeaderData(1,Qt::Horizontal,"Name");
+    mCustomPersonModel->setHeaderData(3,Qt::Horizontal,"Birth");
+    mCustomPersonModel->setHeaderData(4,Qt::Horizontal,"Country");
+    mCustomPersonModel->setHeaderData(5,Qt::Horizontal,"Biography");
 
     mCustomPersonModel->select();
     //mCustomPersonModel->fetchUrls();
@@ -72,20 +79,21 @@ void Widget::initPersonMapper()
     mapperPerson->setModel(mPersonFilteredModel);
 
 
-    mapperPerson->addMapping(ui->leTitle, 1); //nom
-    mapperPerson->addMapping(ui->leRating,2); //surnom
-    mapperPerson->addMapping(ui->leGenre, 3); //date
-    mapperPerson->addMapping(ui->leYear,4); //pays
+    mapperPerson->addMapping(ui->leName, 1);
+    mapperPerson->addMapping(ui->leSurname,2);
+    mapperPerson->addMapping(ui->leBirth, 3);
+    mapperPerson->addMapping(ui->leCountry,4);
+    mapperPerson->addMapping(ui->teBiography,5);
 
-    ui->leTitle->setStyleSheet("QLineEdit { color : rgb(0, 0, 0);}");
 
-    connect(ui->tableView->selectionModel(),
+
+    connect(ui->tabViewPerson->selectionModel(),
             SIGNAL(currentRowChanged(QModelIndex, QModelIndex)),
             mapperPerson, SLOT(setCurrentModelIndex(QModelIndex)));
 
-    connect(ui->tableView->selectionModel(),
-            SIGNAL(currentRowChanged(QModelIndex, QModelIndex)),
-            this, SLOT(changePoster()));
+//    connect(ui->tabViewPerson->selectionModel(),
+//            SIGNAL(currentRowChanged(QModelIndex, QModelIndex)),
+//            this, SLOT(changePoster()));
 
 }
 
@@ -97,6 +105,8 @@ void Widget::initPersonFilter()
     mPersonFilteredModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
     ui->tableView->setModel(mPersonFilteredModel);
     QObject::connect(ui->leSearch, SIGNAL(textChanged(QString)), this, SLOT(filter()));
+
+
 }
 
 
@@ -109,6 +119,8 @@ void Widget::displayTableViewMovies()
     /*
      * mise en place de la view et du design
      */
+    //index =0;
+
     setupViewMovies();
     design();
 
@@ -138,6 +150,7 @@ void Widget::displayTableViewPersons()
     /*
      * mise en place de la view et du design
      */
+
     setupViewPersons();
     design();
 
@@ -150,8 +163,10 @@ void Widget::displayTableViewPersons()
 
     //todo : création d'un formulaire de personne
 
-
+//prk marche pas??
     initPersonMapper();
+
+
 
     /*
      * connects
@@ -171,7 +186,7 @@ void Widget::initMovieMapper()
     mapper->setModel(mMovieFilteredModel);
 
     mapper->addMapping(ui->labPoster, 6);
-    mapper->addMapping(ui->leTitle, 1);
+    mapper->addMapping(ui->teTitle, 1);
     mapper->addMapping(ui->leRating,4);
     mapper->addMapping(ui->leGenre, 3);
     mapper->addMapping(ui->leYear,2);
@@ -180,7 +195,7 @@ void Widget::initMovieMapper()
 
     mapper->addMapping(leId, 0); //l'id permettant de retrouver le poster adéquat
 
-    ui->leTitle->setStyleSheet("QLineEdit { color : rgb(0, 0, 0);}");
+    ui->teTitle->setStyleSheet("QLineEdit { color : rgb(0, 0, 0);}");
 
     connect(ui->tableView->selectionModel(),
             SIGNAL(currentRowChanged(QModelIndex, QModelIndex)),
@@ -208,18 +223,20 @@ void Widget::setupViewMovies()
     ui->tableView->setItemDelegate(new QSqlRelationalDelegate(ui->tableView));
     formatLength();
     ui->tableView->resizeColumnToContents(1);
+    ui->tableView->resizeColumnToContents(2);
     ui->tableView->resizeColumnToContents(3);
     ui->tableView->resizeColumnToContents(4);
-    ui->tableView->resizeColumnToContents(7);
+    ui->tableView->resizeColumnToContents(5);
+    ui->tableView->resizeColumnToContents(8);
 
 }
 
 void Widget::setupViewPersons()
 {
     qDebug() << "interieur setupViewPersons";
-    ui->tableView->setModel(mCustomPersonModel);
-    ui->tableView->hideColumn(0);
-    ui->tableView->setSortingEnabled(true);
+    ui->tabViewPerson->setModel(mCustomPersonModel);
+    ui->tabViewPerson->hideColumn(0);
+    ui->tabViewPerson->setSortingEnabled(true);
 
 }
 
@@ -322,27 +339,27 @@ void Widget::formatLength()
 
     }
 }
-void Widget::newCard()
-{
-    ui->leTitle->clear();
-    ui->leTitle->setStyleSheet("QLineEdit { background : rgb(255, 255, 255);}");
-    ui->leRating->clear();
-    ui->leRating->setStyleSheet("QLineEdit { background : rgb(255, 255, 255);}");
-    ui->leYear->clear();
-    ui->leYear->setStyleSheet("QLineEdit { background : rgb(255, 255, 255);}");
-    ui->leGenre->clear();
-    ui->leGenre->setStyleSheet("QLineEdit { background : rgb(255, 255, 255);}");
-    ui->leLength->clear();
-    ui->leLength->setStyleSheet("QLineEdit { background : rgb(255, 255, 255);}");
-    ui->teSynopsis->clear();
-    ui->teSynopsis->setStyleSheet("QTextEdit { background : rgb(255, 255, 255);}");
-}
+//void Widget::newCard()
+//{
+//    ui->teTitle->clear();
+//    ui->teTitle->setStyleSheet("QLineEdit { background : rgb(255, 255, 255);}");
+//    ui->leRating->clear();
+//    ui->leRating->setStyleSheet("QLineEdit { background : rgb(255, 255, 255);}");
+//    ui->leYear->clear();
+//    ui->leYear->setStyleSheet("QLineEdit { background : rgb(255, 255, 255);}");
+//    ui->leGenre->clear();
+//    ui->leGenre->setStyleSheet("QLineEdit { background : rgb(255, 255, 255);}");
+//    ui->leLength->clear();
+//    ui->leLength->setStyleSheet("QLineEdit { background : rgb(255, 255, 255);}");
+//    ui->teSynopsis->clear();
+//    ui->teSynopsis->setStyleSheet("QTextEdit { background : rgb(255, 255, 255);}");
+//}
 
 
 void Widget::disabledCard()
 {
-    ui->leTitle->setEnabled(false);
-    ui->leTitle->setStyleSheet("QLineEdit { background : rgb(255, 255, 255);}");
+    ui->teTitle->setEnabled(false);
+    ui->teTitle->setStyleSheet("QLineEdit { background : rgb(255, 255, 255);}");
     ui->leRating->setEnabled(false);
     ui->leRating->setStyleSheet("QLineEdit { background : rgb(255, 255, 255);}");
     ui->leYear->setEnabled(false);
@@ -356,21 +373,21 @@ void Widget::disabledCard()
 }
 
 
-void Widget::enabledCard()
-{
-    ui->leTitle->setEnabled(true);
-    ui->leTitle->setStyleSheet("QLineEdit { background : rgb(255, 255, 255);}");
-    ui->leRating->setEnabled(true);
-    ui->leRating->setStyleSheet("QLineEdit { background : rgb(255, 255, 255);}");
-    ui->leYear->setEnabled(true);
-    ui->leYear->setStyleSheet("QLineEdit { background : rgb(255, 255, 255);}");
-    ui->leGenre->setEnabled(true);
-    ui->leGenre->setStyleSheet("QLineEdit { background : rgb(255, 255, 255);}");
-    ui->leLength->setEnabled(true);
-    ui->leLength->setStyleSheet("QLineEdit { background : rgb(255, 255, 255);}");
-    ui->teSynopsis->setEnabled(true);
-    ui->teSynopsis->setStyleSheet("QTextEdit { background : rgb(255, 255, 255);}");
-}
+//void Widget::enabledCard()
+//{
+//    ui->teTitle->setEnabled(true);
+//    ui->teTitle->setStyleSheet("QLineEdit { background : rgb(255, 255, 255);}");
+//    ui->leRating->setEnabled(true);
+//    ui->leRating->setStyleSheet("QLineEdit { background : rgb(255, 255, 255);}");
+//    ui->leYear->setEnabled(true);
+//    ui->leYear->setStyleSheet("QLineEdit { background : rgb(255, 255, 255);}");
+//    ui->leGenre->setEnabled(true);
+//    ui->leGenre->setStyleSheet("QLineEdit { background : rgb(255, 255, 255);}");
+//    ui->leLength->setEnabled(true);
+//    ui->leLength->setStyleSheet("QLineEdit { background : rgb(255, 255, 255);}");
+//    ui->teSynopsis->setEnabled(true);
+//    ui->teSynopsis->setStyleSheet("QTextEdit { background : rgb(255, 255, 255);}");
+//}
 
 
 Widget::~Widget()
@@ -398,8 +415,15 @@ void Widget::design()
     QImage posterVide(":/images/posterVideView.png");
     ui->labPoster->setPixmap(QPixmap ::fromImage(posterVide));
 
+    QImage posterVide2(":/images/posterVideView.png");
+    ui->labPoster_2->setPixmap(QPixmap ::fromImage(posterVide));
+
     ui->tableView->verticalHeader()->hide();
     ui->tableView->setStyleSheet("QHeaderView::section { background-color: qlineargradient(x1: 0, y1: 0, x2: 0.5, y2: 0.5, stop: 0 blue, stop: 1 indigo); font: bold 14px; color:white; }");
+
+    ui->tabViewPerson->verticalHeader()->hide();
+    ui->tabViewPerson->setStyleSheet("QHeaderView::section { background-color: qlineargradient(x1: 0, y1: 0, x2: 0.5, y2: 0.5, stop: 0 blue, stop: 1 indigo); font: bold 14px; color:white; }");
+
 
     // ui->pbAdd->setStyleSheet("QPushButton#pbAdd:hover {background-color: gray;}");
     // ui->pbSave->setStyleSheet("QPushButton#pbAdd:hover {background-color: gray;}");
@@ -414,3 +438,8 @@ void Widget::cancel()
 
 }
 
+//connect entre tabWidget movie/star et les stackedWidget
+void Widget::on_tabWidget_tabBarClicked(int index)
+{
+    ui->stackedWidget->setCurrentIndex(index);
+}
