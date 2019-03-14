@@ -29,14 +29,14 @@ INSERT INTO GENRE (G_NAME) Values ('Aventure'); --15
 INSERT INTO GENRE (G_NAME) Values ('Action'); --16
 
 --Table des réalisateurs
-INSERT INTO PERSONNE(P_NAME, P_SURNAME, P_BIRTH, P_COUNTRY) Values ('Arnold', 'Newt', '22/02/1922', 'USA'); --1
-INSERT INTO PERSONNE(P_NAME, P_SURNAME, P_BIRTH, P_COUNTRY) Values ('Maïwenn', 'Le Besco', '17/04/1976', 'France'); --2
-INSERT INTO PERSONNE(P_NAME, P_SURNAME, P_BIRTH, P_COUNTRY) Values ('Peter', 'Jackson', '31/10/1961', 'Nouvelle Zelande'); --3
-INSERT INTO PERSONNE(P_NAME, P_SURNAME, P_BIRTH, P_COUNTRY) Values ('James', 'Cameron', '16/08/1954', 'Canada'); --4
-INSERT INTO PERSONNE(P_NAME, P_SURNAME, P_BIRTH, P_COUNTRY) Values ('William', 'Friedkin', '29/08/1935', 'USA'); --5
-INSERT INTO PERSONNE(P_NAME, P_SURNAME, P_BIRTH, P_COUNTRY) Values ('Garry', 'Marshall', '13/11/1934', 'USA'); --6
-INSERT INTO PERSONNE(P_NAME, P_SURNAME, P_BIRTH, P_COUNTRY) Values ('Tom', 'McGrath', '7/08/1964', 'USA'); --7 (mada 1)
-INSERT INTO PERSONNE(P_NAME, P_SURNAME, P_BIRTH, P_COUNTRY) Values ('Eric', 'Darnell', '28/03/1961', 'USA'); --8 (mada 2)
+INSERT INTO PERSONNE(P_NAME, P_SURNAME, P_BIRTH, P_COUNTRY, P_POSTER) Values ('Quentin', 'TARANTINO', '22/02/1922', 'USA', "http://image.tmdb.org/t/p/w1280/rivHScdhT043n5jCSci7ToqLsoE.jpg"); --1
+INSERT INTO PERSONNE(P_NAME, P_SURNAME, P_BIRTH, P_COUNTRY, P_POSTER) Values ('Maïwenn', 'Le Besco', '17/04/1976', 'France', "http://image.tmdb.org/t/p/w1280/ipmcXbM2jDvvt0jwIF7KDbAHKPW.jpg"); --2
+INSERT INTO PERSONNE(P_NAME, P_SURNAME, P_BIRTH, P_COUNTRY, P_POSTER) Values ('Peter', 'Jackson', '31/10/1961', 'Nouvelle Zelande', "http://image.tmdb.org/t/p/w1280/kSrfI3TbMdIMmPVOflLQ56OfscB.jpg"); --3
+INSERT INTO PERSONNE(P_NAME, P_SURNAME, P_BIRTH, P_COUNTRY, P_POSTER) Values ('James', 'Cameron', '16/08/1954', 'Canada', "http://image.tmdb.org/t/p/w1280/zy2foCd8PEtvCcsX48cROdQdDLB.jpg"); --4
+INSERT INTO PERSONNE(P_NAME, P_SURNAME, P_BIRTH, P_COUNTRY, P_POSTER) Values ('William', 'Friedkin', '29/08/1935', 'USA', "http://image.tmdb.org/t/p/w1280/1iBd92izRHpkSH4hOhcUBmF2cv7.jpg"); --5
+INSERT INTO PERSONNE(P_NAME, P_SURNAME, P_BIRTH, P_COUNTRY, P_POSTER)Values ('Garry', 'Marshall', '13/11/1934', 'USA', "http://image.tmdb.org/t/p/w1280/kx77E8p5rnEmKxIhFT0qWCEMEik.jpg"); --6
+INSERT INTO PERSONNE(P_NAME, P_SURNAME, P_BIRTH, P_COUNTRY, P_POSTER) Values ('Tom', 'McGrath', '7/08/1964', 'USA', "http://image.tmdb.org/t/p/w1280/1qOQBwXSIAH0CKWP2RymCMdOi7a.jpg"); --7 (mada 1)
+INSERT INTO PERSONNE(P_NAME, P_SURNAME, P_BIRTH, P_COUNTRY, P_POSTER) Values ('Eric', 'Darnell', '28/03/1961', 'USA', "http://image.tmdb.org/t/p/w1280/8aRWzSXl6fR0b2g3td44JJAU3es.jpg"); --8 (mada 2)
 
 --Table des films
 INSERT INTO FILM(F_TITLE, F_YEAR, ID_GENRE, F_LENGTH, F_RATINGS, F_POSTER, F_SYNOPSIS, ID_REALISATEUR) 

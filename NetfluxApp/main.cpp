@@ -17,14 +17,17 @@ int main(int argc, char *argv[])
     QCoreApplication::setApplicationName("Netflux");
     QSettings settings;
 
-    settings.setValue("db/hostname", "localhost");
-    settings.setValue("db/name", "netflux");
-    settings.setValue("db/username", "cinemauser");
-    settings.setValue("db/password", "0000");
-    settings.setValue("db/port", 5432);
+    settings.beginGroup("db"); //toutes les clés suivantes appartiendront à la même catégorie db
+    settings.setValue("hostname", "localhost");
+    settings.setValue("name", "netflux");
+    settings.setValue("username", "cinemauser");
+    settings.setValue("password", "0000");
+    settings.setValue("port", 5432);
+
+    settings.endGroup();
 
     /*
-     *
+     * initialisation de l'application
      */
 
     QApplication a(argc, argv);
@@ -32,12 +35,14 @@ int main(int argc, char *argv[])
     //Création d'un objet base de données
     QSqlDatabase db = QSqlDatabase::addDatabase("QPSQL", "dbFilm");
 
+    settings.beginGroup("db");
+    db.setHostName(settings.value("hostname", "localhost"/*valeur par défaut si ini non trouvé*/).toString());
+    db.setDatabaseName(settings.value("name", "netflux").toString());
+    db.setUserName(settings.value("username", "cinemauser").toString());
+    db.setPassword(settings.value("password", "postgres123").toString());
+    db.setPort(settings.value("port",5432).toInt());
 
-    db.setHostName(settings.value("db/hostname", "localhost"/*valeur par défaut si ini non trouvé*/).toString());
-    db.setDatabaseName(settings.value("db/name", "netflux").toString());
-    db.setUserName(settings.value("db/username", "cinemauser").toString());
-    db.setPassword(settings.value("db/password", "postgres123").toString());
-    db.setPort(settings.value("db/port",5432).toInt());
+    settings.endGroup();
 
     qDebug() << db <<endl;
 
