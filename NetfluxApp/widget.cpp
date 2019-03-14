@@ -52,7 +52,7 @@ void Widget::initCustomMovieSqlModel()
     mCustomMovieModel->setEditStrategy(QSqlRelationalTableModel::OnManualSubmit);
 
     mCustomMovieModel->select();
-    mCustomMovieModel->fetchUrls(6);
+    mCustomMovieModel->fetchUrls(6); //urls des films sont à la 5ème colonne de la table film
     mCustomMovieModel->downloadPosters();
 }
 
@@ -66,10 +66,10 @@ void Widget::initCustomPersonSqlModel()
     mCustomPersonModel->setHeaderData(1,Qt::Horizontal,"Name");
     mCustomPersonModel->setHeaderData(3,Qt::Horizontal,"Birth");
     mCustomPersonModel->setHeaderData(4,Qt::Horizontal,"Country");
-    mCustomPersonModel->setHeaderData(5,Qt::Horizontal,"Biography");
+    mCustomPersonModel->setHeaderData(5,Qt::Horizontal,"Url Poster");
 
     mCustomPersonModel->select();
-    mCustomPersonModel->fetchUrls(5);
+    mCustomPersonModel->fetchUrls(5); //urls des personnes sont à la 6ème colonne de la table personne
     mCustomPersonModel->downloadPosters();
 }
 
@@ -84,7 +84,8 @@ void Widget::initPersonMapper()
     mapperPerson->addMapping(ui->leBirth, 3);
     mapperPerson->addMapping(ui->leCountry,4);
     mapperPerson->addMapping(ui->teBiography,5);
-    mapperPerson->addMapping(ui->labPoster, 5);
+
+    mapperPerson->addMapping(leIdPerson, 0);
 
 
     connect(ui->tabViewPerson->selectionModel(),
@@ -105,8 +106,6 @@ void Widget::initPersonFilter()
     mPersonFilteredModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
     ui->tableView->setModel(mPersonFilteredModel);
     QObject::connect(ui->leSearch, SIGNAL(textChanged(QString)), this, SLOT(filter()));
-
-
 }
 
 
@@ -142,7 +141,6 @@ void Widget::displayTableViewMovies()
     connect(ui->pbSave, SIGNAL(clicked()), this, SLOT(saveMovie())); //sauvegarder film
 
     connect(ui->pbRemove, SIGNAL(clicked()), this, SLOT(deleteMovie())); //supprimer film
-
 }
 
 void Widget::displayTableViewPersons()
@@ -269,7 +267,7 @@ void Widget::changePosterPerson()
     int idPerson = leIdPerson->text().toInt(); //récupération de l'id de la personne
 
     if(idPerson != 0)
-        ui->labPoster->setPixmap(*(mCustomMovieModel->getPosterAtKey(idPerson)));
+        ui->labPoster_2->setPixmap(*(mCustomPersonModel->getPosterAtKey(idPerson)));
 
 }
 
