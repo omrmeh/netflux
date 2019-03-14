@@ -97,6 +97,10 @@ void Widget::initPersonMapper()
     connect(ui->tabViewPerson->selectionModel(),
             SIGNAL(currentRowChanged(QModelIndex, QModelIndex)),
             this, SLOT(changePosterPerson()));
+
+    connect(ui->tabViewPerson->selectionModel(),
+            SIGNAL(currentRowChanged(QModelIndex, QModelIndex)),
+            this, SLOT(statPerson()));
 }
 
 
@@ -225,6 +229,7 @@ void Widget::setupViewMovies()
     ui->tabViewMovie->setSortingEnabled(true);
     ui->tabViewMovie->setItemDelegate(new QSqlRelationalDelegate(ui->tabViewMovie));
     formatLength();
+    statFilm();
     ui->tabViewMovie->resizeColumnToContents(1);
     ui->tabViewMovie->resizeColumnToContents(2);
     ui->tabViewMovie->resizeColumnToContents(3);
@@ -237,6 +242,7 @@ void Widget::setupViewMovies()
 void Widget::setupViewPersons()
 {
     qDebug() << "interieur setupViewPersons";
+
     ui->tabViewPerson->setModel(mCustomPersonModel);
     ui->tabViewPerson->hideColumn(0);
     ui->tabViewPerson->setSortingEnabled(true);
@@ -472,6 +478,18 @@ void Widget::statFilm()
           ui->lwBest->setSortingEnabled(true);
       }
 
+}
+
+void Widget::statPerson()
+{
+    QString name = ui->leName->text();
+    QString surname = ui->leSurname->text();
+    QString request = QString("SELECT P_NAME, P_SURNAME, COUNT (F_TITLE) FROM FILM f LEFT JOIN PERSONNE p ON f.ID_REALISATEUR = p.ID_PERSONNE WHERE P_Name = '%1' AND P_SURNAME = '%2' GROUP BY F_TITLE, P_SURNAME, P_NAME ORDER BY F_TITLE")
+            .arg(name).arg(surname);
+    QSqlQuery * query = new QSqlQuery(request, db); //vérif le nom de la base de donnée personne dans application
+    int count = query->value(2).toInt();
+    QString countStr = QString ("%1").arg(count);
+    ui->leStat_2->setText(countStr);
 }
 
 void Widget::cancel()

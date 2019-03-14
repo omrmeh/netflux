@@ -22,7 +22,7 @@ background-color: rgb(0, 0, 127);</string>
     <widget class="QGroupBox" name="groupBox_2">
      <property name="minimumSize">
       <size>
-       <width>811</width>
+       <width>1200</width>
        <height>752</height>
       </size>
      </property>
@@ -350,7 +350,7 @@ background-color: rgb(255, 255, 255);</string>
          <enum>QTabWidget::Rounded</enum>
         </property>
         <property name="currentIndex">
-         <number>1</number>
+         <number>0</number>
         </property>
         <property name="iconSize">
          <size>
@@ -476,7 +476,7 @@ font: 75 12pt &quot;MS Shell Dlg 2&quot;;</string>
             <widget class="QListWidget" name="lwBest">
              <property name="font">
               <font>
-               <pointsize>14</pointsize>
+               <pointsize>9</pointsize>
               </font>
              </property>
              <property name="styleSheet">
@@ -776,6 +776,12 @@ color: rgb(255, 255, 255);</string>
       <size>
        <width>431</width>
        <height>751</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>600</width>
+       <height>16777215</height>
       </size>
      </property>
      <property name="styleSheet">
@@ -1152,7 +1158,7 @@ font: 14pt &quot;MS Shell Dlg 2&quot;;</string>
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="">
+      <widget class="QWidget" name="layoutWidget">
        <property name="geometry">
         <rect>
          <x>11</x>
@@ -1219,7 +1225,7 @@ font: 14pt &quot;MS Shell Dlg 2&quot;;</string>
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="">
+      <widget class="QWidget" name="layoutWidget">
        <property name="geometry">
         <rect>
          <x>11</x>
@@ -1241,13 +1247,13 @@ font: 14pt &quot;MS Shell Dlg 2&quot;;</string>
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="">
+      <widget class="QWidget" name="layoutWidget">
        <property name="geometry">
         <rect>
          <x>11</x>
          <y>415</y>
          <width>411</width>
-         <height>271</height>
+         <height>261</height>
         </rect>
        </property>
        <layout class="QFormLayout" name="formLayout_2">
@@ -1417,7 +1423,7 @@ color: rgb(0, 0, 127);</string>
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="">
+      <widget class="QWidget" name="layoutWidget">
        <property name="geometry">
         <rect>
          <x>5</x>
