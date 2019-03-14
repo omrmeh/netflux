@@ -73,6 +73,7 @@ void Widget::initCustomPersonSqlModel()
     mCustomPersonModel->downloadPosters();
 }
 
+
 void Widget::initPersonMapper()
 {
     QDataWidgetMapper *mapperPerson = new QDataWidgetMapper(this);
@@ -94,8 +95,8 @@ void Widget::initPersonMapper()
     connect(ui->tabViewPerson->selectionModel(),
             SIGNAL(currentRowChanged(QModelIndex, QModelIndex)),
             this, SLOT(changePosterPerson()));
-
 }
+
 
 void Widget::initPersonFilter()
 {
@@ -105,7 +106,7 @@ void Widget::initPersonFilter()
     mPersonFilteredModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
 
     ui->tabViewPerson->setModel(mPersonFilteredModel);
-    QObject::connect(ui->leSearch, SIGNAL(textChanged(QString)), this, SLOT(filter()));
+    QObject::connect(ui->leSearch, SIGNAL(textChanged(QString)), this, SLOT(initPersonFilter()));
 
 }
 
@@ -137,11 +138,11 @@ void Widget::displayTableViewMovies()
 
     connect(ui->pbExit_2,SIGNAL(clicked()),this,SLOT(close())); //quitter
 
-    connect(ui->pbAdd, SIGNAL(clicked()), this, SLOT(addMovie())); //ajouter film
+    connect(ui->pbAddMovie, SIGNAL(clicked()), this, SLOT(addMovie())); //ajouter film
 
-    connect(ui->pbSave, SIGNAL(clicked()), this, SLOT(saveMovie())); //sauvegarder film
+    connect(ui->pbSaveMovie, SIGNAL(clicked()), this, SLOT(saveMovie())); //sauvegarder film
 
-    connect(ui->pbRemove, SIGNAL(clicked()), this, SLOT(deleteMovie())); //supprimer film
+    connect(ui->pbRemoveMovie, SIGNAL(clicked()), this, SLOT(deleteMovie())); //supprimer film
 }
 
 void Widget::displayTableViewPersons()
@@ -173,11 +174,11 @@ void Widget::displayTableViewPersons()
      */
     connect(ui->pbExit_2,SIGNAL(clicked()),this,SLOT(close())); //quitter
 
-    connect(ui->pbAdd, SIGNAL(clicked()), this, SLOT(addPerson())); //ajouter film
+    connect(ui->pbAddPerson, SIGNAL(clicked()), this, SLOT(addPerson())); //ajouter film
 
-    connect(ui->pbSave, SIGNAL(clicked()), this, SLOT(savePerson())); //sauvegarder film
+    connect(ui->pbSavePerson, SIGNAL(clicked()), this, SLOT(savePerson())); //sauvegarder film
 
-    connect(ui->pbRemove, SIGNAL(clicked()), this, SLOT(deletePerson())); //supprimer film
+    connect(ui->pbRemovePerson, SIGNAL(clicked()), this, SLOT(deletePerson())); //supprimer film
 }
 
 void Widget::initMovieMapper()
@@ -197,11 +198,11 @@ void Widget::initMovieMapper()
 
     ui->teTitle->setStyleSheet("QLineEdit { color : rgb(0, 0, 0);}");
 
-    connect(ui->tableView->selectionModel(),
+    connect(ui->tabViewMovie->selectionModel(),
             SIGNAL(currentRowChanged(QModelIndex, QModelIndex)),
             mapper, SLOT(setCurrentModelIndex(QModelIndex)));
 
-    connect(ui->tableView->selectionModel(),
+    connect(ui->tabViewMovie->selectionModel(),
             SIGNAL(currentRowChanged(QModelIndex, QModelIndex)),
             this, SLOT(changePosterMovie()));
 }
@@ -216,18 +217,18 @@ void Widget::initMovieMapper()
 void Widget::setupViewMovies()
 {
     qDebug() << "interieur setupViewMovies";
-    ui->tableView->setModel(mCustomMovieModel);
-    ui->tableView->hideColumn(0);
-    ui->tableView->hideColumn(6);
-    ui->tableView->setSortingEnabled(true);
-    ui->tableView->setItemDelegate(new QSqlRelationalDelegate(ui->tableView));
+    ui->tabViewMovie->setModel(mCustomMovieModel);
+    ui->tabViewMovie->hideColumn(0);
+    ui->tabViewMovie->hideColumn(6);
+    ui->tabViewMovie->setSortingEnabled(true);
+    ui->tabViewMovie->setItemDelegate(new QSqlRelationalDelegate(ui->tabViewMovie));
     formatLength();
-    ui->tableView->resizeColumnToContents(1);
-    ui->tableView->resizeColumnToContents(2);
-    ui->tableView->resizeColumnToContents(3);
-    ui->tableView->resizeColumnToContents(4);
-    ui->tableView->resizeColumnToContents(5);
-    ui->tableView->resizeColumnToContents(8);
+    ui->tabViewMovie->resizeColumnToContents(1);
+    ui->tabViewMovie->resizeColumnToContents(2);
+    ui->tabViewMovie->resizeColumnToContents(3);
+    ui->tabViewMovie->resizeColumnToContents(4);
+    ui->tabViewMovie->resizeColumnToContents(5);
+    ui->tabViewMovie->resizeColumnToContents(8);
 
 }
 
@@ -247,7 +248,7 @@ void Widget::initMovieFilter()
     mMovieFilteredModel->setDynamicSortFilter(true);
     mMovieFilteredModel->setSourceModel(mCustomMovieModel);
     mMovieFilteredModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
-    ui->tableView->setModel(mMovieFilteredModel);
+    ui->tabViewMovie->setModel(mMovieFilteredModel);
     QObject::connect(ui->leSearch, SIGNAL(textChanged(QString)), this, SLOT(filter()));
 }
 
@@ -296,7 +297,7 @@ void Widget::addMovie()
 void Widget::editMovie()
 {
     //enabledCard();
-    ui->tableView->update();
+    ui->tabViewMovie->update();
 }
 
 void Widget::saveMovie()
@@ -313,9 +314,9 @@ void Widget::deleteMovie()
 
     if (reponse == QMessageBox::Yes)
     {
-        mCustomMovieModel->removeRow(ui->tableView->currentIndex().row());
+        mCustomMovieModel->removeRow(ui->tabViewMovie->currentIndex().row());
         mCustomMovieModel->submitAll();
-        ui->tableView->update();
+        ui->tabViewMovie->update();
 
         QMessageBox::information(this,"Remove","The movie has been deleted .");
     }
@@ -436,8 +437,8 @@ void Widget::design()
     QImage posterVide2(":/images/posterVideView.png");
     ui->labPoster_2->setPixmap(QPixmap ::fromImage(posterVide));
 
-    ui->tableView->verticalHeader()->hide();
-    ui->tableView->setStyleSheet("QHeaderView::section { background-color: qlineargradient(x1: 0, y1: 0, x2: 0.5, y2: 0.5, stop: 0 blue, stop: 1 indigo); font: bold 14px; color:white; }");
+    ui->tabViewMovie->verticalHeader()->hide();
+    ui->tabViewMovie->setStyleSheet("QHeaderView::section { background-color: qlineargradient(x1: 0, y1: 0, x2: 0.5, y2: 0.5, stop: 0 blue, stop: 1 indigo); font: bold 14px; color:white; }");
 
     ui->tabViewPerson->verticalHeader()->hide();
     ui->tabViewPerson->setStyleSheet("QHeaderView::section { background-color: qlineargradient(x1: 0, y1: 0, x2: 0.5, y2: 0.5, stop: 0 blue, stop: 1 indigo); font: bold 14px; color:white; }");
