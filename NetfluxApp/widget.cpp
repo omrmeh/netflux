@@ -91,9 +91,9 @@ void Widget::initPersonMapper()
             SIGNAL(currentRowChanged(QModelIndex, QModelIndex)),
             mapperPerson, SLOT(setCurrentModelIndex(QModelIndex)));
 
-//    connect(ui->tabViewPerson->selectionModel(),
-//            SIGNAL(currentRowChanged(QModelIndex, QModelIndex)),
-//            this, SLOT(changePoster()));
+    connect(ui->tabViewPerson->selectionModel(),
+            SIGNAL(currentRowChanged(QModelIndex, QModelIndex)),
+            this, SLOT(changePosterPerson()));
 
 }
 
@@ -154,6 +154,8 @@ void Widget::displayTableViewPersons()
     setupViewPersons();
     design();
 
+    leIdPerson = new QLineEdit;
+
     /*
      * initialisation du FilteredModel et du mapper
      *      pour le modèle avec les films
@@ -165,8 +167,6 @@ void Widget::displayTableViewPersons()
 
 //prk marche pas??
     initPersonMapper();
-
-
 
     /*
      * connects
@@ -266,6 +266,10 @@ void Widget::changePosterMovie()
 
 void Widget::changePosterPerson()
 {
+    int idPerson = leIdPerson->text().toInt(); //récupération de l'id de la personne
+
+    if(idPerson != 0)
+        ui->labPoster->setPixmap(*(mCustomMovieModel->getPosterAtKey(idPerson)));
 
 }
 
