@@ -103,8 +103,10 @@ void Widget::initPersonFilter()
     mPersonFilteredModel->setDynamicSortFilter(true);
     mPersonFilteredModel->setSourceModel(mCustomPersonModel);
     mPersonFilteredModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
+
     ui->tabViewPerson->setModel(mPersonFilteredModel);
     QObject::connect(ui->leSearch, SIGNAL(textChanged(QString)), this, SLOT(filter()));
+
 }
 
 
@@ -147,7 +149,8 @@ void Widget::displayTableViewPersons()
     /*
      * mise en place de la view et du design
      */
-
+    initPersonFilter();
+    initPersonMapper();
     setupViewPersons();
     design();
 
@@ -273,7 +276,9 @@ void Widget::changePosterPerson()
 void Widget::filter()
 {
     mMovieFilteredModel->setFilterWildcard(ui->leSearch->text());
+    mPersonFilteredModel->setFilterWildcard(ui->leSearchPerson->text());
     mMovieFilteredModel->setFilterKeyColumn(ui->comboBox->currentData().toInt());
+    mMovieFilteredModel->setFilterKeyColumn(ui->comboBoxPerson->currentData().toInt());
 }
 
 void Widget::addMovie()
@@ -284,6 +289,8 @@ void Widget::addMovie()
     ui->labPoster->setPixmap(QPixmap::fromImage(posterVide));
 
     mCustomMovieModel->insertRow(mCustomMovieModel->rowCount()); //ajouter une ligne à la fin
+
+    mCustomPersonModel->insertRow(mCustomPersonModel->rowCount()); //ajouter une ligne à la fin
 }
 
 void Widget::editMovie()
@@ -295,6 +302,7 @@ void Widget::editMovie()
 void Widget::saveMovie()
 {
     mCustomMovieModel->submitAll();
+    mCustomPersonModel->submitAll();
     QMessageBox::information(this,"Save","Thank you for your contribution!");
 }
 
@@ -409,7 +417,7 @@ void Widget::design()
     ui->comboBox->addItem("Year", 2);
     ui->comboBox->addItem("Genre",3);
 
-    QImage photoGauche(":/images/labelGauche.jpg");
+    QImage photoGauche(":/images/labelDroit.ico");
     ui->labGauche->setPixmap(QPixmap ::fromImage(photoGauche));
 
     QImage photoDroite(":/images/labelDroit.ico");
@@ -417,6 +425,10 @@ void Widget::design()
 
     QImage loupe(":/images/loupe.png");
     ui->labSearch->setPixmap(QPixmap ::fromImage(loupe));
+
+
+
+
 
     QImage posterVide(":/images/posterVideView.png");
     ui->labPoster->setPixmap(QPixmap ::fromImage(posterVide));
