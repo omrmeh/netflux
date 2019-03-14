@@ -73,9 +73,9 @@ private slots:
     void addMovie();//to do
     void editMovie();
     void deleteMovie();//to do
-    void newCard();
+    //void newCard();
     void disabledCard();
-    void enabledCard();
+    //void enabledCard();
     void saveMovie();
     void downloadPoster();
     void cancel();
@@ -86,6 +86,7 @@ private slots:
     void displayTableViewPersons();
 
 
+    void on_tabWidget_tabBarClicked(int index);
 };
 
 #endif // WIDGET_H
