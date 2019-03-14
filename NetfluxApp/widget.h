@@ -87,7 +87,7 @@ private slots:
     void displayTableViewPersons();
 
     void statFilm();
-    void statPerson(QVariant name, QVariant surname);
+    void statPerson();
 
 
 };
