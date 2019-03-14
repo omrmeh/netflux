@@ -90,6 +90,8 @@ private slots:
     
     void statFilm();
 
+    void statPerson();
+
 
     void on_tabWidget_tabBarClicked(int index);
 };
