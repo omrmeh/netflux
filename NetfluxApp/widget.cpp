@@ -19,8 +19,8 @@ Widget::Widget(QWidget *parent) :
     initCustomMovieSqlModel();
     initCustomPersonSqlModel();
 
-    leId = new QLineEdit; //LineEdit caché pour pouvoir retrouver le poster correspondant à l'Id du film
-
+    leIdMovie = new QLineEdit; //LineEdit caché pour pouvoir retrouver le poster correspondant à l'Id du film
+    leIdPerson = new QLineEdit; //idem pour le poster de la personne
 
    displayTableViewPersons();
    displayTableViewMovies();
@@ -69,8 +69,8 @@ void Widget::initCustomPersonSqlModel()
     mCustomPersonModel->setHeaderData(5,Qt::Horizontal,"Biography");
 
     mCustomPersonModel->select();
-    //mCustomPersonModel->fetchUrls();
-    // mCustomPersonModel->downloadPosters();
+    mCustomPersonModel->fetchUrls(5);
+    mCustomPersonModel->downloadPosters();
 }
 
 void Widget::initPersonMapper()
@@ -84,7 +84,7 @@ void Widget::initPersonMapper()
     mapperPerson->addMapping(ui->leBirth, 3);
     mapperPerson->addMapping(ui->leCountry,4);
     mapperPerson->addMapping(ui->teBiography,5);
-
+    mapperPerson->addMapping(ui->labPoster, 5);
 
 
     connect(ui->tabViewPerson->selectionModel(),
@@ -124,7 +124,7 @@ void Widget::displayTableViewMovies()
     setupViewMovies();
     design();
 
-    leId = new QLineEdit; //LineEdit caché pour pouvoir retrouver le poster correspondant à l'Id du film
+    leIdMovie = new QLineEdit; //LineEdit caché pour pouvoir retrouver le poster correspondant à l'Id du film
 
     /*
      * initialisation du FilteredModel et du mapper
@@ -193,7 +193,7 @@ void Widget::initMovieMapper()
     mapper->addMapping(ui->leLength, 8);
     mapper->addMapping(ui->teSynopsis,7);
 
-    mapper->addMapping(leId, 0); //l'id permettant de retrouver le poster adéquat
+    mapper->addMapping(leIdMovie, 0); //l'id permettant de retrouver le poster adéquat
 
     ui->teTitle->setStyleSheet("QLineEdit { color : rgb(0, 0, 0);}");
 
@@ -258,7 +258,7 @@ void Widget::initMovieFilter()
  */
 void Widget::changePoster()
 {
-    int idFilm = leId->text().toInt(); //récupération de l'id du film
+    int idFilm = leIdMovie->text().toInt(); //récupération de l'id du film
 
     if(idFilm != 0)
         ui->labPoster->setPixmap(*(mCustomMovieModel->getPosterAtKey(idFilm)));
