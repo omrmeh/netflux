@@ -87,7 +87,6 @@ void Widget::initPersonMapper()
 
     mapperPerson->addMapping(leIdPerson, 0);
 
-
     connect(ui->tabViewPerson->selectionModel(),
             SIGNAL(currentRowChanged(QModelIndex, QModelIndex)),
             mapperPerson, SLOT(setCurrentModelIndex(QModelIndex)));
@@ -104,7 +103,7 @@ void Widget::initPersonFilter()
     mPersonFilteredModel->setDynamicSortFilter(true);
     mPersonFilteredModel->setSourceModel(mCustomPersonModel);
     mPersonFilteredModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
-    ui->tableView->setModel(mPersonFilteredModel);
+    ui->tabViewPerson->setModel(mPersonFilteredModel);
     QObject::connect(ui->leSearch, SIGNAL(textChanged(QString)), this, SLOT(filter()));
 }
 
