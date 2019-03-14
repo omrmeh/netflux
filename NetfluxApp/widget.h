@@ -70,7 +70,7 @@ private slots:
 
     void setupViewPersons();
 
-    void filter();//fait
+
     void addMovie();//to do
     void editMovie();
     void deleteMovie();//to do
@@ -91,6 +91,8 @@ private slots:
     void statFilm();
 
     void statPerson();
+    void filterPerson();
+    void filterMovie();
 
 
     void on_tabWidget_tabBarClicked(int index);
