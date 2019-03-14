@@ -67,6 +67,8 @@ void Widget::initCustomPersonSqlModel()
     mCustomPersonModel->setHeaderData(3,Qt::Horizontal,"Birth");
     mCustomPersonModel->setHeaderData(4,Qt::Horizontal,"Country");
     mCustomPersonModel->setHeaderData(5,Qt::Horizontal,"Url Poster");
+    mCustomPersonModel->setHeaderData(6,Qt::Horizontal,"Biography");
+    
 
     mCustomPersonModel->select();
     mCustomPersonModel->fetchUrls(5); //urls des personnes sont à la 6ème colonne de la table personne
@@ -84,7 +86,7 @@ void Widget::initPersonMapper()
     mapperPerson->addMapping(ui->leSurname,2);
     mapperPerson->addMapping(ui->leBirth, 3);
     mapperPerson->addMapping(ui->leCountry,4);
-    mapperPerson->addMapping(ui->teBiography,5);
+    mapperPerson->addMapping(ui->teBiography,6);
 
     mapperPerson->addMapping(leIdPerson, 0);
 
