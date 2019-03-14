@@ -487,6 +487,7 @@ void Widget::statPerson()
     QString request = QString("SELECT P_NAME, P_SURNAME, COUNT (F_TITLE) FROM FILM f LEFT JOIN PERSONNE p ON f.ID_REALISATEUR = p.ID_PERSONNE WHERE P_Name = '%1' AND P_SURNAME = '%2' GROUP BY F_TITLE, P_SURNAME, P_NAME ORDER BY F_TITLE")
             .arg(name).arg(surname);
     QSqlQuery * query = new QSqlQuery(request, db); //vérif le nom de la base de donnée personne dans application
+    query->next();
     int count = query->value(2).toInt();
     QString countStr = QString ("%1").arg(count);
     ui->leStat_2->setText(countStr);
