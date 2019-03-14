@@ -48,6 +48,9 @@ void Widget::initCustomMovieSqlModel()
     mCustomMovieModel->select();
     mCustomMovieModel->fetchUrls(6);
     mCustomMovieModel->downloadPosters();
+
+    //Affichage des 3 meilleurs films
+    statFilm();
 }
 
 void Widget::initCustomPersonSqlModel()
@@ -164,6 +167,35 @@ void Widget::displayTableViewPersons()
 
     connect(ui->pbRemove, SIGNAL(clicked()), this, SLOT(deletePerson())); //supprimer film
 }
+
+void Widget::statFilm()
+{
+    ui->lwBest  ->clear();
+
+    //Request on the data to find the tree best rating movies.
+    QString request = "SELECT F_TITLE FROM FILM ORDER BY F_RATINGS DESC";
+    QSqlQuery * query = new QSqlQuery(request, db);
+
+    for (int i = 0 ; i < 3 ; i++)
+    {
+        query->next();
+        QListWidgetItem * film = new QListWidgetItem;
+        QString temp = query->value(0).toString();
+        film->setText(temp);
+        ui->lwBest->insertItem(1, film);
+        ui->lwBest->setSortingEnabled(true);
+    }
+}
+
+//void Widget::statPerson(QVariant name, QVariant surname)
+//{
+//    QString name2 = name.toString();
+//    QString surname2 = surname.toString();
+//    QString order = QString("SELECT P_NAME, P_SURNAME, COUNT (F_TITLE) FROM FILM f LEFT JOIN PERSONNE p ON f.ID_REALISATEUR = p.ID_PERSONNE WHERE P_Name = '%1' AND P_SURNAME = '%2' GROUP BY F_TITLE, P_SURNAME, P_NAME ORDER BY F_TITLE")
+//            .arg(name2).arg(surname2);
+//    QSqlQuery query;
+//    query.exec(order);
+//}
 
 void Widget::initMovieMapper()
 {

@@ -11,6 +11,7 @@
 #include <QWidget>
 #include <QValidator>
 #include <QSqlRecord>
+#include <QListWidgetItem>
 
 #include <QSqlRelationalDelegate>
 
@@ -84,6 +85,9 @@ private slots:
 
     void displayTableViewMovies();
     void displayTableViewPersons();
+
+    void statFilm();
+    void statPerson(QVariant name, QVariant surname);
 
 
 };
