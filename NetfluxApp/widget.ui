@@ -6,7 +6,9 @@
    <rect>
     <x>0</x>
     <y>0</y>
+
     <width>1660</width>
+
     <height>789</height>
    </rect>
   </property>
@@ -768,7 +770,7 @@ color: rgb(255, 255, 255);</string>
       <string notr="true">background-color: rgb(255, 255, 255);</string>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="stackedWidgetPageMovie">
       <layout class="QGridLayout" name="gridLayout_2">

@@ -389,10 +389,6 @@ void Widget::disabledCard()
     ui->teSynopsis->setStyleSheet("QTextEdit { background : rgb(255, 255, 255);}");
 }
 
-
-
-
-
 Widget::~Widget()
 {
     delete ui;
@@ -419,10 +415,6 @@ void Widget::design()
     QImage loupe(":/images/loupe.png");
     ui->labSearch->setPixmap(QPixmap ::fromImage(loupe));
 
-
-
-
-
     QImage posterVide(":/images/posterVideView.png");
     ui->labPoster->setPixmap(QPixmap ::fromImage(posterVide));
 
@@ -434,7 +426,6 @@ void Widget::design()
 
     ui->tabViewPerson->verticalHeader()->hide();
     ui->tabViewPerson->setStyleSheet("QHeaderView::section { background-color: qlineargradient(x1: 0, y1: 0, x2: 0.5, y2: 0.5, stop: 0 blue, stop: 1 indigo); font: bold 14px; color:white; }");
-
 
     // ui->pbAdd->setStyleSheet("QPushButton#pbAdd:hover {background-color: gray;}");
     // ui->pbSave->setStyleSheet("QPushButton#pbAdd:hover {background-color: gray;}");
