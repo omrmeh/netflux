@@ -16,6 +16,7 @@
 
 #include <QLineEdit>
 #include <QMessageBox>
+#include <QListWidgetItem>
 
 #include <QFormLayout>
 #include <QLineEdit>
@@ -86,6 +87,8 @@ private slots:
 
     void displayTableViewMovies();
     void displayTableViewPersons();
+    
+    void statFilm();
 
 
     void on_tabWidget_tabBarClicked(int index);
