@@ -454,21 +454,21 @@ void Widget::design()
 
 void Widget::statFilm()
 {
-//    ui->lwBest->clear();
+      ui->lwBest->clear();
 
-//    //Request on the data to find the tree best rating movies.
-//    QString request = "SELECT F_TITLE FROM FILM ORDER BY F_RATINGS DESC";
-//    QSqlQuery * query = new QSqlQuery(request, db);
+     //Request on the data to find the tree best rating movies.
+      QString request = "SELECT F_TITLE FROM FILM ORDER BY F_RATINGS DESC";
+      QSqlQuery * query = new QSqlQuery(request, db);
 
-//    for (int i = 0 ; i < 3 ; i++)
-//    {
-//        query->next();
-//        QListWidgetItem * film = new QListWidgetItem;
-//        QString temp = query->value(0).toString();
-//        film->setText(temp);
-//        ui->lwBest->insertItem(1, film);
-//        ui->lwBest->setSortingEnabled(true);
-//    }
+      for (int i = 0 ; i < 3 ; i++)
+      {
+          query->next();
+          QListWidgetItem * film = new QListWidgetItem;
+          QString temp = query->value(0).toString();
+          film->setText(temp);
+          ui->lwBest->insertItem(1, film);
+          ui->lwBest->setSortingEnabled(true);
+      }
 
 }
 
