@@ -48,7 +48,7 @@ void Widget::initCustomMovieSqlModel()
     //mCustomMovieModel->setHeaderData(5,Qt::Horizontal,"Director");
     mCustomMovieModel->setHeaderData(6,Qt::Horizontal,"Url Poster");
     mCustomMovieModel->setHeaderData(7,Qt::Horizontal,"Synopsis");
-    mCustomMovieModel->setHeaderData(2,Qt::Horizontal,"Length");
+    mCustomMovieModel->setHeaderData(8,Qt::Horizontal,"Length");
     mCustomMovieModel->setEditStrategy(QSqlRelationalTableModel::OnManualSubmit);
 
     mCustomMovieModel->select();
@@ -91,9 +91,9 @@ void Widget::initPersonMapper()
             SIGNAL(currentRowChanged(QModelIndex, QModelIndex)),
             mapperPerson, SLOT(setCurrentModelIndex(QModelIndex)));
 
-    connect(ui->tabViewPerson->selectionModel(),
-            SIGNAL(currentRowChanged(QModelIndex, QModelIndex)),
-            this, SLOT(changePoster()));
+//    connect(ui->tabViewPerson->selectionModel(),
+//            SIGNAL(currentRowChanged(QModelIndex, QModelIndex)),
+//            this, SLOT(changePoster()));
 
 }
 
@@ -223,9 +223,11 @@ void Widget::setupViewMovies()
     ui->tableView->setItemDelegate(new QSqlRelationalDelegate(ui->tableView));
     formatLength();
     ui->tableView->resizeColumnToContents(1);
+    ui->tableView->resizeColumnToContents(2);
     ui->tableView->resizeColumnToContents(3);
     ui->tableView->resizeColumnToContents(4);
-    ui->tableView->resizeColumnToContents(7);
+    ui->tableView->resizeColumnToContents(5);
+    ui->tableView->resizeColumnToContents(8);
 
 }
 

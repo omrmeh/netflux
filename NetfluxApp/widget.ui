@@ -709,7 +709,7 @@ color: rgb(255, 255, 255);</string>
       <string notr="true">background-color: rgb(255, 255, 255);</string>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="stackedWidgetPageMovie">
       <layout class="QGridLayout" name="gridLayout_2">
@@ -1044,7 +1044,7 @@ color: rgb(170, 0, 0);</string>
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="page">
+     <widget class="QWidget" name="stackedWidgetPagePerson_2">
       <widget class="QStackedWidget" name="stackedWidget_2">
        <property name="geometry">
         <rect>
