@@ -57,7 +57,7 @@ private:
     CustomSQLModel* mCustomMovieModel;
     CustomSQLModel* mCustomPersonModel;
     QSortFilterProxyModel *mMovieFilteredModel;
-    QLineEdit *leId;
+    QLineEdit *leIdMovie, *leIdPerson;
     QSqlDatabase db;
     QFormLayout* personForm;
     QSortFilterProxyModel* mPersonFilteredModel;
