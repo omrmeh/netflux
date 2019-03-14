@@ -12,6 +12,7 @@ Widget::Widget(QWidget *parent) :
      * initialisation de l'IHM
      */
     ui->setupUi(this);
+    design();
 
     /*
      * initialisation des 2 modèles
@@ -88,6 +89,7 @@ void Widget::initPersonMapper()
     mapperPerson->addMapping(ui->leCountry,4);
     mapperPerson->addMapping(ui->teBiography,6);
 
+
     mapperPerson->addMapping(leIdPerson, 0);
 
     connect(ui->tabViewPerson->selectionModel(),
@@ -112,7 +114,7 @@ void Widget::initPersonFilter()
     mPersonFilteredModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
 
     ui->tabViewPerson->setModel(mPersonFilteredModel);
-    QObject::connect(ui->leSearch, SIGNAL(textChanged(QString)), this, SLOT(initPersonFilter()));
+    QObject::connect(ui->leSearchPerson, SIGNAL(textChanged(QString)), this, SLOT(filterPerson()));
 
 }
 
@@ -129,7 +131,7 @@ void Widget::displayTableViewMovies()
     //index =0;
 
     setupViewMovies();
-    design();
+
 
     leIdMovie = new QLineEdit; //LineEdit caché pour pouvoir retrouver le poster correspondant à l'Id du film
 
@@ -156,10 +158,10 @@ void Widget::displayTableViewPersons()
     /*
      * mise en place de la view et du design
      */
-    initPersonFilter();
-    initPersonMapper();
+
+
     setupViewPersons();
-    design();
+
 
     leIdPerson = new QLineEdit;
 
@@ -168,12 +170,12 @@ void Widget::displayTableViewPersons()
      *      pour le modèle avec les films
      */
     initPersonFilter();
+    initPersonMapper();
 
 
     //todo : création d'un formulaire de personne
 
-//prk marche pas??
-    initPersonMapper();
+
 
     /*
      * connects
@@ -257,7 +259,7 @@ void Widget::initMovieFilter()
     mMovieFilteredModel->setSourceModel(mCustomMovieModel);
     mMovieFilteredModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
     ui->tabViewMovie->setModel(mMovieFilteredModel);
-    QObject::connect(ui->leSearch, SIGNAL(textChanged(QString)), this, SLOT(filter()));
+    QObject::connect(ui->leSearch, SIGNAL(textChanged(QString)), this, SLOT(filterMovie()));
 }
 
 /**
@@ -282,14 +284,21 @@ void Widget::changePosterPerson()
 
 }
 
-void Widget::filter()
+void Widget::filterMovie()
 {
     mMovieFilteredModel->setFilterWildcard(ui->leSearch->text());
-    mPersonFilteredModel->setFilterWildcard(ui->leSearchPerson->text());
-    mMovieFilteredModel->setFilterKeyColumn(ui->comboBox->currentData().toInt());
-    mMovieFilteredModel->setFilterKeyColumn(ui->comboBoxPerson->currentData().toInt());
+
+    mMovieFilteredModel->setFilterKeyColumn(ui->comboBoxMovie->currentData().toInt());
+
 }
 
+void Widget::filterPerson()
+{
+
+    mPersonFilteredModel->setFilterWildcard(ui->leSearchPerson->text());
+
+    mPersonFilteredModel->setFilterKeyColumn(ui->comboBoxPerson->currentData().toInt());
+}
 void Widget::addMovie()
 {
     //    newCard();
@@ -362,21 +371,6 @@ void Widget::formatLength()
 
     }
 }
-//void Widget::newCard()
-//{
-//    ui->teTitle->clear();
-//    ui->teTitle->setStyleSheet("QLineEdit { background : rgb(255, 255, 255);}");
-//    ui->leRating->clear();
-//    ui->leRating->setStyleSheet("QLineEdit { background : rgb(255, 255, 255);}");
-//    ui->leYear->clear();
-//    ui->leYear->setStyleSheet("QLineEdit { background : rgb(255, 255, 255);}");
-//    ui->leGenre->clear();
-//    ui->leGenre->setStyleSheet("QLineEdit { background : rgb(255, 255, 255);}");
-//    ui->leLength->clear();
-//    ui->leLength->setStyleSheet("QLineEdit { background : rgb(255, 255, 255);}");
-//    ui->teSynopsis->clear();
-//    ui->teSynopsis->setStyleSheet("QTextEdit { background : rgb(255, 255, 255);}");
-//}
 
 
 void Widget::disabledCard()
@@ -396,21 +390,7 @@ void Widget::disabledCard()
 }
 
 
-//void Widget::enabledCard()
-//{
-//    ui->teTitle->setEnabled(true);
-//    ui->teTitle->setStyleSheet("QLineEdit { background : rgb(255, 255, 255);}");
-//    ui->leRating->setEnabled(true);
-//    ui->leRating->setStyleSheet("QLineEdit { background : rgb(255, 255, 255);}");
-//    ui->leYear->setEnabled(true);
-//    ui->leYear->setStyleSheet("QLineEdit { background : rgb(255, 255, 255);}");
-//    ui->leGenre->setEnabled(true);
-//    ui->leGenre->setStyleSheet("QLineEdit { background : rgb(255, 255, 255);}");
-//    ui->leLength->setEnabled(true);
-//    ui->leLength->setStyleSheet("QLineEdit { background : rgb(255, 255, 255);}");
-//    ui->teSynopsis->setEnabled(true);
-//    ui->teSynopsis->setStyleSheet("QTextEdit { background : rgb(255, 255, 255);}");
-//}
+
 
 
 Widget::~Widget()
@@ -422,9 +402,13 @@ void Widget::design()
     //comboBox filter
 
 
-    ui->comboBox->addItem("Title",1);
-    ui->comboBox->addItem("Year", 2);
-    ui->comboBox->addItem("Genre",3);
+    ui->comboBoxMovie->addItem("Title",1);
+    ui->comboBoxMovie->addItem("Year", 2);
+    ui->comboBoxMovie->addItem("Genre",3);
+
+    ui->comboBoxPerson->addItem("Name",1);
+    ui->comboBoxPerson->addItem("Surname", 2);
+    ui->comboBoxPerson->addItem("Birth",3);
 
     QImage photoGauche(":/images/labelDroit.ico");
     ui->labGauche->setPixmap(QPixmap ::fromImage(photoGauche));
