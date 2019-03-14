@@ -362,21 +362,6 @@ void Widget::formatLength()
 
     }
 }
-//void Widget::newCard()
-//{
-//    ui->teTitle->clear();
-//    ui->teTitle->setStyleSheet("QLineEdit { background : rgb(255, 255, 255);}");
-//    ui->leRating->clear();
-//    ui->leRating->setStyleSheet("QLineEdit { background : rgb(255, 255, 255);}");
-//    ui->leYear->clear();
-//    ui->leYear->setStyleSheet("QLineEdit { background : rgb(255, 255, 255);}");
-//    ui->leGenre->clear();
-//    ui->leGenre->setStyleSheet("QLineEdit { background : rgb(255, 255, 255);}");
-//    ui->leLength->clear();
-//    ui->leLength->setStyleSheet("QLineEdit { background : rgb(255, 255, 255);}");
-//    ui->teSynopsis->clear();
-//    ui->teSynopsis->setStyleSheet("QTextEdit { background : rgb(255, 255, 255);}");
-//}
 
 
 void Widget::disabledCard()
@@ -394,23 +379,6 @@ void Widget::disabledCard()
     ui->teSynopsis->setEnabled(false);
     ui->teSynopsis->setStyleSheet("QTextEdit { background : rgb(255, 255, 255);}");
 }
-
-
-//void Widget::enabledCard()
-//{
-//    ui->teTitle->setEnabled(true);
-//    ui->teTitle->setStyleSheet("QLineEdit { background : rgb(255, 255, 255);}");
-//    ui->leRating->setEnabled(true);
-//    ui->leRating->setStyleSheet("QLineEdit { background : rgb(255, 255, 255);}");
-//    ui->leYear->setEnabled(true);
-//    ui->leYear->setStyleSheet("QLineEdit { background : rgb(255, 255, 255);}");
-//    ui->leGenre->setEnabled(true);
-//    ui->leGenre->setStyleSheet("QLineEdit { background : rgb(255, 255, 255);}");
-//    ui->leLength->setEnabled(true);
-//    ui->leLength->setStyleSheet("QLineEdit { background : rgb(255, 255, 255);}");
-//    ui->teSynopsis->setEnabled(true);
-//    ui->teSynopsis->setStyleSheet("QTextEdit { background : rgb(255, 255, 255);}");
-//}
 
 
 Widget::~Widget()
@@ -435,10 +403,6 @@ void Widget::design()
     QImage loupe(":/images/loupe.png");
     ui->labSearch->setPixmap(QPixmap ::fromImage(loupe));
 
-
-
-
-
     QImage posterVide(":/images/posterVideView.png");
     ui->labPoster->setPixmap(QPixmap ::fromImage(posterVide));
 
@@ -450,7 +414,6 @@ void Widget::design()
 
     ui->tabViewPerson->verticalHeader()->hide();
     ui->tabViewPerson->setStyleSheet("QHeaderView::section { background-color: qlineargradient(x1: 0, y1: 0, x2: 0.5, y2: 0.5, stop: 0 blue, stop: 1 indigo); font: bold 14px; color:white; }");
-
 
     // ui->pbAdd->setStyleSheet("QPushButton#pbAdd:hover {background-color: gray;}");
     // ui->pbSave->setStyleSheet("QPushButton#pbAdd:hover {background-color: gray;}");
@@ -487,6 +450,7 @@ void Widget::statPerson()
     QString request = QString("SELECT P_NAME, P_SURNAME, COUNT (F_TITLE) FROM FILM f LEFT JOIN PERSONNE p ON f.ID_REALISATEUR = p.ID_PERSONNE WHERE P_Name = '%1' AND P_SURNAME = '%2' GROUP BY F_TITLE, P_SURNAME, P_NAME ORDER BY F_TITLE")
             .arg(name).arg(surname);
     QSqlQuery * query = new QSqlQuery(request, db); //vérif le nom de la base de donnée personne dans application
+
     int count = query->value(2).toInt();
     QString countStr = QString ("%1").arg(count);
     ui->leStat_2->setText(countStr);

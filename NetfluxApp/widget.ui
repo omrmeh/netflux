@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1271</width>
+    <width>1655</width>
     <height>789</height>
    </rect>
   </property>
@@ -350,7 +350,7 @@ background-color: rgb(255, 255, 255);</string>
          <enum>QTabWidget::Rounded</enum>
         </property>
         <property name="currentIndex">
-         <number>0</number>
+         <number>1</number>
         </property>
         <property name="iconSize">
          <size>
@@ -788,7 +788,7 @@ color: rgb(255, 255, 255);</string>
       <string notr="true">background-color: rgb(255, 255, 255);</string>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="stackedWidgetPageMovie">
       <layout class="QGridLayout" name="gridLayout_2">
