@@ -43,7 +43,12 @@ void Widget::initCustomMovieSqlModel()
     mCustomMovieModel->setHeaderData(3,Qt::Horizontal,"Genre");
     mCustomMovieModel->setHeaderData(1,Qt::Horizontal,"Title");
     mCustomMovieModel->setHeaderData(2,Qt::Horizontal,"Year");
-    mCustomMovieModel->setHeaderData(6,Qt::Horizontal,"Poster");
+    mCustomMovieModel->setHeaderData(4,Qt::Horizontal,"Ratings");
+    //pose prob
+    //mCustomMovieModel->setHeaderData(5,Qt::Horizontal,"Director");
+    mCustomMovieModel->setHeaderData(6,Qt::Horizontal,"Url Poster");
+    mCustomMovieModel->setHeaderData(7,Qt::Horizontal,"Synopsis");
+    mCustomMovieModel->setHeaderData(2,Qt::Horizontal,"Length");
     mCustomMovieModel->setEditStrategy(QSqlRelationalTableModel::OnManualSubmit);
 
     mCustomMovieModel->select();
@@ -100,6 +105,8 @@ void Widget::initPersonFilter()
     mPersonFilteredModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
     ui->tableView->setModel(mPersonFilteredModel);
     QObject::connect(ui->leSearch, SIGNAL(textChanged(QString)), this, SLOT(filter()));
+
+
 }
 
 
@@ -156,8 +163,10 @@ void Widget::displayTableViewPersons()
 
     //todo : création d'un formulaire de personne
 
-
+//prk marche pas??
     initPersonMapper();
+
+
 
     /*
      * connects
